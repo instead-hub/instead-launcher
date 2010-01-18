@@ -130,7 +130,7 @@ private:
     QProgressDialog *m_listLoadProgress, *m_gameLoadProgress;
     QString m_downloadingFileName;
     QProcess *m_process;
-    Ui::MainWindow *ui;
+    Ui::MainWindow *m_ui;
 
 private slots:
 

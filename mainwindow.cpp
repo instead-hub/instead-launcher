@@ -57,7 +57,7 @@ class LocalGameItem: public QTreeWidgetItem {
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+    m_ui->setupUi(this);
 
     resetConfig();
     loadConfig();
@@ -80,12 +80,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect( m_gameServer, SIGNAL( dataReadProgress( int, int ) ), m_gameLoadProgress, SLOT( setValue( int ) ) );
     connect( m_gameLoadProgress, SIGNAL(canceled()), m_gameServer, SLOT(abort()));
 
-    connect( ui->installPushButton, SIGNAL( clicked() ), this, SLOT( installPushButtonClicked() ) );
-    connect( ui->refreshPushButton, SIGNAL( clicked() ), this, SLOT( refreshNetGameList() ) );
-    connect( ui->playPushButton, SIGNAL( clicked() ), this, SLOT( playPushButtonClicked() ) );
-    connect( ui->resetPushButton, SIGNAL( clicked() ), this, SLOT( resetPushButtonClicked() ) );
+    connect( m_ui->installPushButton, SIGNAL( clicked() ), this, SLOT( installPushButtonClicked() ) );
+    connect( m_ui->refreshPushButton, SIGNAL( clicked() ), this, SLOT( refreshNetGameList() ) );
+    connect( m_ui->playPushButton, SIGNAL( clicked() ), this, SLOT( playPushButtonClicked() ) );
+    connect( m_ui->resetPushButton, SIGNAL( clicked() ), this, SLOT( resetPushButtonClicked() ) );
 
-    if (ui->autoRefreshCheckBox->isChecked()) {
+    if (m_ui->autoRefreshCheckBox->isChecked()) {
         refreshNetGameList();
     }
 }
@@ -93,14 +93,14 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     saveConfig();
-    delete ui;
+    delete m_ui;
 }
 
 void MainWindow::playPushButtonClicked()
 {
-    LocalGameItem *item = static_cast<LocalGameItem *>(ui->listGames->currentItem());
+    LocalGameItem *item = static_cast<LocalGameItem *>(m_ui->listGames->currentItem());
     QString gameName = item->info().name();
-    QString insteadPath = ui->lineInsteadPath->text();
+    QString insteadPath = m_ui->lineInsteadPath->text();
     QString command = insteadPath + " -game " + gameName;
     qDebug() << "Launching " << command;
     m_process = new QProcess();
@@ -129,9 +129,9 @@ void MainWindow::processFinished( int exitCode, QProcess::ExitStatus exitStatus 
 
 void MainWindow::refreshNetGameList()
 {
-    ui->listNewGames->clear();
-    qDebug() << "Updating list from " << ui->lineUpdateUrl->text();
-    QUrl url(ui->lineUpdateUrl->text());
+    m_ui->listNewGames->clear();
+    qDebug() << "Updating list from " << m_ui->lineUpdateUrl->text();
+    QUrl url(m_ui->lineUpdateUrl->text());
     m_listServer->setHost(url.host());
     setEnabled( false );
     m_listServer->get(url.path());
@@ -141,8 +141,8 @@ void MainWindow::refreshNetGameList()
 
 void MainWindow::installPushButtonClicked()
 {
-    ui->installPushButton->setDisabled(true);
-    downloadGame(ui->listNewGames->currentItem());
+    m_ui->installPushButton->setDisabled(true);
+    downloadGame(m_ui->listNewGames->currentItem());
 }
 
 void MainWindow::listServerDone(bool error)
@@ -165,7 +165,7 @@ void MainWindow::listServerDone(bool error)
             const QString s = xml.errorString();
             qWarning("%s", s.toLocal8Bit().data());
         }
-        ui->listNewGames->resizeColumnToContents(0);
+        m_ui->listNewGames->resizeColumnToContents(0);
     }
     else {
         qWarning("WARN: errors while downloading");
@@ -206,7 +206,7 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml )
     // TODO: проверить что такой же версии игры нет в локальном списке
     if ( !hasLocalGame( info ) ) {
 	qDebug("Adding game to the list %s", info.title().toLocal8Bit().data());
-	NetGameItem *game = new NetGameItem( ui->listNewGames );
+	NetGameItem *game = new NetGameItem( m_ui->listNewGames );
 	game->setInfo( info );
     }
 }
@@ -236,7 +236,7 @@ void MainWindow::gameServerDone( bool error )
 {
     setEnabled( true );
     m_gameLoadProgress->reset();
-    ui->installPushButton->setEnabled(true);
+    m_ui->installPushButton->setEnabled(true);
     if(!error){
         QString games_dir = getGameDirPath();
         QString arch_name = games_dir + m_downloadingFileName;
@@ -304,8 +304,8 @@ bool MainWindow::getLocalGameInfo(const QDir gameDir, const QString gameID, Game
 }
 
 bool MainWindow::hasLocalGame( const GameInfo &info ) {
-    for( int i = 0; i < ui->listGames->topLevelItemCount(); i++ ) {
-	LocalGameItem *item = ( ( LocalGameItem * )ui->listGames->topLevelItem( i ) );
+    for( int i = 0; i < m_ui->listGames->topLevelItemCount(); i++ ) {
+	LocalGameItem *item = ( ( LocalGameItem * )m_ui->listGames->topLevelItem( i ) );
 	if ( item->info() == info )
 	    return true;
     }
@@ -316,7 +316,7 @@ bool MainWindow::hasLocalGame( const GameInfo &info ) {
 void MainWindow::refreshLocalGameList() {
 
     // очищаем список
-    ui->listGames->clear();
+    m_ui->listGames->clear();
 
     // получаем директорию с играми
     QString gamePath = getGameDirPath();
@@ -340,18 +340,18 @@ void MainWindow::refreshLocalGameList() {
         if ( getLocalGameInfo( gameDir, gameID, info ) ) {
             // TODO добавляем игру в список
             qDebug() << "found game " << info.name() << info.title() << info.version();
-            LocalGameItem *game = new LocalGameItem( ui->listGames );
+            LocalGameItem *game = new LocalGameItem( m_ui->listGames );
             game->setInfo( info );
         }
     }
-    ui->listGames->resizeColumnToContents(0);
+    m_ui->listGames->resizeColumnToContents(0);
     
 }
 
 void MainWindow::resetConfig() {
-    ui->lineUpdateUrl->setText( DEFAULT_UPDATE_URL );
-    ui->lineInsteadPath->setText( getDefaultInterpreterPath() );
-    ui->autoRefreshCheckBox->setChecked(false);
+    m_ui->lineUpdateUrl->setText( DEFAULT_UPDATE_URL );
+    m_ui->lineInsteadPath->setText( getDefaultInterpreterPath() );
+    m_ui->autoRefreshCheckBox->setChecked(false);
 }
 
 void MainWindow::loadConfig() {
@@ -371,11 +371,11 @@ void MainWindow::loadConfig() {
             QString value = regex.capturedTexts()[2];
             qDebug() << key << " = " << value;
             if (key == "UpdateURL") {
-                ui->lineUpdateUrl->setText(value);
+                m_ui->lineUpdateUrl->setText(value);
             } else if (key == "InsteadPath") {
-                ui->lineInsteadPath->setText(value);
+                m_ui->lineInsteadPath->setText(value);
             } else if (key == "AutoRefresh") {
-                ui->autoRefreshCheckBox->setChecked( value=="true" );
+                m_ui->autoRefreshCheckBox->setChecked( value=="true" );
             }
         }
     }
@@ -389,9 +389,9 @@ void MainWindow::saveConfig() {
         return;
     }
     QTextStream config(&configFile);
-    config << "UpdateURL=" << ui->lineUpdateUrl->text() << endl;
-    config << "InsteadPath=" << ui->lineInsteadPath->text() << endl;
-    config << "AutoRefresh=" << (ui->autoRefreshCheckBox->isChecked() ? "true" : "false") << endl;
+    config << "UpdateURL=" << m_ui->lineUpdateUrl->text() << endl;
+    config << "InsteadPath=" << m_ui->lineInsteadPath->text() << endl;
+    config << "AutoRefresh=" << (m_ui->autoRefreshCheckBox->isChecked() ? "true" : "false") << endl;
     qDebug() << "Config saved";
 }
 
