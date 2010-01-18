@@ -57,6 +57,8 @@ class LocalGameItem: public QTreeWidgetItem {
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), m_ui(new Ui::MainWindow)
 {
+//    qDebug() << QLocale::languageToString( QLocale().language() );
+
     m_ui->setupUi(this);
     m_ui->listGames->header()->setResizeMode( 0, QHeaderView::Stretch );
     m_ui->listGames->header()->setResizeMode( 1, QHeaderView::ResizeToContents );
@@ -223,7 +225,7 @@ void MainWindow::downloadGame( QTreeWidgetItem *game ) {
     setEnabled( false );
     m_gameServer->get( url.path(), m_gameFile );
     m_downloadingFileName = url.path().split( "/" ).last();
-    m_gameLoadProgress->setLabelText( QString( tr( "%1 \"%2\"..." ).arg( tr( "Game downloading" ) ).arg( ( ( NetGameItem *)game )->info().title() ) );
+    m_gameLoadProgress->setLabelText( QString( "%1 \"%2\"..." ).arg( tr( "Game downloading" ) ).arg( ( ( NetGameItem *)game )->info().title() ) );
     m_gameLoadProgress->setValue(0);
 }
 

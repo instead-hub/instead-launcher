@@ -1,8 +1,8 @@
 // we really need this ?
 // yes, it's always included
-#ifdef Q_OS_LINUX
-#include #include <linux/limits.h>
-#endif
+//#ifdef Q_OS_UNIX
+#include <linux/limits.h>
+//#endif
 
 #include <QDir>
 #include <QFile>
