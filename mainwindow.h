@@ -16,22 +16,24 @@ class GameInfo {
 public:
     GameInfo() {
     }
+
     GameInfo( const GameInfo &info ) {
 	m_name = info.m_name;
 	m_title = info.m_title;
 	m_version = info.m_version;
     }
+
     ~GameInfo() {
     }
 
-    virtual void setName( const QString &name ) {
+    void setName( const QString &name ) {
 	m_name = name;
     }
     
-    virtual void setTitle( const QString &title ) {
+    void setTitle( const QString &title ) {
 	m_title = title;
     }
-    virtual void setVersion( const QString &version ) {
+    void setVersion( const QString &version ) {
 	m_version = version;
     }
     
@@ -56,7 +58,6 @@ public:
     }
 
     bool operator==( const GameInfo &info ) {
-//	qDebug( "%s ? %s |  %s ? %s", m_name.toLocal8Bit().data(), info.m_name.toLocal8Bit().data(), m_version.toLocal8Bit().data(), info.m_version.toLocal8Bit().data() );
 	return ( m_name == info.m_name ) && ( m_version == info.m_version );
     }
 

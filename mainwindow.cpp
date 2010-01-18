@@ -1,16 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "qunzip.h"
-#include <QDebug>
-#include <QMessageBox>
-#include <QRegExp>
-#include <QHttp>
-#include <QProgressDialog>
-#include <QDir>
-#include <QTreeWidget>
-#include <QXmlStreamReader>
-#include <QTemporaryFile>
-
 
 class NetGameItem: public QTreeWidgetItem {
     public:
