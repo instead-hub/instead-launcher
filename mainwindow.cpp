@@ -196,14 +196,15 @@ void MainWindow::on_game_server_done(bool error)
     m_gameLoadProgress->reset();
     ui->buttonInstall->setEnabled(true);
     if(!error){
-        const QString games_dir = QDir::home().absolutePath()+"/.instead/games/";
-        const QString arch_name = QDir::home().absolutePath()+"/.instead/games/" + m_downloadingFileName;
+        const QString games_dir = getGameDirPath();
+        const QString arch_name = games_dir + m_downloadingFileName;
         m_gameFile->copy(arch_name);
         qUnzip(arch_name, games_dir);
         QMessageBox::information(this, "Игра загружена и распакована", "Игра загружена и распакована");
     }
     else {        
         qWarning("WARN: Game load error");
+        qWarning()<<QHttp().errorString();
     }
     m_gameFile->close();
 }
@@ -256,7 +257,7 @@ void MainWindow::refreshLocalGameList() {
     ui->listGames->clear();
 
     // получаем директорию с играми
-    QString gamePath = QDir::home().absolutePath() + "/.instead/games";
+    QString gamePath = getGameDirPath();
     QDir gameDir(gamePath);
     qDebug() << "Game path" << gamePath;
 
@@ -286,4 +287,18 @@ void MainWindow::refreshLocalGameList() {
     
 //    -- $Name:Зеркало$
 //-- $Version: 0.4.1$
+}
+
+QString MainWindow::getGameDirPath() const
+{
+#ifdef Q_OS_UNIX
+    return QDir::home().absolutePath() + "/.instead/games/";
+
+#elif Q_OS_WIN
+#error "Please, provide a correct path to games folder in Windows OS"
+    return ""; //TODO
+
+#else
+#error "Unsupported OS"
+#endif
 }

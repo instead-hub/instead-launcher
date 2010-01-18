@@ -44,6 +44,7 @@ private:
     QProgressDialog *m_gameLoadProgress;
     QTemporaryFile *m_gameFile;
     void downloadGame(QTreeWidgetItem *game);
+    QString getGameDirPath() const;
 
     QString m_downloadingFileName;
 
