@@ -117,11 +117,13 @@ private:
 
     void downloadGame(QTreeWidgetItem *game);
     QString getGameDirPath() const;
+    QString getDefaultInterpreterPath() const;
 
     QTemporaryFile *m_gameFile;
     QHttp *m_listServer, *m_gameServer;
     QProgressDialog *m_listLoadProgress, *m_gameLoadProgress;
     QString m_downloadingFileName;
+    QProcess *m_process;
     Ui::MainWindow *ui;
 
 private slots:
@@ -136,6 +138,8 @@ private slots:
     void listServerDone( bool );
     void gameServerResponseHeaderReceived( const QHttpResponseHeader & );
     void gameServerDone( bool error );
+
+    void processFinished( int exitCode, QProcess::ExitStatus exitStatus );
 };
 
 #endif // MAINWINDOW_H

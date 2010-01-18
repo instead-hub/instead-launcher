@@ -67,6 +67,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    ui->lineInsteadPath->setText( getDefaultInterpreterPath() );
+
     refreshLocalGameList();
 
     m_listServer = new QHttp(this);
@@ -97,10 +99,20 @@ MainWindow::~MainWindow()
 
 void MainWindow::playPushButtonClicked()
 {
-    QString gameID = ui->listGames->currentItem()->data(0, Qt::UserRole).toString();
+    LocalGameItem *item = static_cast<LocalGameItem *>(ui->listGames->currentItem());
+    QString gameName = item->info().name();
+    QString insteadPath = ui->lineInsteadPath->text();
+    QString command = insteadPath + " -game " + gameName;
+    qDebug() << "Launching " << command;
+    m_process = new QProcess();
+    m_process->start(command);
+    connect( m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT( processFinished(int, QProcess::ExitStatus)) );
+    hide();
+}
 
-    // TODO запуск игры
-    QMessageBox::information(this, "Запуск игры", gameID);
+void MainWindow::processFinished( int exitCode, QProcess::ExitStatus exitStatus ) {
+    qDebug() << "Game closed";
+    show();
 }
 
 void MainWindow::refreshNetGameList()
@@ -323,6 +335,19 @@ QString MainWindow::getGameDirPath() const
 
 #elif Q_OS_WIN
 #error "Please, provide a correct path to games folder in Windows OS"
+    return ""; //TODO
+
+#else
+#error "Unsupported OS"
+#endif
+}
+
+QString MainWindow::getDefaultInterpreterPath() const {
+#ifdef Q_OS_UNIX
+    return "/usr/local/bin/sdl-instead";
+
+#elif Q_OS_WIN
+#error "Please, provide a correct path to interpreter in Windows OS"
     return ""; //TODO
 
 #else
