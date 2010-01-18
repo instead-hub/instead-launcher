@@ -17,15 +17,19 @@ struct GameInfo {
     QString version;    // 0.3.1
 };
 
+
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
+
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
 private:
+
     bool getLocalGameInfo( const QDir gameDir, const QString gameID, GameInfo &info );
 
     void parseGameList( QXmlStreamReader *xml );

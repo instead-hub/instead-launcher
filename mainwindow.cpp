@@ -16,11 +16,11 @@ class GameItem: public QTreeWidgetItem
     public:
         void setVersion(const QString &ver){
             m_version=ver;
-            setText(1, ver);
+            setText( 1, ver );
         }
         void setName(const QString &nm){
             m_name=nm;
-            setText(0, nm);
+            setText( 0, nm );
         }
         void setUrl(const QString &url) {
             m_url = url;
@@ -30,10 +30,10 @@ class GameItem: public QTreeWidgetItem
 	    return m_name;
 	}
 	
-        const QString getVersion() {
+        const QString version() {
             return m_version;
         }
-        const QString getUrl() {
+        const QString url() {
             return m_url;
         }
     private:
@@ -41,7 +41,6 @@ class GameItem: public QTreeWidgetItem
         QString m_url;
         QString m_name;
 };
-
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -142,47 +141,36 @@ void MainWindow::parseGameList( QXmlStreamReader *xml )
 
 void MainWindow::parseGameInfo( QXmlStreamReader *xml )
 {
-    Q_ASSERT(xml->name() == "game");
+    Q_ASSERT( xml->name() == "game" );
     GameItem *game = new GameItem();
-    while (!xml->atEnd()) {
+    while( !xml->atEnd() ) {
         xml->readNext();
-        if (xml->isStartElement()) {
-            if(xml->name() == "name") {
-                const QString s = xml->readElementText();
-                game->setName(s);
-            }
-            else if(xml->name() == "version") {
-                const QString s = xml->readElementText();
-                game->setVersion(s);
-            }
-            else if(xml->name() == "url") {
-                const QString s = xml->readElementText();
-                game->setUrl(s);
-            }
+        if ( xml->isStartElement() ) {
+            if( xml->name() == "name" )
+        	game->setName( xml->readElementText() );
+            else if(xml->name() == "version")
+        	game->setVersion( xml->readElementText() );
+            else if( xml->name() == "url" )
+            	game->setUrl( xml->readElementText() );
         }
-        if(xml->isEndElement() && xml->name()=="game")
-        {
+        if( xml->isEndElement() && xml->name()=="game" )
             break;
-        }
     }
     // TODO: проверить что такой же версии игры нет в локальном списке
-    qDebug("Adding game to the list %s", game->getVersion().toLocal8Bit().data());
-    ui->listNewGames->addTopLevelItem(game);
+    qDebug("Adding game to the list %s", game->name().toLocal8Bit().data());
+    ui->listNewGames->addTopLevelItem( game );
 }
 
 
-
-
-void MainWindow::downloadGame(QTreeWidgetItem *game)
-{
-    Q_ASSERT(game!=NULL);
+void MainWindow::downloadGame( QTreeWidgetItem *game ) {
+    Q_ASSERT( game != NULL );
     m_gameFile = new QTemporaryFile();
-    QUrl url(static_cast<GameItem*>(game)->getUrl());
-    m_gameServer->setHost(url.host());
+    QUrl url( ( ( GameItem * )game )->url() );
+    m_gameServer->setHost( url.host() );
     setEnabled( false );
-    m_gameServer->get(url.path(), m_gameFile);
+    m_gameServer->get( url.path(), m_gameFile );
     m_downloadingFileName = url.path().split( "/" ).last();
-    m_gameLoadProgress->setLabelText( QString( "Загрузка игры \"%1\"..." ).arg( ( ( GameItem * )game )->name() ) );
+    m_gameLoadProgress->setLabelText( QString( "Загрузка игры \"%1\"..." ).arg( ( ( GameItem *)game )->name() ) );
     m_gameLoadProgress->setValue(0);
 }
 
