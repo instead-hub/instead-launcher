@@ -6,8 +6,7 @@
     <message>
         <location filename="mainwindow.cpp" line="84"/>
         <source>Game list downloading</source>
-        <translatorcomment>Загрузка списка игр</translatorcomment>
-        <translation></translation>
+        <translation type="unfinished">Загрузка списка игр</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="134"/>
@@ -27,7 +26,7 @@
     <message>
         <location filename="mainwindow.cpp" line="259"/>
         <source>Success</source>
-        <translation>Успех</translation>
+        <translation>Операция завершена успешно</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="259"/>
