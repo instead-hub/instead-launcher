@@ -1,8 +1,9 @@
 // we really need this ?
 // yes, it's always included
-//#ifdef Q_OS_LINUX
+// but on windows we haven't this :)
+#if !defined(Q_OS_WIN32)
 #include <linux/limits.h>
-//#endif
+#endif
 
 #include <QDir>
 #include <QFile>
@@ -125,6 +126,8 @@ bool qUnzip( const QString &archPath, const QString &targetDir )
 	}
 	err = unzGoToNextFile( uf );
     }
+
+    unzClose( uf );
 
     return true;
 }

@@ -21,4 +21,5 @@ RESOURCES += instead-launcher.qrc
 
 win32 {
     INCLUDEPATH += ${QTDIR}/src/3rdparty/zlib
+    DEFINES += Q_OS_WIN32
 }
