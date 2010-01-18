@@ -58,6 +58,10 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), m_ui(new Ui::MainWindow)
 {
     m_ui->setupUi(this);
+    m_ui->listGames->header()->setResizeMode( 0, QHeaderView::Stretch );
+    m_ui->listGames->header()->setResizeMode( 1, QHeaderView::ResizeToContents );
+    m_ui->listNewGames->header()->setResizeMode( 0, QHeaderView::Stretch );
+    m_ui->listNewGames->header()->setResizeMode( 1, QHeaderView::ResizeToContents );
 
     setWindowTitle( "instead-launcher" );
     setWindowIcon( QIcon( ":/resources/icon.png" ) );
@@ -130,8 +134,7 @@ void MainWindow::processFinished( int exitCode, QProcess::ExitStatus exitStatus 
     show();
 }
 
-void MainWindow::refreshNetGameList()
-{
+void MainWindow::refreshNetGameList() {
     m_ui->listNewGames->clear();
     qDebug() << "Updating list from " << m_ui->lineUpdateUrl->text();
     QUrl url(m_ui->lineUpdateUrl->text());
@@ -142,14 +145,12 @@ void MainWindow::refreshNetGameList()
     m_listLoadProgress->setValue(0);
 }
 
-void MainWindow::installPushButtonClicked()
-{
+void MainWindow::installPushButtonClicked() {
     m_ui->installPushButton->setDisabled(true);
     downloadGame(m_ui->listNewGames->currentItem());
 }
 
-void MainWindow::listServerDone(bool error)
-{
+void MainWindow::listServerDone(bool error) {
     qDebug("List has been downloaded");
 
     setEnabled( true );
@@ -187,8 +188,7 @@ void MainWindow::parseGameList( QXmlStreamReader *xml )
     }
 }
 
-void MainWindow::parseGameInfo( QXmlStreamReader *xml )
-{
+void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
     Q_ASSERT( xml->name() == "game" );
     NetGameInfo info;
     while( !xml->atEnd() ) {
@@ -227,16 +227,12 @@ void MainWindow::downloadGame( QTreeWidgetItem *game ) {
     m_gameLoadProgress->setValue(0);
 }
 
-void MainWindow::gameServerResponseHeaderReceived ( const QHttpResponseHeader & resp )
-{
+void MainWindow::gameServerResponseHeaderReceived ( const QHttpResponseHeader & resp ) {
     qDebug("Header received. LEN=%d", resp.contentLength());
     m_gameLoadProgress->setMaximum(resp.contentLength());
 }
 
-
-
-void MainWindow::gameServerDone( bool error )
-{
+void MainWindow::gameServerDone( bool error ) {
     setEnabled( true );
     m_gameLoadProgress->reset();
     m_ui->installPushButton->setEnabled(true);
