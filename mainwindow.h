@@ -11,13 +11,91 @@ namespace Ui
     class MainWindow;
 }
 
-struct GameInfo {
-    QString id;         // cat
-    QString name;       // Возвращение квантового кота
-    QString version;    // 0.3.1
+class GameInfo {
+
+public:
+    GameInfo() {
+    }
+    GameInfo( const GameInfo &info ) {
+	m_name = info.m_name;
+	m_title = info.m_title;
+	m_version = info.m_version;
+    }
+    ~GameInfo() {
+    }
+
+    virtual void setName( const QString &name ) {
+	m_name = name;
+    }
+    
+    virtual void setTitle( const QString &title ) {
+	m_title = title;
+    }
+    virtual void setVersion( const QString &version ) {
+	m_version = version;
+    }
+    
+    QString name() const {
+	return m_name;
+    }
+    
+    QString title() const {
+	return m_title;
+    }
+    
+    QString version() const {
+	return m_version;
+    }
+    
+    virtual GameInfo operator=( const GameInfo &info ) {
+	m_name = info.m_name;
+	m_title = info.m_title;
+	m_version = info.m_version;
+	
+	return *this;
+    }
+
+    bool operator==( const GameInfo &info ) {
+	return ( m_name == info.m_name ) && ( m_version == m_version );
+    }
+
+private:
+    QString m_name;
+    QString m_title;
+    QString m_version;
 };
 
+class NetGameInfo : public GameInfo {
 
+public:
+    NetGameInfo() {
+    }
+
+    NetGameInfo( const NetGameInfo &info ) : GameInfo( info ) {
+        m_url = info.m_url;
+    }
+
+    virtual NetGameInfo operator=( const NetGameInfo &info ) {
+	GameInfo::operator=( info );
+	m_url = info.m_url;
+	
+	return *this;
+    }
+
+    ~NetGameInfo() {
+    }
+
+    void setUrl( const QString &url ) {
+	m_url = url;
+    }
+
+    QString url() {
+	return m_url;
+    }
+
+    private:
+	QString m_url;
+};
 
 class MainWindow : public QMainWindow
 {

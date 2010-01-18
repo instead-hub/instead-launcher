@@ -11,35 +11,55 @@
 #include <QXmlStreamReader>
 #include <QTemporaryFile>
 
-class GameItem: public QTreeWidgetItem
-{
-    public:
-        void setVersion(const QString &ver){
-            m_version=ver;
-            setText( 1, ver );
-        }
-        void setName(const QString &nm){
-            m_name=nm;
-            setText( 0, nm );
-        }
-        void setUrl(const QString &url) {
-            m_url = url;
-        }
 
-	QString name() {
-	    return m_name;
+class NetGameItem: public QTreeWidgetItem {
+    public:
+	NetGameItem() {
 	}
 	
-        const QString version() {
-            return m_version;
-        }
-        const QString url() {
-            return m_url;
-        }
+	NetGameItem( QTreeWidget *parent ) : QTreeWidgetItem( parent, QTreeWidgetItem::Type ) {
+	}
+	
+	~NetGameItem() {
+	}
+
+	void setInfo( const NetGameInfo &info ) {
+	    m_info = info;
+	    setText( 0, info.title() );
+	    setText( 1, info.version() );
+	}
+
+	NetGameInfo info() {
+	    return m_info;
+	}
+
     private:
-        QString m_version;
-        QString m_url;
-        QString m_name;
+	NetGameInfo m_info;
+};
+
+class LocalGameItem: public QTreeWidgetItem {
+    public:
+	LocalGameItem() {
+	}
+	
+	LocalGameItem( QTreeWidget *parent ) : QTreeWidgetItem( parent, QTreeWidgetItem::Type ) {
+	}
+	
+	~LocalGameItem() {
+	}
+
+	void setInfo( const GameInfo &info ) {
+	    m_info = info;
+	    setText( 0, info.title() );
+	    setText( 1, info.version() );
+	}
+
+	GameInfo info() {
+	    return m_info;
+	}
+
+    private:
+	GameInfo m_info;
 };
 
 MainWindow::MainWindow(QWidget *parent)
@@ -142,35 +162,36 @@ void MainWindow::parseGameList( QXmlStreamReader *xml )
 void MainWindow::parseGameInfo( QXmlStreamReader *xml )
 {
     Q_ASSERT( xml->name() == "game" );
-    GameItem *game = new GameItem();
+    NetGameInfo info;
     while( !xml->atEnd() ) {
         xml->readNext();
         if ( xml->isStartElement() ) {
             if( xml->name() == "name" )
-        	game->setName( xml->readElementText() );
+        	info.setTitle( xml->readElementText() );
             else if(xml->name() == "version")
-        	game->setVersion( xml->readElementText() );
+        	info.setVersion( xml->readElementText() );
             else if( xml->name() == "url" )
-            	game->setUrl( xml->readElementText() );
+        	info.setUrl( xml->readElementText() );
         }
         if( xml->isEndElement() && xml->name()=="game" )
             break;
     }
     // TODO: проверить что такой же версии игры нет в локальном списке
-    qDebug("Adding game to the list %s", game->name().toLocal8Bit().data());
-    ui->listNewGames->addTopLevelItem( game );
+    qDebug("Adding game to the list %s", info.title().toLocal8Bit().data());
+    NetGameItem *game = new NetGameItem( ui->listNewGames );
+    game->setInfo( info );
 }
 
 
 void MainWindow::downloadGame( QTreeWidgetItem *game ) {
     Q_ASSERT( game != NULL );
     m_gameFile = new QTemporaryFile();
-    QUrl url( ( ( GameItem * )game )->url() );
+    QUrl url( ( ( NetGameItem * )game )->info().url() );
     m_gameServer->setHost( url.host() );
     setEnabled( false );
     m_gameServer->get( url.path(), m_gameFile );
     m_downloadingFileName = url.path().split( "/" ).last();
-    m_gameLoadProgress->setLabelText( QString( "Загрузка игры \"%1\"..." ).arg( ( ( GameItem *)game )->name() ) );
+    m_gameLoadProgress->setLabelText( QString( "Загрузка игры \"%1\"..." ).arg( ( ( NetGameItem *)game )->info().title() ) );
     m_gameLoadProgress->setValue(0);
 }
 
@@ -236,9 +257,9 @@ bool MainWindow::getLocalGameInfo(const QDir gameDir, const QString gameID, Game
     }
     version = regexVersion.capturedTexts()[1].trimmed();
 
-    info.id = gameID;
-    info.name = name;
-    info.version = version;
+    info.setName( gameID );
+    info.setTitle( name );
+    info.setVersion( version );
 
     return true;
 }
@@ -252,29 +273,27 @@ void MainWindow::refreshLocalGameList() {
     // получаем директорию с играми
     QString gamePath = getGameDirPath();
     QDir gameDir(gamePath);
-    qDebug() << "Game path" << gamePath;
+    qDebug() << "game path: " << gamePath;
 
     // если директория не существует, то создаем ее
-    if (!gameDir.exists()) {
-        qDebug() << "Created games directory";
-        if (!QDir::home().mkpath(".instead/games")) {
-            QMessageBox::critical(this, "Ошибка", "Не удается создать каталог "+gamePath);
+    if ( !gameDir.exists() ) {
+        qDebug() << "created games directory";
+        if ( !QDir::home().mkpath( ".instead/games" ) ) {
+            QMessageBox::critical(this, "Ошибка", "Не удается создать каталог " + gamePath);
             return;
         }
     }
 
     // просматриваем все подкаталоги
-    QStringList gameList = gameDir.entryList(QDir::AllDirs|QDir::NoDotAndDotDot, QDir::NoSort);
+    QStringList gameList = gameDir.entryList( QDir::AllDirs|QDir::NoDotAndDotDot, QDir::NoSort );
     QString gameID;
-    foreach (gameID, gameList) {
+    foreach( gameID, gameList ) {
         GameInfo info;
-        if (getLocalGameInfo(gameDir, gameID, info)) {
+        if ( getLocalGameInfo( gameDir, gameID, info ) ) {
             // TODO добавляем игру в список
-            qDebug() << "Found game " << info.id << info.name << info.version;
-            QTreeWidgetItem * item = new QTreeWidgetItem(ui->listGames);
-            item->setText(0, info.name);
-            item->setText(1, info.version);
-            item->setData(0, Qt::UserRole, info.id);
+            qDebug() << "found game " << info.name() << info.title() << info.version();
+            LocalGameItem *game = new LocalGameItem( ui->listGames );
+            game->setInfo( info );
         }
     }
     
