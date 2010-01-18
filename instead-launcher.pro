@@ -21,5 +21,4 @@ TRANSLATIONS += instead-launcher_ru.ts
 
 win32 {
     INCLUDEPATH += ${QTDIR}/src/3rdparty/zlib
-    DEFINES += Q_OS_WIN
 }
