@@ -18,3 +18,7 @@ FORMS += mainwindow.ui
 LIBS += -qt-zlib # use zlib embedded into qt
 DEFINES += NOUNCRIPT # need for unzip library build
 RESOURCES += instead-launcher.qrc
+
+win32 {
+    INCLUDEPATH += ${QTDIR}/src/3rdparty/zlib
+}

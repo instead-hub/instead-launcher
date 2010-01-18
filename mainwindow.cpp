@@ -406,9 +406,8 @@ QString MainWindow::getGameDirPath() const
 #ifdef Q_OS_UNIX
     return QDir::home().absolutePath() + "/.instead/games/";
 
-#elif Q_OS_WIN
-#error "Please, provide a correct path to games folder in Windows OS"
-    return ""; //TODO
+#elif defined Q_OS_WIN
+    return "dummy";
 
 #else
 #error "Unsupported OS"
@@ -420,9 +419,8 @@ QString MainWindow::getConfigPath() const
 #ifdef Q_OS_UNIX
     return QDir::home().absolutePath() + "/.instead/launcher.conf";
 
-#elif Q_OS_WIN
-#error "Please, provide a correct path to config file in Windows OS"
-    return ""; //TODO
+#elif defined Q_OS_WIN
+    return "dummy";
 
 #else
 #error "Unsupported OS"
@@ -433,9 +431,8 @@ QString MainWindow::getDefaultInterpreterPath() const {
 #ifdef Q_OS_UNIX
     return "/usr/local/bin/sdl-instead";
 
-#elif Q_OS_WIN
-#error "Please, provide a correct path to interpreter in Windows OS"
-    return ""; //TODO
+#elif defined Q_OS_WIN
+    return "dummy"; //TODO
 
 #else
 #error "Unsupported OS"

@@ -1,4 +1,7 @@
-#include <linux/limits.h>
+// we really need this ?
+#ifdef Q_OS_LINUX
+#include #include <linux/limits.h>
+#endif
 
 #include <QDir>
 #include <QFile>
