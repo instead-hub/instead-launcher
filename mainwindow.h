@@ -53,13 +53,13 @@ private:
 private slots:
     void refreshLocalGameList();
 
-    void on_buttonInstall_clicked();
-    void on_buttonRefresh_clicked();
-    void on_buttonPlay_clicked();
+    void installPushButtonClicked();
+    void refreshPushButtonClicked();
+    void playPushButtonClicked();
 
-    void on_list_server_done(bool error);
-    void on_game_server_responseHeaderReceived ( const QHttpResponseHeader & resp );
-    void on_game_server_done(bool error);
+    void listServerDone( bool );
+    void gameServerResponseHeaderReceived( const QHttpResponseHeader & );
+    void gameServerDone( bool error );
 };
 
 #endif // MAINWINDOW_H

@@ -51,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent)
     refreshLocalGameList();
 
     list_server = new QHttp(this);
-    connect(list_server, SIGNAL(done(bool)), this, SLOT(on_list_server_done(bool)));
+    connect( list_server, SIGNAL( done( bool ) ), this, SLOT( listServerDone( bool ) ) );
 
     m_listLoadProgress = new QProgressDialog(parent);
     m_listLoadProgress->setLabelText("Загрузка списка игр ...");
@@ -60,8 +60,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect( list_server, SIGNAL( dataReadProgress( int, int ) ), m_listLoadProgress, SLOT( setValue( int ) ) );
 
     game_server = new QHttp(this);
-    connect(game_server, SIGNAL(done(bool)), this, SLOT(on_game_server_done(bool)));
-    connect(game_server, SIGNAL(responseHeaderReceived(QHttpResponseHeader)), this, SLOT(on_game_server_responseHeaderReceived(QHttpResponseHeader)));
+    connect(game_server, SIGNAL(done(bool)), this, SLOT( gameServerDone(bool)));
+    connect(game_server, SIGNAL( responseHeaderReceived( QHttpResponseHeader ) ), this, SLOT( gameServerResponseHeaderReceived(QHttpResponseHeader)));
 
     m_gameLoadProgress = new QProgressDialog(parent);
 //    m_gameLoadProgress->setLabelText("Загрузка игры GAME_NAME...");
@@ -69,6 +69,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect( game_server, SIGNAL( dataReadProgress( int, int ) ), m_gameLoadProgress, SLOT( setValue( int ) ) );
     connect(m_gameLoadProgress, SIGNAL(canceled()), game_server, SLOT(abort()));
 
+
+    connect( ui->installPushButton, SIGNAL( clicked() ), this, SLOT( installPushButtonClicked() ) );
+    connect( ui->refreshPushButton, SIGNAL( clicked() ), this, SLOT( refreshPushButtonClicked() ) );
+    connect( ui->playPushButton, SIGNAL( clicked() ), this, SLOT( playPushButtonClicked() ) );
 }
 
 MainWindow::~MainWindow()
@@ -76,7 +80,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_buttonPlay_clicked()
+void MainWindow::playPushButtonClicked()
 {
     QString gameID = ui->listGames->currentItem()->data(0, Qt::UserRole).toString();
 
@@ -84,7 +88,7 @@ void MainWindow::on_buttonPlay_clicked()
     QMessageBox::information(this, "Запуск игры", gameID);
 }
 
-void MainWindow::on_buttonRefresh_clicked()
+void MainWindow::refreshPushButtonClicked()
 {
     ui->listNewGames->clear();
     qDebug() << "Updating list from " << ui->lineUpdateUrl->text();
@@ -96,7 +100,13 @@ void MainWindow::on_buttonRefresh_clicked()
     m_listLoadProgress->setValue(0);
 }
 
-void MainWindow::on_list_server_done(bool error)
+void MainWindow::installPushButtonClicked()
+{
+    ui->installPushButton->setDisabled(true);
+    downloadGame(ui->listNewGames->currentItem());
+}
+
+void MainWindow::listServerDone(bool error)
 {
     qDebug("List has been downloaded");
 
@@ -165,11 +175,7 @@ void MainWindow::readGame(QXmlStreamReader *xml)
 }
 
 
-void MainWindow::on_buttonInstall_clicked()
-{
-    ui->buttonInstall->setDisabled(true);
-    downloadGame(ui->listNewGames->currentItem());
-}
+
 
 void MainWindow::downloadGame(QTreeWidgetItem *game)
 {
@@ -184,7 +190,7 @@ void MainWindow::downloadGame(QTreeWidgetItem *game)
     m_gameLoadProgress->setValue(0);
 }
 
-void MainWindow::on_game_server_responseHeaderReceived ( const QHttpResponseHeader & resp )
+void MainWindow::gameServerResponseHeaderReceived ( const QHttpResponseHeader & resp )
 {
     qDebug("Header received. LEN=%d", resp.contentLength());
     m_gameLoadProgress->setMaximum(resp.contentLength());
@@ -192,11 +198,11 @@ void MainWindow::on_game_server_responseHeaderReceived ( const QHttpResponseHead
 
 
 
-void MainWindow::on_game_server_done(bool error)
+void MainWindow::gameServerDone(bool error)
 {
     setEnabled( true );
     m_gameLoadProgress->reset();
-    ui->buttonInstall->setEnabled(true);
+    ui->installPushButton->setEnabled(true);
     if(!error){
         const QString games_dir = getGameDirPath();
         const QString arch_name = games_dir + m_downloadingFileName;
