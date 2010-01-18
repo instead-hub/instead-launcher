@@ -113,15 +113,20 @@ void MainWindow::playPushButtonClicked()
     LocalGameItem *item = static_cast<LocalGameItem *>(m_ui->listGames->currentItem());
     QString gameName = item->info().name();
     QString insteadPath = m_ui->lineInsteadPath->text();
-    QString command = insteadPath + " -game " + gameName;
-    qDebug() << "Launching " << command;
     m_process = new QProcess();
 
 #ifdef Q_OS_WIN
-    m_process->setWorkingDirectory("c:\\Program Files\\Pinebrush games\\INSTEAD");
+    QFileInfo fileInfo(insteadPath);
+    m_process->setWorkingDirectory(fileInfo.path());
+    qDebug() << QDir::toNativeSeparators(fileInfo.path());
+    QString command = "\"" + insteadPath + "\" -game " + gameName;
+#else
+    QString command = insteadPath + " -game " + gameName;
 #endif
 
+    qDebug() << "Launching " << command;
     m_process->start(command); // may startDetached be better? :)
+
     connect( m_process, SIGNAL(started()), this, SLOT( processStarted()) );
     connect( m_process, SIGNAL(error(QProcess::ProcessError)), this, SLOT( processError(QProcess::ProcessError)) );
     connect( m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT( processFinished(int, QProcess::ExitStatus)) );
