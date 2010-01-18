@@ -200,6 +200,7 @@ void MainWindow::on_game_server_done(bool error)
         m_gameFile->copy(arch_name);
         qUnzip(arch_name, games_dir);
         QMessageBox::information(this, "Игра загружена и распакована", "Игра загружена и распакована");
+	refreshLocalGameList();
     }
     else {        
         qWarning("WARN: Game load error");

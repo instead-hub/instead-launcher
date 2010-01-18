@@ -41,7 +41,6 @@ static int do_extract_currentfile( unzFile uf, const QString &targetDir )
         return err;
     }
 
-    qDebug() << "Try to open: " << targetPath;
     QFile fo( targetPath );
 
     // check target path directory existance

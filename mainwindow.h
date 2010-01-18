@@ -48,10 +48,11 @@ private:
 
     QString m_downloadingFileName;
 
-    void refreshLocalGameList();
     bool getLocalGameInfo(const QDir gameDir, const QString gameID, GameInfo &info);
 
 private slots:
+    void refreshLocalGameList();
+
     void on_buttonInstall_clicked();
     void on_buttonRefresh_clicked();
     void on_buttonPlay_clicked();
