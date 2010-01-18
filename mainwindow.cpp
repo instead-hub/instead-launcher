@@ -156,6 +156,7 @@ void MainWindow::listServerDone(bool error)
             const QString s = xml.errorString();
             qWarning("%s", s.toLocal8Bit().data());
         }
+        ui->listNewGames->resizeColumnToContents(0);
     }
     else {
         qWarning("WARN: errors while downloading");
@@ -334,6 +335,7 @@ void MainWindow::refreshLocalGameList() {
             game->setInfo( info );
         }
     }
+    ui->listGames->resizeColumnToContents(0);
     
 //    -- $Name:Зеркало$
 //-- $Version: 0.4.1$
