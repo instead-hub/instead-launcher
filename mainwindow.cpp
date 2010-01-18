@@ -83,6 +83,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect( ui->installPushButton, SIGNAL( clicked() ), this, SLOT( installPushButtonClicked() ) );
     connect( ui->refreshPushButton, SIGNAL( clicked() ), this, SLOT( refreshNetGameList() ) );
     connect( ui->playPushButton, SIGNAL( clicked() ), this, SLOT( playPushButtonClicked() ) );
+    connect( ui->resetPushButton, SIGNAL( clicked() ), this, SLOT( resetPushButtonClicked() ) );
 
     if (ui->autoRefreshCheckBox->isChecked()) {
         refreshNetGameList();
@@ -394,8 +395,7 @@ void MainWindow::saveConfig() {
     qDebug() << "Config saved";
 }
 
-void MainWindow::on_resetPushButton_clicked()
-{
+void MainWindow::resetPushButtonClicked() {
     resetConfig();
 }
 

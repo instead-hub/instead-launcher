@@ -134,12 +134,12 @@ private:
 
 private slots:
 
-    void on_resetPushButton_clicked();
     void refreshLocalGameList();
     void refreshNetGameList();
 
     void installPushButtonClicked();
 
+    void resetPushButtonClicked();
     void playPushButtonClicked();
 
     void listServerDone( bool );
