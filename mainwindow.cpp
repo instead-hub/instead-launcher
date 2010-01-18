@@ -95,7 +95,7 @@ void MainWindow::playPushButtonClicked()
     QString command = insteadPath + " -game " + gameName;
     qDebug() << "Launching " << command;
     m_process = new QProcess();
-    m_process->start(command);
+    m_process->start(command); // may startDetached be better? :)
     connect( m_process, SIGNAL(started()), this, SLOT( processStarted()) );
     connect( m_process, SIGNAL(error(QProcess::ProcessError)), this, SLOT( processError(QProcess::ProcessError)) );
     connect( m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT( processFinished(int, QProcess::ExitStatus)) );
