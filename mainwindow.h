@@ -119,6 +119,10 @@ private:
     void downloadGame(QTreeWidgetItem *game);
     QString getGameDirPath() const;
     QString getDefaultInterpreterPath() const;
+    QString getConfigPath() const;
+
+    void loadConfig();
+    void saveConfig();
 
     QTemporaryFile *m_gameFile;
     QHttp *m_listServer, *m_gameServer;

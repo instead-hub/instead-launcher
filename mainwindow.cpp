@@ -58,6 +58,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     ui->lineInsteadPath->setText( getDefaultInterpreterPath() );
+    loadConfig();
 
     refreshLocalGameList();
 
@@ -84,6 +85,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    saveConfig();
     delete ui;
 }
 
@@ -337,9 +339,47 @@ void MainWindow::refreshLocalGameList() {
     }
     ui->listGames->resizeColumnToContents(0);
     
-//    -- $Name:Зеркало$
-//-- $Version: 0.4.1$
 }
+
+void MainWindow::loadConfig() {
+    QFile configFile(getConfigPath());
+    if (!configFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qWarning() << "Can't open config file. Don't worry :)";
+        return;
+    }
+    QTextStream config(&configFile);
+    QRegExp regex("(.*)=(.*)");
+    while (!config.atEnd()) {
+        QString line = config.readLine();
+        if (!regex.exactMatch(line)) {
+            qWarning() << "Syntax error in line " << line;
+        } else {
+            QString key = regex.capturedTexts()[1];
+            QString value = regex.capturedTexts()[2];
+            qDebug() << key << " = " << value;
+            if (key == "UpdateURL") {
+                ui->lineUpdateUrl->setText(value);
+            } else if (key == "InsteadPath") {
+                ui->lineInsteadPath->setText(value);
+            }
+        }
+    }
+    qDebug() << "Config loaded";
+}
+
+void MainWindow::saveConfig() {
+    QFile configFile(getConfigPath());
+    if (!configFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning() << "Can't save config file!";
+        return;
+    }
+    QTextStream config(&configFile);
+    config << "UpdateURL=" << ui->lineUpdateUrl->text() << endl;
+    config << "InsteadPath=" << ui->lineInsteadPath->text() << endl;
+    qDebug() << "Config saved";
+}
+
+// Platform specific functions. Maybe move them into "platform.h" ?
 
 QString MainWindow::getGameDirPath() const
 {
@@ -348,6 +388,20 @@ QString MainWindow::getGameDirPath() const
 
 #elif Q_OS_WIN
 #error "Please, provide a correct path to games folder in Windows OS"
+    return ""; //TODO
+
+#else
+#error "Unsupported OS"
+#endif
+}
+
+QString MainWindow::getConfigPath() const
+{
+#ifdef Q_OS_UNIX
+    return QDir::home().absolutePath() + "/.instead/launcher.conf";
+
+#elif Q_OS_WIN
+#error "Please, provide a correct path to config file in Windows OS"
     return ""; //TODO
 
 #else
