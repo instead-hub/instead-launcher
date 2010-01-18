@@ -1,8 +1,7 @@
 # -------------------------------------------------
 # Project created by QtCreator 2010-01-17T11:48:50
 # -------------------------------------------------
-QT += network \
-    xml
+QT += network
 TARGET = instead-launcher
 TEMPLATE = app
 SOURCES += main.cpp \

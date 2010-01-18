@@ -3,7 +3,6 @@
 
 #include <QtGui>
 #include <QtCore>
-#include <QtXml>
 #include <QtNetwork>
 
 namespace Ui
