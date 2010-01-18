@@ -215,11 +215,19 @@ void MainWindow::gameServerDone( bool error )
     m_gameLoadProgress->reset();
     ui->installPushButton->setEnabled(true);
     if(!error){
-        const QString games_dir = getGameDirPath();
-        const QString arch_name = games_dir + m_downloadingFileName;
-        m_gameFile->copy( arch_name );
-        qUnzip(arch_name, games_dir);
-        QFile::remove( arch_name );
+        QString games_dir = getGameDirPath();
+        QString arch_name = games_dir + m_downloadingFileName;
+        if ( !m_gameFile->copy( arch_name ) ) {
+            qCritical() << "can't copy temporary file to the game dir: " << arch_name;
+            return;
+        }
+        if ( !qUnzip( arch_name, games_dir ) ) {
+            qCritical() << "can't unzip game: " << arch_name;
+	    return;
+        }
+        if ( !QFile::remove( arch_name ) ) {
+	    qWarning() << "can't remove temporary file: " << arch_name;
+        }
         QMessageBox::information(this, "Игра загружена и распакована", "Игра загружена и распакована");
 	refreshLocalGameList();
 	refreshNetGameList();

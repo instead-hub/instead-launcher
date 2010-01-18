@@ -3,6 +3,6 @@
 
 #include <QString>
 
-void qUnzip(QString archPath, QString targetDir);
+bool qUnzip( const QString &archPath, const QString &targetDir );
 
 #endif // QUNZIP_H

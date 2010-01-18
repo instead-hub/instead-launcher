@@ -12,7 +12,6 @@
 static int do_extract_currentfile( unzFile uf, const QString &targetDir )
 {
     char zip_file_path[PATH_MAX];
-    char *file_name_withoutpath;
     int err=UNZ_OK;
     char buf[4096]; // file read buffer
     unz_file_info zip_file_info;
@@ -97,12 +96,12 @@ static int do_extract_currentfile( unzFile uf, const QString &targetDir )
     return UNZ_OK;
 }
 
-void qUnzip(QString archPath, QString targetDir)
+bool qUnzip( const QString &archPath, const QString &targetDir )
 {
     unzFile uf = unzOpen( archPath.toLocal8Bit().data() );
     if( uf == NULL ) {
         qCritical() << "can't open archive:" << archPath;
-	return;
+	return false;
     }
 
     if( unzOpenCurrentFile( uf ) != UNZ_OK ) {
@@ -118,8 +117,10 @@ void qUnzip(QString archPath, QString targetDir)
     while( err == UNZ_OK ) {
 	if ( do_extract_currentfile( uf, targetDir ) != UNZ_OK ) {
 	    unzClose( uf );
-	    return;
+	    return false;
 	}
 	err = unzGoToNextFile( uf );
     }
+
+    return true;
 }
