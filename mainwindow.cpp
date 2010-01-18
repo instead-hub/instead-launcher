@@ -86,7 +86,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect( m_gameLoadProgress, SIGNAL(canceled()), m_gameServer, SLOT(abort()));
 
     connect( ui->installPushButton, SIGNAL( clicked() ), this, SLOT( installPushButtonClicked() ) );
-    connect( ui->refreshPushButton, SIGNAL( clicked() ), this, SLOT( refreshPushButtonClicked() ) );
+    connect( ui->refreshPushButton, SIGNAL( clicked() ), this, SLOT( refreshNetGameList() ) );
     connect( ui->playPushButton, SIGNAL( clicked() ), this, SLOT( playPushButtonClicked() ) );
 }
 
@@ -103,7 +103,7 @@ void MainWindow::playPushButtonClicked()
     QMessageBox::information(this, "Запуск игры", gameID);
 }
 
-void MainWindow::refreshPushButtonClicked()
+void MainWindow::refreshNetGameList()
 {
     ui->listNewGames->clear();
     qDebug() << "Updating list from " << ui->lineUpdateUrl->text();
@@ -166,7 +166,9 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml )
     while( !xml->atEnd() ) {
         xml->readNext();
         if ( xml->isStartElement() ) {
-            if( xml->name() == "name" )
+	    if( xml->name() == "name" )
+        	info.setName( xml->readElementText() );
+            else if( xml->name() == "title" )
         	info.setTitle( xml->readElementText() );
             else if(xml->name() == "version")
         	info.setVersion( xml->readElementText() );
@@ -177,9 +179,11 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml )
             break;
     }
     // TODO: проверить что такой же версии игры нет в локальном списке
-    qDebug("Adding game to the list %s", info.title().toLocal8Bit().data());
-    NetGameItem *game = new NetGameItem( ui->listNewGames );
-    game->setInfo( info );
+    if ( !hasLocalGame( info ) ) {
+	qDebug("Adding game to the list %s", info.title().toLocal8Bit().data());
+	NetGameItem *game = new NetGameItem( ui->listNewGames );
+	game->setInfo( info );
+    }
 }
 
 
@@ -203,7 +207,7 @@ void MainWindow::gameServerResponseHeaderReceived ( const QHttpResponseHeader & 
 
 
 
-void MainWindow::gameServerDone(bool error)
+void MainWindow::gameServerDone( bool error )
 {
     setEnabled( true );
     m_gameLoadProgress->reset();
@@ -211,10 +215,12 @@ void MainWindow::gameServerDone(bool error)
     if(!error){
         const QString games_dir = getGameDirPath();
         const QString arch_name = games_dir + m_downloadingFileName;
-        m_gameFile->copy(arch_name);
+        m_gameFile->copy( arch_name );
         qUnzip(arch_name, games_dir);
+        QFile::remove( arch_name );
         QMessageBox::information(this, "Игра загружена и распакована", "Игра загружена и распакована");
 	refreshLocalGameList();
+	refreshNetGameList();
     }
     else {        
         qWarning("WARN: Game load error");
@@ -262,6 +268,15 @@ bool MainWindow::getLocalGameInfo(const QDir gameDir, const QString gameID, Game
     info.setVersion( version );
 
     return true;
+}
+
+bool MainWindow::hasLocalGame( const GameInfo &info ) {
+    for( int i = 0; i < ui->listGames->topLevelItemCount(); i++ ) {
+	LocalGameItem *item = ( ( LocalGameItem * )ui->listGames->topLevelItem( i ) );
+	if ( item->info() == info )
+	    return true;
+    }
+    return false;
 }
 
 // Обновление списка установленных игр

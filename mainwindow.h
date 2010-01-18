@@ -56,7 +56,8 @@ public:
     }
 
     bool operator==( const GameInfo &info ) {
-	return ( m_name == info.m_name ) && ( m_version == m_version );
+//	qDebug( "%s ? %s |  %s ? %s", m_name.toLocal8Bit().data(), info.m_name.toLocal8Bit().data(), m_version.toLocal8Bit().data(), info.m_version.toLocal8Bit().data() );
+	return ( m_name == info.m_name ) && ( m_version == info.m_version );
     }
 
 private:
@@ -109,6 +110,7 @@ public:
 private:
 
     bool getLocalGameInfo( const QDir gameDir, const QString gameID, GameInfo &info );
+    bool hasLocalGame( const GameInfo & );
 
     void parseGameList( QXmlStreamReader *xml );
     void parseGameInfo( QXmlStreamReader *xml );
@@ -125,9 +127,10 @@ private:
 private slots:
 
     void refreshLocalGameList();
+    void refreshNetGameList();
 
     void installPushButtonClicked();
-    void refreshPushButtonClicked();
+
     void playPushButtonClicked();
 
     void listServerDone( bool );
