@@ -83,6 +83,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect( ui->installPushButton, SIGNAL( clicked() ), this, SLOT( installPushButtonClicked() ) );
     connect( ui->refreshPushButton, SIGNAL( clicked() ), this, SLOT( refreshNetGameList() ) );
     connect( ui->playPushButton, SIGNAL( clicked() ), this, SLOT( playPushButtonClicked() ) );
+
+    if (ui->autoRefreshCheckBox->isChecked()) {
+        refreshNetGameList();
+    }
 }
 
 MainWindow::~MainWindow()
@@ -346,6 +350,7 @@ void MainWindow::refreshLocalGameList() {
 void MainWindow::resetConfig() {
     ui->lineUpdateUrl->setText( DEFAULT_UPDATE_URL );
     ui->lineInsteadPath->setText( getDefaultInterpreterPath() );
+    ui->autoRefreshCheckBox->setChecked(false);
 }
 
 void MainWindow::loadConfig() {
@@ -368,6 +373,8 @@ void MainWindow::loadConfig() {
                 ui->lineUpdateUrl->setText(value);
             } else if (key == "InsteadPath") {
                 ui->lineInsteadPath->setText(value);
+            } else if (key == "AutoRefresh") {
+                ui->autoRefreshCheckBox->setChecked( value=="true" );
             }
         }
     }
@@ -383,6 +390,7 @@ void MainWindow::saveConfig() {
     QTextStream config(&configFile);
     config << "UpdateURL=" << ui->lineUpdateUrl->text() << endl;
     config << "InsteadPath=" << ui->lineInsteadPath->text() << endl;
+    config << "AutoRefresh=" << (ui->autoRefreshCheckBox->isChecked() ? "true" : "false") << endl;
     qDebug() << "Config saved";
 }
 
