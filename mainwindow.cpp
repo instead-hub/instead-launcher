@@ -96,11 +96,24 @@ void MainWindow::playPushButtonClicked()
     qDebug() << "Launching " << command;
     m_process = new QProcess();
     m_process->start(command);
+    connect( m_process, SIGNAL(started()), this, SLOT( processStarted()) );
+    connect( m_process, SIGNAL(error(QProcess::ProcessError)), this, SLOT( processError(QProcess::ProcessError)) );
     connect( m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT( processFinished(int, QProcess::ExitStatus)) );
+}
+
+void MainWindow::processStarted() {
+    qDebug() << "Succesfully launched";
     hide();
 }
 
+void MainWindow::processError( QProcess::ProcessError error) {
+    m_process->deleteLater();
+    qDebug() << "Creation error ";
+    QMessageBox::critical(this, "Ошибка запуска", "Не удалось запустить игру");
+}
+
 void MainWindow::processFinished( int exitCode, QProcess::ExitStatus exitStatus ) {
+    m_process->deleteLater();
     qDebug() << "Game closed";
     show();
 }
