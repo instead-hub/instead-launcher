@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "qunzip.h"
 #include <QDebug>
 #include <QMessageBox>
 #include <QRegExp>
@@ -188,18 +189,23 @@ void MainWindow::on_game_server_responseHeaderReceived ( const QHttpResponseHead
     m_gameLoadProgress->setMaximum(resp.contentLength());
 }
 
+
+
 void MainWindow::on_game_server_done(bool error)
 {
     m_gameLoadProgress->reset();
+    ui->buttonInstall->setEnabled(true);
     if(!error){
-        ui->buttonInstall->setEnabled(true);
-        m_gameFile->copy(QDir::home().absolutePath()+"/.instead/games/" + m_downloadingFileName);
-        QMessageBox::information(this, "Игра загружена", "Игра загружена");
+        const QString games_dir = QDir::home().absolutePath()+"/.instead/games/";
+        const QString arch_name = QDir::home().absolutePath()+"/.instead/games/" + m_downloadingFileName;
+        m_gameFile->copy(arch_name);
+        qUnzip(arch_name, games_dir);
+        QMessageBox::information(this, "Игра загружена и распакована", "Игра загружена и распакована");
     }
-    else {
-        ui->buttonInstall->setEnabled(true);
+    else {        
         qWarning("WARN: Game load error");
     }
+    m_gameFile->close();
 }
 
 

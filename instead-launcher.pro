@@ -6,6 +6,14 @@ QT += network \
 TARGET = instead-launcher
 TEMPLATE = app
 SOURCES += main.cpp \
-    mainwindow.cpp
-HEADERS += mainwindow.h
+    mainwindow.cpp \
+    unzip/unzip.c \
+    unzip/ioapi.c \
+    qunzip.cpp
+HEADERS += mainwindow.h \
+    unzip/unzip.h \
+    unzip/ioapi.h \
+    qunzip.h
 FORMS += mainwindow.ui
+LIBS += -qt-zlib # use zlib embedded into qt
+DEFINES += NOUNCRIPT # need for unzip library build
