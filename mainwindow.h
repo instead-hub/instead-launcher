@@ -1,17 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QtGui/QMainWindow>
-#include <QtCore/QTimer>
-
-class QDir;
-class QHttp;
-class QXmlStreamReader;
-class QProgressDialog;
-class QTreeWidgetItem;
-class QTemporaryFile;
-class QHttpResponseHeader;
-class QTreeWidgetItem;
+#include <QtGui>
+#include <QtCore>
+#include <QtXml>
+#include <QtNetwork>
 
 namespace Ui
 {
@@ -33,24 +26,22 @@ public:
     ~MainWindow();
 
 private:
-    Ui::MainWindow *ui;
+    bool getLocalGameInfo( const QDir gameDir, const QString gameID, GameInfo &info );
 
-    QHttp *list_server;
-    QProgressDialog *m_listLoadProgress;
-    void readGameList(QXmlStreamReader *xml);
-    void readGame(QXmlStreamReader *xml);
+    void parseGameList( QXmlStreamReader *xml );
+    void parseGameInfo( QXmlStreamReader *xml );
 
-    QHttp *game_server;
-    QProgressDialog *m_gameLoadProgress;
-    QTemporaryFile *m_gameFile;
     void downloadGame(QTreeWidgetItem *game);
     QString getGameDirPath() const;
 
+    QTemporaryFile *m_gameFile;
+    QHttp *m_listServer, *m_gameServer;
+    QProgressDialog *m_listLoadProgress, *m_gameLoadProgress;
     QString m_downloadingFileName;
-
-    bool getLocalGameInfo(const QDir gameDir, const QString gameID, GameInfo &info);
+    Ui::MainWindow *ui;
 
 private slots:
+
     void refreshLocalGameList();
 
     void installPushButtonClicked();

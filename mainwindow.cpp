@@ -50,25 +50,21 @@ MainWindow::MainWindow(QWidget *parent)
 
     refreshLocalGameList();
 
-    list_server = new QHttp(this);
-    connect( list_server, SIGNAL( done( bool ) ), this, SLOT( listServerDone( bool ) ) );
+    m_listServer = new QHttp(this);
+    connect( m_listServer, SIGNAL( done( bool ) ), this, SLOT( listServerDone( bool ) ) );
 
     m_listLoadProgress = new QProgressDialog(parent);
     m_listLoadProgress->setLabelText("Загрузка списка игр ...");
-//    m_listLoadProgress->setWindowModality(Qt::WindowModal);
-    connect(m_listLoadProgress, SIGNAL(canceled()), list_server, SLOT(abort()));
-    connect( list_server, SIGNAL( dataReadProgress( int, int ) ), m_listLoadProgress, SLOT( setValue( int ) ) );
+    connect( m_listLoadProgress, SIGNAL(canceled()), m_listServer, SLOT(abort()));
+    connect( m_listServer, SIGNAL( dataReadProgress( int, int ) ), m_listLoadProgress, SLOT( setValue( int ) ) );
 
-    game_server = new QHttp(this);
-    connect(game_server, SIGNAL(done(bool)), this, SLOT( gameServerDone(bool)));
-    connect(game_server, SIGNAL( responseHeaderReceived( QHttpResponseHeader ) ), this, SLOT( gameServerResponseHeaderReceived(QHttpResponseHeader)));
+    m_gameServer = new QHttp( this );
+    connect( m_gameServer, SIGNAL( done(bool ) ), this, SLOT( gameServerDone( bool ) ) );
+    connect( m_gameServer, SIGNAL( responseHeaderReceived( QHttpResponseHeader ) ), this, SLOT( gameServerResponseHeaderReceived( QHttpResponseHeader ) ) );
 
     m_gameLoadProgress = new QProgressDialog(parent);
-//    m_gameLoadProgress->setLabelText("Загрузка игры GAME_NAME...");
-//    m_gameLoadProgress->setWindowModality(Qt::WindowModal);
-    connect( game_server, SIGNAL( dataReadProgress( int, int ) ), m_gameLoadProgress, SLOT( setValue( int ) ) );
-    connect(m_gameLoadProgress, SIGNAL(canceled()), game_server, SLOT(abort()));
-
+    connect( m_gameServer, SIGNAL( dataReadProgress( int, int ) ), m_gameLoadProgress, SLOT( setValue( int ) ) );
+    connect( m_gameLoadProgress, SIGNAL(canceled()), m_gameServer, SLOT(abort()));
 
     connect( ui->installPushButton, SIGNAL( clicked() ), this, SLOT( installPushButtonClicked() ) );
     connect( ui->refreshPushButton, SIGNAL( clicked() ), this, SLOT( refreshPushButtonClicked() ) );
@@ -93,9 +89,9 @@ void MainWindow::refreshPushButtonClicked()
     ui->listNewGames->clear();
     qDebug() << "Updating list from " << ui->lineUpdateUrl->text();
     QUrl url(ui->lineUpdateUrl->text());
-    list_server->setHost(url.host());
+    m_listServer->setHost(url.host());
     setEnabled( false );
-    list_server->get(url.path());
+    m_listServer->get(url.path());
 //    m_listLoadProgress->setMinimumDuration(2000);
     m_listLoadProgress->setValue(0);
 }
@@ -113,11 +109,11 @@ void MainWindow::listServerDone(bool error)
     setEnabled( true );
     m_listLoadProgress->reset();
     if(!error) {
-        QXmlStreamReader xml(list_server->readAll());
+        QXmlStreamReader xml( m_listServer->readAll() );
         while (!xml.atEnd()) {
             xml.readNext();
             if (xml.isStartElement() && xml.name() == "game_list" && xml.attributes().value("version") == "1.0") {
-                readGameList(&xml);
+                parseGameList(&xml);
                 break; // it should be only one game list
             }
         }
@@ -132,19 +128,19 @@ void MainWindow::listServerDone(bool error)
     }
 }
 
-void MainWindow::readGameList(QXmlStreamReader *xml)
+void MainWindow::parseGameList( QXmlStreamReader *xml )
 {
     Q_ASSERT(xml->name() == "game_list");
     while (!xml->atEnd()) {
         xml->readNext();
-        if (xml->isStartElement() && xml->name() == "game") {
+        if ( xml->isStartElement() && xml->name() == "game" ) {
             qDebug("A game in the list!");
-            readGame(xml);
+            parseGameInfo( xml );
         }
     }
 }
 
-void MainWindow::readGame(QXmlStreamReader *xml)
+void MainWindow::parseGameInfo( QXmlStreamReader *xml )
 {
     Q_ASSERT(xml->name() == "game");
     GameItem *game = new GameItem();
@@ -182,9 +178,9 @@ void MainWindow::downloadGame(QTreeWidgetItem *game)
     Q_ASSERT(game!=NULL);
     m_gameFile = new QTemporaryFile();
     QUrl url(static_cast<GameItem*>(game)->getUrl());
-    game_server->setHost(url.host());
+    m_gameServer->setHost(url.host());
     setEnabled( false );
-    game_server->get(url.path(), m_gameFile);
+    m_gameServer->get(url.path(), m_gameFile);
     m_downloadingFileName = url.path().split( "/" ).last();
     m_gameLoadProgress->setLabelText( QString( "Загрузка игры \"%1\"..." ).arg( ( ( GameItem * )game )->name() ) );
     m_gameLoadProgress->setValue(0);
