@@ -59,6 +59,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     m_ui->setupUi(this);
 
+    setWindowTitle( "instead-launcher" );
+    setWindowIcon( QIcon( ":/resources/icon.png" ) );
+
     resetConfig();
     loadConfig();
 

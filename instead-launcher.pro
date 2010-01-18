@@ -17,3 +17,4 @@ HEADERS += mainwindow.h \
 FORMS += mainwindow.ui
 LIBS += -qt-zlib # use zlib embedded into qt
 DEFINES += NOUNCRIPT # need for unzip library build
+RESOURCES += instead-launcher.qrc
