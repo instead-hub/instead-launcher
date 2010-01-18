@@ -120,6 +120,7 @@ private:
     QString getGameDirPath() const;
     QString getDefaultInterpreterPath() const;
     QString getConfigPath() const;
+    bool checkOrCreateGameDir();
 
     void resetConfig();
     void loadConfig();

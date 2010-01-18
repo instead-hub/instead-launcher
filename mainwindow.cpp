@@ -328,13 +328,8 @@ void MainWindow::refreshLocalGameList() {
     QDir gameDir(gamePath);
     qDebug() << "game path: " << gamePath;
 
-    // если директория не существует, то создаем ее
-    if ( !gameDir.exists() ) {
-        qDebug() << "created games directory";
-        if ( !QDir::home().mkpath( ".instead/games" ) ) {
-            QMessageBox::critical(this, tr( "Error" ), tr( "Can't create dir" ) + ": " + gamePath);
-            return;
-        }
+    if (!checkOrCreateGameDir()) {
+        return;
     }
 
     // просматриваем все подкаталоги
@@ -407,13 +402,39 @@ void MainWindow::resetPushButtonClicked() {
 
 // Platform specific functions. Maybe move them into "platform.h" ?
 
+bool MainWindow::checkOrCreateGameDir() {
+    QDir gameDir(getGameDirPath());
+    if ( gameDir.exists() ) return true;
+
+    // если директория не существует, то создаем ее
+
+    qDebug() << "created games directory";
+    bool result = false;
+
+#ifdef Q_OS_UNIX
+    result = QDir::home().mkpath( ".instead/games" );
+
+#elif defined(Q_OS_WIN32)
+    result = QDir::home().mkpath( "Local Settings\\Application Data\\instead\\games" );
+
+#endif
+
+    if (!result) {
+        QMessageBox::critical(this, tr( "Error" ), tr( "Can't create dir" ) + ": " + gameDir.absolutePath());
+        qWarning() << "Can't create games directory";
+        return false;
+    }
+
+    return true;
+}
+
 QString MainWindow::getGameDirPath() const
 {
 #ifdef Q_OS_UNIX
     return QDir::home().absolutePath() + "/.instead/games/";
 
-#elif defined Q_OS_WIN
-    return "dummy";
+#elif defined(Q_OS_WIN32)
+    return QDir::toNativeSeparators(QDir::home().absolutePath()) + "\\Local Settings\\Application Data\\instead\\games\\";
 
 #else
 #error "Unsupported OS"
@@ -425,8 +446,8 @@ QString MainWindow::getConfigPath() const
 #ifdef Q_OS_UNIX
     return QDir::home().absolutePath() + "/.instead/launcher.conf";
 
-#elif defined Q_OS_WIN
-    return "dummy";
+#elif defined(Q_OS_WIN32)
+    return QDir::toNativeSeparators(QDir::home().absolutePath()) + "\\Local Settings\\Application Data\\instead\\launcher.conf";
 
 #else
 #error "Unsupported OS"
@@ -437,8 +458,8 @@ QString MainWindow::getDefaultInterpreterPath() const {
 #ifdef Q_OS_UNIX
     return "/usr/local/bin/sdl-instead";
 
-#elif defined Q_OS_WIN
-    return "dummy"; //TODO
+#elif defined(Q_OS_WIN32)
+    return "c:\\Program Files\\Pinebrush games\\INSTEAD\\sdl-instead.exe";
 
 #else
 #error "Unsupported OS"
