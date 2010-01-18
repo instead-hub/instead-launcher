@@ -63,7 +63,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(game_server, SIGNAL(done(bool)), this, SLOT(on_game_server_done(bool)));
     connect(game_server, SIGNAL(responseHeaderReceived(QHttpResponseHeader)), this, SLOT(on_game_server_responseHeaderReceived(QHttpResponseHeader)));
 
-    m_gameLoadProgress = new QProgressDialog(this);
+    m_gameLoadProgress = new QProgressDialog(parent);
 //    m_gameLoadProgress->setLabelText("Загрузка игры GAME_NAME...");
 //    m_gameLoadProgress->setWindowModality(Qt::WindowModal);
     connect( game_server, SIGNAL( dataReadProgress( int, int ) ), m_gameLoadProgress, SLOT( setValue( int ) ) );
