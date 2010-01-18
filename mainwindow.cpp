@@ -55,7 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_listLoadProgress = new QProgressDialog(parent);
     m_listLoadProgress->setLabelText("Загрузка списка игр ...");
-    m_listLoadProgress->setWindowModality(Qt::WindowModal);
+//    m_listLoadProgress->setWindowModality(Qt::WindowModal);
     connect(m_listLoadProgress, SIGNAL(canceled()), list_server, SLOT(abort()));
     connect( list_server, SIGNAL( dataReadProgress( int, int ) ), m_listLoadProgress, SLOT( setValue( int ) ) );
 
@@ -65,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_gameLoadProgress = new QProgressDialog(this);
 //    m_gameLoadProgress->setLabelText("Загрузка игры GAME_NAME...");
-    m_gameLoadProgress->setWindowModality(Qt::WindowModal);
+//    m_gameLoadProgress->setWindowModality(Qt::WindowModal);
     connect( game_server, SIGNAL( dataReadProgress( int, int ) ), m_gameLoadProgress, SLOT( setValue( int ) ) );
     connect(m_gameLoadProgress, SIGNAL(canceled()), game_server, SLOT(abort()));
 
@@ -90,7 +90,7 @@ void MainWindow::on_buttonRefresh_clicked()
     qDebug() << "Updating list from " << ui->lineUpdateUrl->text();
     QUrl url(ui->lineUpdateUrl->text());
     list_server->setHost(url.host());
-
+    setEnabled( false );
     list_server->get(url.path());
 //    m_listLoadProgress->setMinimumDuration(2000);
     m_listLoadProgress->setValue(0);
@@ -100,6 +100,7 @@ void MainWindow::on_list_server_done(bool error)
 {
     qDebug("List has been downloaded");
 
+    setEnabled( true );
     m_listLoadProgress->reset();
     if(!error) {
         QXmlStreamReader xml(list_server->readAll());
@@ -176,6 +177,7 @@ void MainWindow::downloadGame(QTreeWidgetItem *game)
     m_gameFile = new QTemporaryFile();
     QUrl url(static_cast<GameItem*>(game)->getUrl());
     game_server->setHost(url.host());
+    setEnabled( false );
     game_server->get(url.path(), m_gameFile);
     m_downloadingFileName = url.path().split( "/" ).last();
     m_gameLoadProgress->setLabelText( QString( "Загрузка игры \"%1\"..." ).arg( ( ( GameItem * )game )->name() ) );
@@ -192,6 +194,7 @@ void MainWindow::on_game_server_responseHeaderReceived ( const QHttpResponseHead
 
 void MainWindow::on_game_server_done(bool error)
 {
+    setEnabled( true );
     m_gameLoadProgress->reset();
     ui->buttonInstall->setEnabled(true);
     if(!error){
