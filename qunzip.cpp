@@ -45,10 +45,16 @@ static int do_extract_currentfile(unzFile uf, const QString &targetDir)
             qDebug("error %d with zipfile in unzOpenCurrentFile\n",err);
         }
 
+	QString targetPath = targetDir + write_filename;
 
-        QFile fo(targetDir + write_filename);
-        qDebug() << "Try to open this: " << targetDir + write_filename;
+        QFile fo( targetPath );
+
+        qDebug() << "Try to open this: " << targetPath;
         if (err==UNZ_OK) {
+            if ( !QDir().mkpath( QFileInfo( targetPath ).path() ) ) {
+        	qWarning("can't create target dir: %s\n", targetDir.toLocal8Bit().data() );
+            }
+
             fo.open(QIODevice::WriteOnly);
 
             /* some zipfile don't contain directory alone before file */
@@ -63,7 +69,7 @@ static int do_extract_currentfile(unzFile uf, const QString &targetDir)
 //            }
 
             if (!fo.isOpen()||!fo.isWritable()) {
-                qWarning("error opening %s\n",write_filename);
+                qWarning("error opening %s\n", targetPath.toLocal8Bit().data());
             }
         }
 
