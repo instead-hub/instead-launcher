@@ -57,7 +57,11 @@ class LocalGameItem: public QTreeWidgetItem {
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), m_ui(new Ui::MainWindow)
 {
-//    qDebug() << QLocale::languageToString( QLocale().language() );
+    QString langSuffix = QLocale().name().split( "_" ).first();
+    QTranslator *translator = new QTranslator( this );
+    if ( !translator->load( "instead-launcher_" + langSuffix + ".qm" ) )
+	qWarning() << "(not ready yet) can't load translator for" << langSuffix ;
+    QApplication::installTranslator( translator );
 
     m_ui->setupUi(this);
     m_ui->listGames->header()->setResizeMode( 0, QHeaderView::Stretch );

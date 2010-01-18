@@ -1,6 +1,6 @@
 // we really need this ?
 // yes, it's always included
-//#ifdef Q_OS_UNIX
+//#ifdef Q_OS_LINUX
 #include <linux/limits.h>
 //#endif
 
