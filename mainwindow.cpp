@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include "qunzip.h"
 
+#define DEFAULT_UPDATE_URL "http://instead-launcher.googlecode.com/files/game_list.xml"
+
 class NetGameItem: public QTreeWidgetItem {
     public:
 	NetGameItem() {
@@ -57,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    ui->lineInsteadPath->setText( getDefaultInterpreterPath() );
+    resetConfig();
     loadConfig();
 
     refreshLocalGameList();
@@ -341,6 +343,11 @@ void MainWindow::refreshLocalGameList() {
     
 }
 
+void MainWindow::resetConfig() {
+    ui->lineUpdateUrl->setText( DEFAULT_UPDATE_URL );
+    ui->lineInsteadPath->setText( getDefaultInterpreterPath() );
+}
+
 void MainWindow::loadConfig() {
     QFile configFile(getConfigPath());
     if (!configFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -378,6 +385,12 @@ void MainWindow::saveConfig() {
     config << "InsteadPath=" << ui->lineInsteadPath->text() << endl;
     qDebug() << "Config saved";
 }
+
+void MainWindow::on_resetPushButton_clicked()
+{
+    resetConfig();
+}
+
 
 // Platform specific functions. Maybe move them into "platform.h" ?
 
@@ -421,3 +434,4 @@ QString MainWindow::getDefaultInterpreterPath() const {
 #error "Unsupported OS"
 #endif
 }
+

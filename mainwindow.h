@@ -121,6 +121,7 @@ private:
     QString getDefaultInterpreterPath() const;
     QString getConfigPath() const;
 
+    void resetConfig();
     void loadConfig();
     void saveConfig();
 
@@ -133,6 +134,7 @@ private:
 
 private slots:
 
+    void on_resetPushButton_clicked();
     void refreshLocalGameList();
     void refreshNetGameList();
 
