@@ -1,4 +1,5 @@
 // we really need this ?
+// yes, it's always included
 #ifdef Q_OS_LINUX
 #include #include <linux/limits.h>
 #endif

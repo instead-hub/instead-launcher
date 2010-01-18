@@ -75,7 +75,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect( m_listServer, SIGNAL( done( bool ) ), this, SLOT( listServerDone( bool ) ) );
 
     m_listLoadProgress = new QProgressDialog(parent);
-    m_listLoadProgress->setLabelText("Загрузка списка игр ...");
+    m_listLoadProgress->setLabelText( tr( "Game list downloading" ) + "..." );
     connect( m_listLoadProgress, SIGNAL(canceled()), m_listServer, SLOT(abort()));
     connect( m_listServer, SIGNAL( dataReadProgress( int, int ) ), m_listLoadProgress, SLOT( setValue( int ) ) );
 
@@ -125,7 +125,7 @@ void MainWindow::processStarted() {
 void MainWindow::processError( QProcess::ProcessError error) {
     m_process->deleteLater();
     qDebug() << "Creation error ";
-    QMessageBox::critical(this, "Ошибка запуска", "Не удалось запустить игру");
+    QMessageBox::critical(this, tr( "Can't run the game" ), tr( "Make sure that INSTEAD has been installed" ) + "." );
 }
 
 void MainWindow::processFinished( int exitCode, QProcess::ExitStatus exitStatus ) {
@@ -151,7 +151,7 @@ void MainWindow::installPushButtonClicked() {
 }
 
 void MainWindow::listServerDone(bool error) {
-    qDebug("List has been downloaded");
+    qDebug( "List has been downloaded" );
 
     setEnabled( true );
     m_listLoadProgress->reset();
@@ -159,7 +159,7 @@ void MainWindow::listServerDone(bool error) {
         QXmlStreamReader xml( m_listServer->readAll() );
         while (!xml.atEnd()) {
             xml.readNext();
-            if (xml.isStartElement() && xml.name() == "game_list" && xml.attributes().value("version") == "1.0") {
+            if (xml.isStartElement() && xml.name() == "game_list" && xml.attributes().value( "version" ) == "1.0" ) {
                 parseGameList(&xml);
                 break; // it should be only one game list
             }
@@ -208,7 +208,7 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
     }
     // TODO: проверить что такой же версии игры нет в локальном списке
     if ( !hasLocalGame( info ) ) {
-	qDebug("Adding game to the list %s", info.title().toLocal8Bit().data());
+	qDebug( "Adding game to the list %s", info.title().toLocal8Bit().data() );
 	NetGameItem *game = new NetGameItem( m_ui->listNewGames );
 	game->setInfo( info );
     }
@@ -223,7 +223,7 @@ void MainWindow::downloadGame( QTreeWidgetItem *game ) {
     setEnabled( false );
     m_gameServer->get( url.path(), m_gameFile );
     m_downloadingFileName = url.path().split( "/" ).last();
-    m_gameLoadProgress->setLabelText( QString( "Загрузка игры \"%1\"..." ).arg( ( ( NetGameItem *)game )->info().title() ) );
+    m_gameLoadProgress->setLabelText( QString( tr( "%1 \"%2\"..." ).arg( tr( "Game downloading" ) ).arg( ( ( NetGameItem *)game )->info().title() ) );
     m_gameLoadProgress->setValue(0);
 }
 
@@ -250,7 +250,7 @@ void MainWindow::gameServerDone( bool error ) {
         if ( !QFile::remove( arch_name ) ) {
 	    qWarning() << "can't remove temporary file: " << arch_name;
         }
-        QMessageBox::information(this, "Игра загружена и распакована", "Игра загружена и распакована");
+        QMessageBox::information( this, tr( "Success" ), tr( "The game has been downloaded and unpacked" ) );
 	refreshLocalGameList();
 	refreshNetGameList();
     }
@@ -326,7 +326,7 @@ void MainWindow::refreshLocalGameList() {
     if ( !gameDir.exists() ) {
         qDebug() << "created games directory";
         if ( !QDir::home().mkpath( ".instead/games" ) ) {
-            QMessageBox::critical(this, "Ошибка", "Не удается создать каталог " + gamePath);
+            QMessageBox::critical(this, tr( "Error" ), tr( "Can't create dir" ) + ": " + gamePath);
             return;
         }
     }
