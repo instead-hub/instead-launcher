@@ -413,7 +413,7 @@ bool MainWindow::checkOrCreateGameDir() {
 #ifdef Q_OS_UNIX
     result = QDir::home().mkpath( ".instead/games" );
 
-#elif defined(Q_OS_WIN32)
+#elif defined(Q_OS_WIN)
     result = QDir::home().mkpath( "Local Settings\\Application Data\\instead\\games" );
 
 #endif
@@ -432,7 +432,7 @@ QString MainWindow::getGameDirPath() const
 #ifdef Q_OS_UNIX
     return QDir::home().absolutePath() + "/.instead/games/";
 
-#elif defined(Q_OS_WIN32)
+#elif defined(Q_OS_WIN)
     return QDir::toNativeSeparators(QDir::home().absolutePath()) + "\\Local Settings\\Application Data\\instead\\games\\";
 
 #else
@@ -445,7 +445,7 @@ QString MainWindow::getConfigPath() const
 #ifdef Q_OS_UNIX
     return QDir::home().absolutePath() + "/.instead/launcher.conf";
 
-#elif defined(Q_OS_WIN32)
+#elif defined(Q_OS_WIN)
     return QDir::toNativeSeparators(QDir::home().absolutePath()) + "\\Local Settings\\Application Data\\instead\\launcher.conf";
 
 #else
@@ -457,7 +457,7 @@ QString MainWindow::getDefaultInterpreterPath() const {
 #ifdef Q_OS_UNIX
     return "/usr/local/bin/sdl-instead";
 
-#elif defined(Q_OS_WIN32)
+#elif defined(Q_OS_WIN)
     return "c:\\Program Files\\Pinebrush games\\INSTEAD\\sdl-instead.exe";
 
 #else
