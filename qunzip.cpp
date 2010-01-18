@@ -1,6 +1,7 @@
 // we really need this ?
 // yes, it's always included
 // but on windows we haven't this :)
+// ok, we'll think about it later, but for linux it's a good way :)
 #if !defined(Q_OS_WIN32)
 #include <linux/limits.h>
 #endif
