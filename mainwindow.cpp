@@ -116,6 +116,11 @@ void MainWindow::playPushButtonClicked()
     QString command = insteadPath + " -game " + gameName;
     qDebug() << "Launching " << command;
     m_process = new QProcess();
+
+#ifdef Q_OS_WIN
+    m_process->setWorkingDirectory("c:\\Program Files\\Pinebrush games\\INSTEAD");
+#endif
+
     m_process->start(command); // may startDetached be better? :)
     connect( m_process, SIGNAL(started()), this, SLOT( processStarted()) );
     connect( m_process, SIGNAL(error(QProcess::ProcessError)), this, SLOT( processError(QProcess::ProcessError)) );
