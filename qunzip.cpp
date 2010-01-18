@@ -1,65 +1,62 @@
+#include <linux/limits.h>
+
 #include <QDir>
 #include <QFile>
 #include <QDebug>
 #include "unzip/unzip.h"
 #include "qunzip.h"
 
+#define UNZ_ERR ( -120 )
+
 // for original do_extract_currentfile see: miniunz.c
-static int do_extract_currentfile(unzFile uf, const QString &targetDir)
+static int do_extract_currentfile( unzFile uf, const QString &targetDir )
 {
-    char filename_inzip[256];
-    char* filename_withoutpath;
-    char* p;
+    char zip_file_path[PATH_MAX];
+    char *file_name_withoutpath;
     int err=UNZ_OK;
     char buf[4096]; //file read buffer
-    uInt size_buf=4096;
-    unz_file_info file_info;
+    unz_file_info zip_file_info;
 
-    err = unzGetCurrentFileInfo(uf,&file_info,filename_inzip,sizeof(filename_inzip),NULL,0,NULL,0);
+    err = unzGetCurrentFileInfo( uf, &zip_file_info, zip_file_path, sizeof( zip_file_path ), NULL, 0, NULL, 0 );
     if (err!=UNZ_OK) {
         qDebug("error %d with zipfile in unzGetCurrentFileInfo\n",err);
         return err;
     }
 
-    p = filename_withoutpath = filename_inzip;
-    while ((*p) != '\0')
+    QString zipFilePath = QString::fromLocal8Bit( zip_file_path );
+    QString targetPath = targetDir + zipFilePath;
+    QString fileName = zipFilePath.split( "/" ).last();
+
+    if ( fileName.isEmpty() ) // is a directory
     {
-        if (((*p)=='/') || ((*p)=='\\'))
-            filename_withoutpath = p+1;
-        p++;
+        qDebug() << "creating directory:" << targetPath;
+        qDebug("creating directory: %s\n", zip_file_path );
+        QDir().mkpath( targetPath );
+        return UNZ_OK;
     }
 
-    if ((*filename_withoutpath)=='\0') //is a directory
-    {
-        qDebug("creating directory: %s\n",filename_inzip);
-        QDir d;
-        d.mkdir(targetDir + filename_inzip);
+    err = unzOpenCurrentFile( uf );
+    if ( err != UNZ_OK ) {
+        qCritical() << "unzOpenCurrentFile returned:" << err;
+        return err;
     }
-    else {
-        const char* write_filename;
 
-        write_filename = filename_inzip;
+    qDebug() << "Try to open: " << targetPath;
+    QFile fo( targetPath );
 
-        err = unzOpenCurrentFile(uf);
-        if (err!=UNZ_OK) {
-            qDebug("error %d with zipfile in unzOpenCurrentFile\n",err);
-        }
+    // check target path directory existance
+    if ( !QDir().mkpath( QFileInfo( targetPath ).path() ) ) {
+        qCritical() << "can't create target dir:" << targetDir;
+    }
 
-	QString targetPath = targetDir + write_filename;
-
-        QFile fo( targetPath );
-
-        qDebug() << "Try to open this: " << targetPath;
-        if (err==UNZ_OK) {
-            if ( !QDir().mkpath( QFileInfo( targetPath ).path() ) ) {
-        	qWarning("can't create target dir: %s\n", targetDir.toLocal8Bit().data() );
-            }
-
-            fo.open(QIODevice::WriteOnly);
+    if ( !fo.open( QIODevice::WriteOnly ) || !fo.isWritable() ) {
+        qCritical() << "can't open target file:" << targetPath;
+	return UNZ_ERR;
+    }
 
             /* some zipfile don't contain directory alone before file */
             //TODO: handle it ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-//            if ((fout==NULL) && filename_withoutpath!=filename_inzip)
+//            if ((fout==NULL) && filename_withoutpath!=filename)
 //            {
 //                char c=*(filename_withoutpath-1);
 //                *(filename_withoutpath-1)='\0';
@@ -68,48 +65,37 @@ static int do_extract_currentfile(unzFile uf, const QString &targetDir)
 //                fout=fopen(write_filename,"wb");
 //            }
 
-            if (!fo.isOpen()||!fo.isWritable()) {
-                qWarning("error opening %s\n", targetPath.toLocal8Bit().data());
-            }
+    qDebug() << "extracting:" << zipFilePath;
+
+    do {
+	err = unzReadCurrentFile( uf, buf, sizeof( buf ) );
+
+        if ( err < 0 ) {
+	    qCritical() << "unzReadCurrentFile returned:" << err;
+            break;
         }
 
-        if (fo.isOpen() && fo.isWritable())
-        {
-            qDebug(" extracting: %s",write_filename);
+        if ( err > 0 && fo.write( buf, err ) != err ) {
+	    qCritical() << "error in writing extracted file";
+            err = UNZ_ERRNO;
+            break;
+        }
 
-            do
-            {
-                err = unzReadCurrentFile(uf,buf,size_buf);
-                if (err<0) {
-                    qWarning("error %d with zipfile in unzReadCurrentFile\n",err);
-                    break;
-                }
-                if (err>0) //then err is number of bytes read by unzReadCurrentFile
-                    if (fo.write(buf, err)!=err) {
-                        qWarning("error in writing extracted file\n");
-                        err=UNZ_ERRNO;
-                        break;
-                    }
-            } while (err>0);
-            if(fo.isOpen()) {
-                fo.close();
-            }
             //TODO: change extracted file's modification date (do we need it?)
 //            if (err==0)
 //                change_file_date(write_filename,file_info.dosDate,
 //                                 file_info.tmu_date);
-        }
+    } while( err > 0 );
 
-        if (err==UNZ_OK) {
-            err = unzCloseCurrentFile (uf);
-            if (err!=UNZ_OK) {
-                qWarning("error %d with zipfile in unzCloseCurrentFile\n",err);
-            }
-        }
-        else
-            unzCloseCurrentFile(uf);
+    fo.close();
+
+    err = unzCloseCurrentFile( uf );
+    if ( err != UNZ_OK ) {
+        qCritical() << "unzCloseCurrentFile returned %d" << err;
+        return err;
     }
-    return err;
+
+    return UNZ_OK;
 }
 
 void qUnzip(QString archPath, QString targetDir)
