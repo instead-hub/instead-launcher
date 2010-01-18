@@ -14,12 +14,12 @@ static int do_extract_currentfile( unzFile uf, const QString &targetDir )
     char zip_file_path[PATH_MAX];
     char *file_name_withoutpath;
     int err=UNZ_OK;
-    char buf[4096]; //file read buffer
+    char buf[4096]; // file read buffer
     unz_file_info zip_file_info;
 
     err = unzGetCurrentFileInfo( uf, &zip_file_info, zip_file_path, sizeof( zip_file_path ), NULL, 0, NULL, 0 );
     if (err!=UNZ_OK) {
-        qDebug("error %d with zipfile in unzGetCurrentFileInfo\n",err);
+        qCritical() << "unzGetCurrentFileInfo returned: %d" << err;
         return err;
     }
 
@@ -30,7 +30,7 @@ static int do_extract_currentfile( unzFile uf, const QString &targetDir )
     if ( fileName.isEmpty() ) // is a directory
     {
         qDebug() << "creating directory:" << targetPath;
-        qDebug("creating directory: %s\n", zip_file_path );
+        qDebug("creating directory: %s", zip_file_path );
         QDir().mkpath( targetPath );
         return UNZ_OK;
     }
@@ -100,37 +100,27 @@ static int do_extract_currentfile( unzFile uf, const QString &targetDir )
 
 void qUnzip(QString archPath, QString targetDir)
 {
-    unzFile uf = unzOpen(archPath.toLocal8Bit().data());
-    if(uf!=NULL) {
-        if(unzOpenCurrentFile(uf)==UNZ_OK) {            
-            unz_global_info gi;
-            if(unzGetGlobalInfo (uf,&gi)==UNZ_OK) {
-                for (int i=0;i<gi.number_entry;i++)
-                {
-                    if (do_extract_currentfile(uf,targetDir) != UNZ_OK)
-                        break;
+    unzFile uf = unzOpen( archPath.toLocal8Bit().data() );
+    if( uf == NULL ) {
+        qCritical() << "can't open archive:" << archPath;
+	return;
+    }
 
-                    if ((i+1)<gi.number_entry)
-                    {
-                        int err = unzGoToNextFile(uf);
-                        if (err!=UNZ_OK)
-                        {
-                            qWarning("error %d with zipfile in unzGoToNextFile\n",err);
-                            break;
-                        }
-                    }
-                }
-            }
-            else {
-                qWarning("WARN: unzGetGlobalInfo");
-            }
-        }
-        else {
-            qWarning("WARN: can't open zip for read");
-        }
+    if( unzOpenCurrentFile( uf ) != UNZ_OK ) {
+        qCritical() << "can't get the first file in archive";
     }
-    else {
-        qWarning("WARN: unzip won't work :(");
+
+    unz_global_info gi;
+    if( unzGetGlobalInfo( uf, &gi ) != UNZ_OK ) {
+        qCritical() << "can't get global info";
     }
-    //TODO: return errorcode
+
+    int err = unzGoToFirstFile( uf );
+    while( err == UNZ_OK ) {
+	if ( do_extract_currentfile( uf, targetDir ) != UNZ_OK ) {
+	    unzClose( uf );
+	    return;
+	}
+	err = unzGoToNextFile( uf );
+    }
 }

@@ -52,7 +52,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     list_server = new QHttp(this);
     connect(list_server, SIGNAL(done(bool)), this, SLOT(on_list_server_done(bool)));
-    connect( list_server, SIGNAL( readyRead( const QHttpResponseHeader & ) ), this, SLOT( readyRead( const QHttpResponseHeader & ) ) );
 
     m_listLoadProgress = new QProgressDialog(parent);
     m_listLoadProgress->setLabelText("Загрузка списка игр ...");
