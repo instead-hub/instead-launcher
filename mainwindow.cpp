@@ -451,36 +451,6 @@ void MainWindow::loadConfig() {
 	}
     }
     conf.endArray();
-    /*
-    QFile configFile(getConfigPath());
-    if (!configFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qWarning() << "Can't open config file. Don't worry :)";
-        return;
-    }
-    QTextStream config(&configFile);
-    QRegExp regex("(.*)=(.*)");
-    while (!config.atEnd()) {
-        QString line = config.readLine();
-        if (!regex.exactMatch(line)) {
-            qWarning() << "Syntax error in line " << line;
-        } else {
-            QString key = regex.capturedTexts()[1];
-            QString value = regex.capturedTexts()[2];
-            qDebug() << key << " = " << value;
-            if (key == "UpdateURL") {
-//                m_ui->lineUpdateUrl->setText(value); //TODO: m_ui->updateUrlList
-            } else if (key == "InsteadPath") {
-                m_ui->lineInsteadPath->setText(value);
-            } else if (key == "AutoRefresh") {
-                m_ui->autoRefreshCheckBox->setChecked( value=="true" );
-            } else if (key == "Language") {
-        	int index = m_ui->langComboBox->findText( value );
-        	m_ui->langComboBox->blockSignals( true );
-                m_ui->langComboBox->setCurrentIndex( index );
-        	m_ui->langComboBox->blockSignals( false );
-            }
-        }
-    }*/
     qDebug() << "Config loaded";
 }
 
@@ -496,18 +466,6 @@ void MainWindow::saveConfig() {
         conf.setValue("URL", m_ui->updateUrlList->item(i)->text());
     }
     conf.endArray();
-    /*
-    QFile configFile(getConfigPath());
-    if (!configFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qWarning() << "Can't save config file!";
-        return;
-    }
-    QTextStream config(&configFile);
-//    config << "UpdateURL=" << m_ui->lineUpdateUrl->text() << endl; //TODO: m_ui->updateUrlList
-    config << "InsteadPath=" << m_ui->lineInsteadPath->text() << endl;
-    config << "AutoRefresh=" << (m_ui->autoRefreshCheckBox->isChecked() ? "true" : "false") << endl;
-    config << "Language=" << m_ui->langComboBox->currentText() << endl;
-    */
     qDebug() << "Config saved";
 }
 
