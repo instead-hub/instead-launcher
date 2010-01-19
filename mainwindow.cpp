@@ -422,7 +422,7 @@ void MainWindow::loadConfig() {
     QSettings conf(getConfigPath(), QSettings::IniFormat);
     QString insteadPath = conf.value("InsteadPath", getDefaultInterpreterPath()).toString();
     bool autoRefresh = conf.value("AutoRefresh", "false").toString() == "true";
-    QString lang = conf.value("Language", "ru").toString(); // TODO: язык системы по дефолту
+    QString lang = conf.value("Language", "ru").toString(); // TODO: язык системы по дефолту; no! it's game languages
 
     m_ui->lineInsteadPath->setText(insteadPath);
     m_ui->autoRefreshCheckBox->setChecked(autoRefresh);
