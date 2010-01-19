@@ -217,6 +217,12 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
         	info.setVersion( xml->readElementText() );
             else if( xml->name() == "url" )
         	info.setUrl( xml->readElementText() );
+            else if( xml->name() == "md5" )
+        	info.setMD5( xml->readElementText() );
+            else if( xml->name() == "instead" )
+        	info.setInstead( xml->readElementText() );
+            else if( xml->name() == "lang" )
+        	info.setInstead( xml->readElementText() );
         }
         if( xml->isEndElement() && xml->name()=="game" )
             break;

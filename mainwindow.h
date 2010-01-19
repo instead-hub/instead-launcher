@@ -74,11 +74,17 @@ public:
 
     NetGameInfo( const NetGameInfo &info ) : GameInfo( info ) {
         m_url = info.m_url;
+	m_md5 = info.m_md5;
+	m_instead = info.m_instead;
+	m_lang = info.m_lang;
     }
 
     virtual NetGameInfo operator=( const NetGameInfo &info ) {
 	GameInfo::operator=( info );
 	m_url = info.m_url;
+	m_md5 = info.m_md5;
+	m_instead = info.m_instead;
+	m_lang = info.m_lang;
 	
 	return *this;
     }
@@ -90,12 +96,39 @@ public:
 	m_url = url;
     }
 
+    void setMD5( const QString &md5 ) {
+	m_md5 = md5;
+    }
+
+    void setInstead( const QString &instead ) {
+	m_instead = instead;
+    }
+
+    void setLang( const QString &lang ) {
+	m_lang = lang;
+    }
+
     QString url() {
 	return m_url;
+    }
+    
+    QString MD5() {
+	return m_md5;
+    }
+
+    QString instead() {
+	return m_instead;
+    }
+
+    QString lang() {
+	return m_lang;
     }
 
     private:
 	QString m_url;
+	QString m_md5;
+	QString m_instead;
+	QString m_lang;
 };
 
 class MainWindow : public QMainWindow
