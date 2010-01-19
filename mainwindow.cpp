@@ -67,6 +67,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->listGames->header()->setResizeMode( 1, QHeaderView::ResizeToContents );
     m_ui->listNewGames->header()->setResizeMode( 0, QHeaderView::Stretch );
     m_ui->listNewGames->header()->setResizeMode( 1, QHeaderView::ResizeToContents );
+    m_ui->listNewGames->header()->setResizeMode( 2, QHeaderView::ResizeToContents );
 
     setWindowTitle( "instead-launcher" );
     setWindowIcon( QIcon( ":/resources/icon.png" ) );
@@ -109,7 +110,7 @@ MainWindow::~MainWindow()
     delete m_ui;
 }
 
-void MainWindow::playPushButtonClicked()
+void MainWindow::playPushButtonClicked() 
 {
     LocalGameItem *item = static_cast<LocalGameItem *>(m_ui->listGames->currentItem());
     QString gameName = item->info().name();
@@ -131,6 +132,12 @@ void MainWindow::playPushButtonClicked()
     connect( m_process, SIGNAL(started()), this, SLOT( processStarted()) );
     connect( m_process, SIGNAL(error(QProcess::ProcessError)), this, SLOT( processError(QProcess::ProcessError)) );
     connect( m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT( processFinished(int, QProcess::ExitStatus)) );
+}
+
+void MainWindow::detailsPushButtonClicked() 
+{
+    QString descUrl = ( ( QObject * )sender() )->property( "descurl" ).toString();
+    QDesktopServices::openUrl( descUrl );
 }
 
 void MainWindow::processStarted() {
@@ -245,6 +252,16 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
 	qDebug( "Adding game to the list %s", info.title().toLocal8Bit().data() );
 	NetGameItem *game = new NetGameItem( m_ui->listNewGames );
 	game->setInfo( info );
+	
+	QWidget *detailsWidget = new QWidget( m_ui->listNewGames );
+	QHBoxLayout *detailsLayout = new QHBoxLayout( detailsWidget );
+	QPushButton *detailsPushButton = new QPushButton( tr( "Learn more..." ), detailsWidget );
+	connect( detailsPushButton, SIGNAL( clicked() ), this, SLOT( detailsPushButtonClicked() ) );
+	detailsPushButton->setProperty( "descurl", info.descUrl() );
+	detailsLayout->addStretch();
+	detailsLayout->addWidget( detailsPushButton );
+	detailsLayout->addStretch();
+	m_ui->listNewGames->setItemWidget( game, 2, detailsWidget );
     }
 }
 

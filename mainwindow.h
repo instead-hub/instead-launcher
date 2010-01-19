@@ -185,6 +185,7 @@ private slots:
 
     void resetPushButtonClicked();
     void playPushButtonClicked();
+    void detailsPushButtonClicked();
 
     void listServerDone( bool );
     void gameServerResponseHeaderReceived( const QHttpResponseHeader & );
