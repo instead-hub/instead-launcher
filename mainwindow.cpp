@@ -107,7 +107,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect( m_ui->installPushButton, SIGNAL( clicked() ), this, SLOT( installPushButtonClicked() ) );
     connect( m_ui->refreshPushButton, SIGNAL( clicked() ), this, SLOT( refreshNetGameList() ) );
-    connect( m_ui->playPushButton, SIGNAL( clicked() ), this, SLOT( playPushButtonClicked() ) );
+    connect( m_ui->playPushButton, SIGNAL( clicked() ), this, SLOT( playSelectedGame() ) );
     connect( m_ui->resetPushButton, SIGNAL( clicked() ), this, SLOT( resetPushButtonClicked() ) );
     connect( m_ui->langComboBox, SIGNAL( activated( int ) ), this, SLOT( refreshNetGameList() ) );
 
@@ -122,7 +122,7 @@ MainWindow::~MainWindow()
     delete m_ui;
 }
 
-void MainWindow::playPushButtonClicked() 
+void MainWindow::playSelectedGame() 
 {
     LocalGameItem *item = static_cast<LocalGameItem *>(m_ui->listGames->currentItem());
     QString gameName = item->info().name();
