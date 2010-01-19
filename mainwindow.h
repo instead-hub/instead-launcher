@@ -20,6 +20,7 @@ public:
 	m_name = info.m_name;
 	m_title = info.m_title;
 	m_version = info.m_version;
+	m_lang = info.m_lang;
     }
 
     ~GameInfo() {
@@ -28,42 +29,53 @@ public:
     void setName( const QString &name ) {
 	m_name = name;
     }
-    
+
     void setTitle( const QString &title ) {
 	m_title = title;
     }
+
     void setVersion( const QString &version ) {
 	m_version = version;
     }
-    
+
+    void setLang( const QString &lang ) {
+	m_lang = lang;
+    }
+
     QString name() const {
 	return m_name;
     }
-    
+
     QString title() const {
 	return m_title;
     }
-    
+
     QString version() const {
 	return m_version;
     }
-    
+
+    QString lang() const {
+	return m_lang;
+    }
+
     virtual GameInfo operator=( const GameInfo &info ) {
 	m_name = info.m_name;
 	m_title = info.m_title;
 	m_version = info.m_version;
-	
+	m_lang = info.m_lang;
+
 	return *this;
     }
 
     bool operator==( const GameInfo &info ) {
-	return ( m_name == info.m_name ) && ( m_version == info.m_version );
+	return ( m_name == info.m_name ) && ( m_version == info.m_version ) && ( m_lang == info.m_lang );
     }
 
 private:
     QString m_name;
     QString m_title;
     QString m_version;
+    QString m_lang;
 };
 
 class NetGameInfo : public GameInfo {
@@ -76,7 +88,6 @@ public:
         m_url = info.m_url;
 	m_md5 = info.m_md5;
 	m_instead = info.m_instead;
-	m_lang = info.m_lang;
     }
 
     virtual NetGameInfo operator=( const NetGameInfo &info ) {
@@ -84,7 +95,6 @@ public:
 	m_url = info.m_url;
 	m_md5 = info.m_md5;
 	m_instead = info.m_instead;
-	m_lang = info.m_lang;
 	
 	return *this;
     }
@@ -104,10 +114,6 @@ public:
 	m_instead = instead;
     }
 
-    void setLang( const QString &lang ) {
-	m_lang = lang;
-    }
-
     QString url() {
 	return m_url;
     }
@@ -120,15 +126,10 @@ public:
 	return m_instead;
     }
 
-    QString lang() {
-	return m_lang;
-    }
-
     private:
 	QString m_url;
 	QString m_md5;
 	QString m_instead;
-	QString m_lang;
 };
 
 class MainWindow : public QMainWindow
