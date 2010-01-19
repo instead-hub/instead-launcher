@@ -261,16 +261,23 @@ void MainWindow::gameServerDone( bool error ) {
     if(!error){
         QString games_dir = getGameDirPath();
         QString arch_name = games_dir + m_downloadingFileName;
+        if ( QFile::exists( arch_name ) ) {
+	    QFile::remove( arch_name );
+        }
         if ( !m_gameFile->copy( arch_name ) ) {
             qCritical() << "can't copy temporary file to the game dir: " << arch_name;
             return;
         }
+	bool unzipped = true;
         if ( !qUnzip( arch_name, games_dir ) ) {
+	    unzipped = false;
             qCritical() << "can't unzip game: " << arch_name;
-	    return;
         }
         if ( !QFile::remove( arch_name ) ) {
-	    qWarning() << "can't remove temporary file: " << arch_name;
+	    qCritical() << "can't remove temporary file: " << arch_name;
+        }
+        if ( !unzipped ) {
+	    return;
         }
         QMessageBox::information( this, tr( "Success" ), tr( "The game has been downloaded and unpacked" ) );
 	refreshLocalGameList();
