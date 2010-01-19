@@ -69,7 +69,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->listGames->header()->setResizeMode( 1, QHeaderView::ResizeToContents );
     m_ui->listGames->header()->setDefaultAlignment( Qt::AlignHCenter );
     m_ui->listNewGames->header()->setResizeMode( 0, QHeaderView::Interactive );
-    m_ui->listNewGames->header()->setResizeMode( 1, QHeaderView::Stretch );
+    m_ui->listNewGames->header()->setResizeMode( 1, QHeaderView::Fixed );
     m_ui->listNewGames->header()->setResizeMode( 2, QHeaderView::Fixed );
     m_ui->listNewGames->header()->setDefaultAlignment( Qt::AlignHCenter );
 
@@ -260,7 +260,7 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
 	QWidget *detailsWidget = new QWidget( m_ui->listNewGames );
 	QHBoxLayout *detailsLayout = new QHBoxLayout( detailsWidget );
 	detailsLayout->setContentsMargins( 0, 5, 7, 0 );
-	QPushButton *detailsPushButton = new QPushButton( tr( "More " ) + "...", detailsWidget );
+	QPushButton *detailsPushButton = new QPushButton( tr( "Open" ) + "...", detailsWidget );
 	detailsPushButton->setMaximumWidth( 80 );
 	connect( detailsPushButton, SIGNAL( clicked() ), this, SLOT( detailsPushButtonClicked() ) );
 	detailsPushButton->setProperty( "descurl", info.descUrl() );
