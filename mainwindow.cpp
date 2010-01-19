@@ -438,13 +438,17 @@ void MainWindow::loadConfig() {
     m_ui->langComboBox->blockSignals( false );
     m_ui->updateUrlList->clear();
     int count = conf.beginReadArray("UpdateURLs");
-    for (int i=0;i<count;i++) {
-        conf.setArrayIndex(i);
-        m_ui->updateUrlList->addItem(conf.value("URL", "").toString());
-        if (i==0) {
-            QListWidgetItem *item = m_ui->updateUrlList->item(i);
-            item->setFlags(item->flags() & ~ (Qt::ItemIsEnabled));
-        }
+    if ( !count ) {
+	m_ui->updateUrlList->addItem( DEFAULT_UPDATE_URL );
+    } else {
+	for (int i=0;i<count;i++) {
+    	    conf.setArrayIndex(i);
+    	    m_ui->updateUrlList->addItem(conf.value("URL", "").toString());
+    	    if (i==0) {
+        	QListWidgetItem *item = m_ui->updateUrlList->item(i);
+        	item->setFlags(item->flags() & ~ (Qt::ItemIsEnabled));
+    	    }
+	}
     }
     conf.endArray();
     /*
