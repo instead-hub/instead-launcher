@@ -222,7 +222,7 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
             else if( xml->name() == "instead" )
         	info.setInstead( xml->readElementText() );
             else if( xml->name() == "lang" )
-        	info.setInstead( xml->readElementText() );
+        	info.setLang( xml->readElementText() );
         }
         if( xml->isEndElement() && xml->name()=="game" )
             break;
