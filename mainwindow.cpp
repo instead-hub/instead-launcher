@@ -64,11 +64,14 @@ MainWindow::MainWindow(QWidget *parent)
 	QApplication::installTranslator( translator );
 
     m_ui->setupUi(this);
+
     m_ui->listGames->header()->setResizeMode( 0, QHeaderView::Stretch );
     m_ui->listGames->header()->setResizeMode( 1, QHeaderView::ResizeToContents );
-    m_ui->listNewGames->header()->setResizeMode( 0, QHeaderView::Stretch );
-    m_ui->listNewGames->header()->setResizeMode( 1, QHeaderView::ResizeToContents );
-    m_ui->listNewGames->header()->setResizeMode( 2, QHeaderView::ResizeToContents );
+    m_ui->listGames->header()->setDefaultAlignment( Qt::AlignHCenter );
+    m_ui->listNewGames->header()->setResizeMode( 0, QHeaderView::Interactive );
+    m_ui->listNewGames->header()->setResizeMode( 1, QHeaderView::Stretch );
+    m_ui->listNewGames->header()->setResizeMode( 2, QHeaderView::Fixed );
+    m_ui->listNewGames->header()->setDefaultAlignment( Qt::AlignHCenter );
 
     setWindowTitle( "instead-launcher" );
     setWindowIcon( QIcon( ":/resources/icon.png" ) );
