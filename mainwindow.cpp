@@ -110,7 +110,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect( m_ui->resetPushButton, SIGNAL( clicked() ), this, SLOT( resetPushButtonClicked() ) );
     connect( m_ui->langComboBox, SIGNAL( activated( int ) ), this, SLOT( refreshNetGameList() ) );
     connect( m_ui->listGames, SIGNAL( itemDoubleClicked( QTreeWidgetItem *, int ) ), this, SLOT( playSelectedGame() ) );
-    connect( m_ui->buttonBrowseInsteadPath, SIGNAL( clicked() ), this, SLOT( browseInsteadPath() ) );
+    connect( m_ui->browseInsteadPath, SIGNAL( clicked() ), this, SLOT( browseInsteadPath() ) );
 
     if (m_ui->autoRefreshCheckBox->isChecked()) {
         refreshNetGameList();
