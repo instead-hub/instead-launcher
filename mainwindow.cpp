@@ -428,6 +428,17 @@ void MainWindow::loadConfig() {
     m_ui->langComboBox->blockSignals( true );
     m_ui->langComboBox->setCurrentIndex( index );
     m_ui->langComboBox->blockSignals( false );
+    m_ui->updateUrlList->clear();
+    int count = conf.beginReadArray("UpdateURLs");
+    for (int i=0;i<count;i++) {
+        conf.setArrayIndex(i);
+        m_ui->updateUrlList->addItem(conf.value("URL", "").toString());
+        if (i==0) {
+            QListWidgetItem *item = m_ui->updateUrlList->item(i);
+            item->setFlags(item->flags() & ~ (Qt::ItemIsEnabled));
+        }
+    }
+    conf.endArray();
     /*
     QFile configFile(getConfigPath());
     if (!configFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -467,6 +478,12 @@ void MainWindow::saveConfig() {
     conf.setValue("InsteadPath", m_ui->lineInsteadPath->text());
     conf.setValue("AutoRefresh", (m_ui->autoRefreshCheckBox->isChecked() ? "true" : "false"));
     conf.setValue("Language", m_ui->langComboBox->currentText());
+    conf.beginWriteArray("UpdateURLs", m_ui->updateUrlList->count());
+    for (int i=0;i<m_ui->updateUrlList->count();i++) {
+        conf.setArrayIndex(i);
+        conf.setValue("URL", m_ui->updateUrlList->item(i)->text());
+    }
+    conf.endArray();
     /*
     QFile configFile(getConfigPath());
     if (!configFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
