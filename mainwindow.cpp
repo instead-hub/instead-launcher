@@ -440,6 +440,8 @@ void MainWindow::loadConfig() {
     int count = conf.beginReadArray("UpdateURLs");
     if ( !count ) {
 	m_ui->updateUrlList->addItem( DEFAULT_UPDATE_URL );
+        QListWidgetItem *item = m_ui->updateUrlList->item(0);
+        item->setFlags(item->flags() & ~ (Qt::ItemIsEnabled));
     } else {
 	for (int i=0;i<count;i++) {
     	    conf.setArrayIndex(i);
