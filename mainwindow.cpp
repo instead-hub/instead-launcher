@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "qunzip.h"
+#include <QSettings>
 
 #define DEFAULT_UPDATE_URL "http://instead-launcher.googlecode.com/files/game_list.xml"
 
@@ -407,6 +408,18 @@ void MainWindow::resetConfig() {
 }
 
 void MainWindow::loadConfig() {
+    QSettings conf(getConfigPath(), QSettings::IniFormat);
+    QString insteadPath = conf.value("InsteadPath", getDefaultInterpreterPath()).toString();
+    bool autoRefresh = conf.value("AutoRefresh", "false").toString() == "true";
+    QString lang = conf.value("Language", "ru").toString(); // TODO: язык системы по дефолту
+
+    m_ui->lineInsteadPath->setText(insteadPath);
+    m_ui->autoRefreshCheckBox->setChecked(autoRefresh);
+    int index = m_ui->langComboBox->findText( lang );
+    m_ui->langComboBox->blockSignals( true );
+    m_ui->langComboBox->setCurrentIndex( index );
+    m_ui->langComboBox->blockSignals( false );
+    /*
     QFile configFile(getConfigPath());
     if (!configFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qWarning() << "Can't open config file. Don't worry :)";
@@ -435,11 +448,17 @@ void MainWindow::loadConfig() {
         	m_ui->langComboBox->blockSignals( false );
             }
         }
-    }
+    }*/
     qDebug() << "Config loaded";
 }
 
+
 void MainWindow::saveConfig() {
+    QSettings conf(getConfigPath(), QSettings::IniFormat);
+    conf.setValue("InsteadPath", m_ui->lineInsteadPath->text());
+    conf.setValue("AutoRefresh", (m_ui->autoRefreshCheckBox->isChecked() ? "true" : "false"));
+    conf.setValue("Language", m_ui->langComboBox->currentText());
+    /*
     QFile configFile(getConfigPath());
     if (!configFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qWarning() << "Can't save config file!";
@@ -450,6 +469,7 @@ void MainWindow::saveConfig() {
     config << "InsteadPath=" << m_ui->lineInsteadPath->text() << endl;
     config << "AutoRefresh=" << (m_ui->autoRefreshCheckBox->isChecked() ? "true" : "false") << endl;
     config << "Language=" << m_ui->langComboBox->currentText() << endl;
+    */
     qDebug() << "Config saved";
 }
 
@@ -502,10 +522,10 @@ QString MainWindow::getGameDirPath() const
 QString MainWindow::getConfigPath() const
 {
 #ifdef Q_OS_UNIX
-    return QDir::home().absolutePath() + "/.instead/launcher.conf";
+    return QDir::home().absolutePath() + "/.instead/launcher.ini";
 
 #elif defined(Q_OS_WIN)
-    return QDir::toNativeSeparators(QDir::home().absolutePath()) + "\\Local Settings\\Application Data\\instead\\launcher.conf";
+    return QDir::toNativeSeparators(QDir::home().absolutePath()) + "\\Local Settings\\Application Data\\instead\\launcher.ini";
 
 #else
 #error "Unsupported OS"
