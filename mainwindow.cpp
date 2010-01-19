@@ -37,9 +37,11 @@ class NetGameItem: public QTreeWidgetItem {
 class LocalGameItem: public QTreeWidgetItem {
     public:
 	LocalGameItem() {
+	    setTextAlignment( 1, Qt::AlignCenter );
 	}
 	
 	LocalGameItem( QTreeWidget *parent ) : QTreeWidgetItem( parent, QTreeWidgetItem::Type ) {
+	    setTextAlignment( 1, Qt::AlignCenter );
 	}
 	
 	~LocalGameItem() {
