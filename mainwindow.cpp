@@ -110,6 +110,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect( m_ui->resetPushButton, SIGNAL( clicked() ), this, SLOT( resetPushButtonClicked() ) );
     connect( m_ui->langComboBox, SIGNAL( activated( int ) ), this, SLOT( refreshNetGameList() ) );
     connect( m_ui->listGames, SIGNAL( itemDoubleClicked( QTreeWidgetItem *, int ) ), this, SLOT( playSelectedGame() ) );
+    connect( m_ui->buttonBrowseInsteadPath, SIGNAL( clicked() ), this, SLOT( browseInsteadPath() ) );
 
     if (m_ui->autoRefreshCheckBox->isChecked()) {
         refreshNetGameList();
@@ -150,6 +151,11 @@ void MainWindow::detailsPushButtonClicked()
 {
     QString descUrl = ( ( QObject * )sender() )->property( "descurl" ).toString();
     QDesktopServices::openUrl( descUrl );
+}
+
+void MainWindow::browseInsteadPath() {
+    QString fileName = QDir::toNativeSeparators(QFileDialog::getOpenFileName(this));
+    if (!fileName.isEmpty()) m_ui->lineInsteadPath->setText(fileName);
 }
 
 void MainWindow::processStarted() {
