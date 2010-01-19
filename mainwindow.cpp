@@ -8,9 +8,13 @@
 class NetGameItem: public QTreeWidgetItem {
     public:
 	NetGameItem() {
+	    setTextAlignment( 1, Qt::AlignCenter );
+	    setTextAlignment( 2, Qt::AlignCenter );
 	}
 	
 	NetGameItem( QTreeWidget *parent ) : QTreeWidgetItem( parent, QTreeWidgetItem::Type ) {
+	    setTextAlignment( 1, Qt::AlignCenter );
+	    setTextAlignment( 2, Qt::AlignCenter );
 	}
 	
 	~NetGameItem() {
@@ -71,7 +75,9 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->listNewGames->header()->setResizeMode( 0, QHeaderView::Interactive );
     m_ui->listNewGames->header()->setResizeMode( 1, QHeaderView::Fixed );
     m_ui->listNewGames->header()->setResizeMode( 2, QHeaderView::ResizeToContents );
-    m_ui->listNewGames->header()->setDefaultAlignment( Qt::AlignHCenter );
+    m_ui->listNewGames->headerItem()->setTextAlignment( 1, Qt::AlignHCenter );
+    m_ui->listNewGames->headerItem()->setTextAlignment( 2, Qt::AlignHCenter );
+    //m_ui->listNewGames->header()->setDefaultAlignment( Qt::AlignHCenter );
 
     setWindowTitle( "instead-launcher" );
     setWindowIcon( QIcon( ":/resources/icon.png" ) );
