@@ -228,7 +228,7 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
             break;
     }
     // TODO: проверить что такой же версии игры нет в локальном списке
-    if ( !hasLocalGame( info ) ) {
+    if ( !hasLocalGame( info ) && ( info.lang() == m_ui->langComboBox->currentText() ) ) {
 	qDebug( "Adding game to the list %s", info.title().toLocal8Bit().data() );
 	NetGameItem *game = new NetGameItem( m_ui->listNewGames );
 	game->setInfo( info );

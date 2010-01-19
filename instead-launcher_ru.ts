@@ -56,13 +56,13 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="38"/>
-        <location filename="mainwindow.ui" line="86"/>
+        <location filename="mainwindow.ui" line="129"/>
         <source>Game</source>
         <translation>Игра</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="43"/>
-        <location filename="mainwindow.ui" line="91"/>
+        <location filename="mainwindow.ui" line="134"/>
         <source>Version</source>
         <translation>Версия</translation>
     </message>
@@ -77,53 +77,73 @@
         <translation>Новые игры</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="101"/>
+        <location filename="mainwindow.ui" line="97"/>
+        <source>Language</source>
+        <translation>Язык</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="105"/>
+        <source>ru</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="110"/>
+        <source>en</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="115"/>
+        <source>es</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="144"/>
         <source>Refresh list</source>
         <oldsource>Refresh</oldsource>
         <translation>Обновить список</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="121"/>
+        <location filename="mainwindow.ui" line="164"/>
         <source>Install</source>
         <translation>Установить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="131"/>
+        <location filename="mainwindow.ui" line="174"/>
         <source>Preferences</source>
         <translation>Установки</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="139"/>
+        <location filename="mainwindow.ui" line="182"/>
         <source>Interpreter path:</source>
         <translation>Путь к интерпретатору:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="157"/>
+        <location filename="mainwindow.ui" line="200"/>
         <source>Browse</source>
         <translation>Обзор</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="166"/>
+        <location filename="mainwindow.ui" line="209"/>
         <source>Update list URL:</source>
         <translation>URL списка обновлений:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="182"/>
+        <location filename="mainwindow.ui" line="225"/>
         <source>Check updates on start</source>
         <translation>Проверять обновления при запуске</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="217"/>
+        <location filename="mainwindow.ui" line="260"/>
         <source>Reset</source>
         <translation>Сбросить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="227"/>
+        <location filename="mainwindow.ui" line="270"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="233"/>
+        <location filename="mainwindow.ui" line="276"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
