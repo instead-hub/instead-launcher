@@ -422,6 +422,10 @@ void MainWindow::resetConfig() {
 //    m_ui->lineUpdateUrl->setText( DEFAULT_UPDATE_URL ); //TODO: m_ui->updateUrlList
     m_ui->lineInsteadPath->setText( getDefaultInterpreterPath() );
     m_ui->autoRefreshCheckBox->setChecked(false);
+    m_ui->updateUrlList->clear();
+    m_ui->updateUrlList->addItem( DEFAULT_UPDATE_URL );
+    QListWidgetItem *item = m_ui->updateUrlList->item(0);
+    item->setFlags(item->flags() & ~ (Qt::ItemIsEnabled));
 }
 
 void MainWindow::loadConfig() {
