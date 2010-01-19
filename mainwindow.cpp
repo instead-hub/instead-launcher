@@ -150,15 +150,24 @@ void MainWindow::processFinished( int exitCode, QProcess::ExitStatus exitStatus 
     show();
 }
 
-void MainWindow::refreshNetGameList() {
-    m_ui->listNewGames->clear();
-    qDebug() << "Updating list from " << m_ui->lineUpdateUrl->text();
-    QUrl url(m_ui->lineUpdateUrl->text());
-    m_listServer->setHost(url.host());
-    setEnabled( false );
-    m_listServer->get(url.path());
-//    m_listLoadProgress->setMinimumDuration(2000);
-    m_listLoadProgress->setValue(0);
+void MainWindow::refreshNetGameList(bool next) {
+    static uint currentIdx=0;
+    if(!next) {
+        currentIdx=0; // in first row we always have official list url
+        m_ui->listNewGames->clear();
+    }
+    QListWidgetItem * currentItem=m_ui->updateUrlList->item(currentIdx);
+    if(currentItem!=NULL) {
+        const QString currentUrl = currentItem->text();
+        currentIdx++;        
+        qDebug() << "Updating list from " << currentUrl;// m_ui->lineUpdateUrl->text();
+        QUrl url(currentUrl);
+        m_listServer->setHost(url.host());
+        setEnabled( false );
+        m_listServer->get(url.path());
+//        m_listLoadProgress->setMinimumDuration(2000);
+        m_listLoadProgress->setValue(0);
+    }
 }
 
 void MainWindow::installPushButtonClicked() {
@@ -186,6 +195,7 @@ void MainWindow::listServerDone(bool error) {
             qWarning("%s", s.toLocal8Bit().data());
         }
         m_ui->listNewGames->resizeColumnToContents(0);
+        refreshNetGameList(true); //load next game list if needed
     }
     else {
         qWarning("WARN: errors while downloading");
@@ -228,7 +238,7 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
         if( xml->isEndElement() && xml->name()=="game" )
             break;
     }
-    // TODO: проверить что такой же версии игры нет в локальном списке
+    // проверяем что такой же версии игры нет в локальном списке
     if ( !hasLocalGame( info ) && ( info.lang() == m_ui->langComboBox->currentText() ) ) {
 	qDebug( "Adding game to the list %s", info.title().toLocal8Bit().data() );
 	NetGameItem *game = new NetGameItem( m_ui->listNewGames );
@@ -372,7 +382,7 @@ void MainWindow::refreshLocalGameList() {
 }
 
 void MainWindow::resetConfig() {
-    m_ui->lineUpdateUrl->setText( DEFAULT_UPDATE_URL );
+//    m_ui->lineUpdateUrl->setText( DEFAULT_UPDATE_URL ); //TODO: m_ui->updateUrlList
     m_ui->lineInsteadPath->setText( getDefaultInterpreterPath() );
     m_ui->autoRefreshCheckBox->setChecked(false);
 }
@@ -394,7 +404,7 @@ void MainWindow::loadConfig() {
             QString value = regex.capturedTexts()[2];
             qDebug() << key << " = " << value;
             if (key == "UpdateURL") {
-                m_ui->lineUpdateUrl->setText(value);
+//                m_ui->lineUpdateUrl->setText(value); //TODO: m_ui->updateUrlList
             } else if (key == "InsteadPath") {
                 m_ui->lineInsteadPath->setText(value);
             } else if (key == "AutoRefresh") {
@@ -417,7 +427,7 @@ void MainWindow::saveConfig() {
         return;
     }
     QTextStream config(&configFile);
-    config << "UpdateURL=" << m_ui->lineUpdateUrl->text() << endl;
+//    config << "UpdateURL=" << m_ui->lineUpdateUrl->text() << endl; //TODO: m_ui->updateUrlList
     config << "InsteadPath=" << m_ui->lineInsteadPath->text() << endl;
     config << "AutoRefresh=" << (m_ui->autoRefreshCheckBox->isChecked() ? "true" : "false") << endl;
     config << "Language=" << m_ui->langComboBox->currentText() << endl;
@@ -494,3 +504,19 @@ QString MainWindow::getDefaultInterpreterPath() const {
 #error "Unsupported OS"
 #endif
 }
+
+void MainWindow::on_addListSource_clicked()
+{
+    QListWidgetItem * newItem = new QListWidgetItem("http://");
+    uint newItemIdx = m_ui->updateUrlList->count();
+    newItem->setFlags(Qt::ItemIsEditable|Qt::ItemIsSelectable|newItem->flags());
+    m_ui->updateUrlList->insertItem(newItemIdx, newItem);
+    m_ui->updateUrlList->editItem(m_ui->updateUrlList->item(newItemIdx));
+}
+
+void MainWindow::on_deleteListSource_clicked()
+{
+    int curr = m_ui->updateUrlList->currentRow();
+    delete m_ui->updateUrlList->takeItem(curr);
+}
+

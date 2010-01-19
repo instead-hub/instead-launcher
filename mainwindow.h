@@ -26,7 +26,7 @@ public:
     ~GameInfo() {
     }
 
-    void setName( const QString &name ) {
+    void setName( const QString &name ) {        
 	m_name = name;
     }
 
@@ -169,7 +169,7 @@ private:
 private slots:
 
     void refreshLocalGameList();
-    void refreshNetGameList();
+    void refreshNetGameList(bool next=false);
 
     void installPushButtonClicked();
 
@@ -183,6 +183,9 @@ private slots:
     void processFinished( int exitCode, QProcess::ExitStatus exitStatus );
     void processStarted();
     void processError( QProcess::ProcessError );
+
+    void on_addListSource_clicked();
+    void on_deleteListSource_clicked();
 };
 
 #endif // MAINWINDOW_H
