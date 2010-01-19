@@ -79,7 +79,6 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->listNewGames->header()->setResizeMode( 2, QHeaderView::ResizeToContents );
     m_ui->listNewGames->headerItem()->setTextAlignment( 1, Qt::AlignHCenter );
     m_ui->listNewGames->headerItem()->setTextAlignment( 2, Qt::AlignHCenter );
-    //m_ui->listNewGames->header()->setDefaultAlignment( Qt::AlignHCenter );
 
     setWindowTitle( "instead-launcher" );
     setWindowIcon( QIcon( ":/resources/icon.png" ) );
@@ -110,6 +109,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect( m_ui->playPushButton, SIGNAL( clicked() ), this, SLOT( playSelectedGame() ) );
     connect( m_ui->resetPushButton, SIGNAL( clicked() ), this, SLOT( resetPushButtonClicked() ) );
     connect( m_ui->langComboBox, SIGNAL( activated( int ) ), this, SLOT( refreshNetGameList() ) );
+    connect( m_ui->listGames, SIGNAL( itemDoubleClicked( QTreeWidgetItem *, int ) ), this, SLOT( playSelectedGame() ) );
 
     if (m_ui->autoRefreshCheckBox->isChecked()) {
         refreshNetGameList();
@@ -178,7 +178,7 @@ void MainWindow::refreshNetGameList(bool next) {
     QListWidgetItem * currentItem=m_ui->updateUrlList->item(currentIdx);
     if(currentItem!=NULL) {
         const QString currentUrl = currentItem->text();
-        currentIdx++;        
+        currentIdx++;
         qDebug() << "Updating list from " << currentUrl;// m_ui->lineUpdateUrl->text();
         QUrl url(currentUrl);
         m_listServer->setHost(url.host());
