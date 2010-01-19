@@ -256,12 +256,12 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
 	
 	QWidget *detailsWidget = new QWidget( m_ui->listNewGames );
 	QHBoxLayout *detailsLayout = new QHBoxLayout( detailsWidget );
-	QPushButton *detailsPushButton = new QPushButton( tr( "Learn more..." ), detailsWidget );
+	detailsLayout->setContentsMargins( 0, 5, 7, 0 );
+	QPushButton *detailsPushButton = new QPushButton( tr( "More " ) + "...", detailsWidget );
+	detailsPushButton->setMaximumWidth( 80 );
 	connect( detailsPushButton, SIGNAL( clicked() ), this, SLOT( detailsPushButtonClicked() ) );
 	detailsPushButton->setProperty( "descurl", info.descUrl() );
-	detailsLayout->addStretch();
 	detailsLayout->addWidget( detailsPushButton );
-	detailsLayout->addStretch();
 	m_ui->listNewGames->setItemWidget( game, 2, detailsWidget );
     }
 }
