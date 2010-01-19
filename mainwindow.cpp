@@ -96,6 +96,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect( m_ui->refreshPushButton, SIGNAL( clicked() ), this, SLOT( refreshNetGameList() ) );
     connect( m_ui->playPushButton, SIGNAL( clicked() ), this, SLOT( playPushButtonClicked() ) );
     connect( m_ui->resetPushButton, SIGNAL( clicked() ), this, SLOT( resetPushButtonClicked() ) );
+    connect( m_ui->langComboBox, SIGNAL( activated( int ) ), this, SLOT( refreshNetGameList() ) );
 
     if (m_ui->autoRefreshCheckBox->isChecked()) {
         refreshNetGameList();
@@ -391,6 +392,11 @@ void MainWindow::loadConfig() {
                 m_ui->lineInsteadPath->setText(value);
             } else if (key == "AutoRefresh") {
                 m_ui->autoRefreshCheckBox->setChecked( value=="true" );
+            } else if (key == "Language") {
+        	int index = m_ui->langComboBox->findText( value );
+        	m_ui->langComboBox->blockSignals( true );
+                m_ui->langComboBox->setCurrentIndex( index );
+        	m_ui->langComboBox->blockSignals( false );
             }
         }
     }
@@ -407,6 +413,7 @@ void MainWindow::saveConfig() {
     config << "UpdateURL=" << m_ui->lineUpdateUrl->text() << endl;
     config << "InsteadPath=" << m_ui->lineInsteadPath->text() << endl;
     config << "AutoRefresh=" << (m_ui->autoRefreshCheckBox->isChecked() ? "true" : "false") << endl;
+    config << "Language=" << m_ui->langComboBox->currentText() << endl;
     qDebug() << "Config saved";
 }
 
@@ -480,4 +487,3 @@ QString MainWindow::getDefaultInterpreterPath() const {
 #error "Unsupported OS"
 #endif
 }
-

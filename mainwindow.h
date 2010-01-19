@@ -68,7 +68,7 @@ public:
     }
 
     bool operator==( const GameInfo &info ) {
-	return ( m_name == info.m_name ) && ( m_version == info.m_version ) && ( m_lang == info.m_lang );
+	return ( m_name == info.m_name ) && ( m_version == info.m_version ); // && ( m_lang == info.m_lang );
     }
 
 private:
