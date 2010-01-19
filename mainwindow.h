@@ -88,6 +88,7 @@ public:
         m_url = info.m_url;
 	m_md5 = info.m_md5;
 	m_instead = info.m_instead;
+	m_descUrl = info.m_descUrl;
     }
 
     virtual NetGameInfo operator=( const NetGameInfo &info ) {
@@ -95,7 +96,7 @@ public:
 	m_url = info.m_url;
 	m_md5 = info.m_md5;
 	m_instead = info.m_instead;
-	
+	m_descUrl = info.m_descUrl;
 	return *this;
     }
 
@@ -114,6 +115,10 @@ public:
 	m_instead = instead;
     }
 
+    void setDescUrl( const QString &descUrl ) {
+	m_descUrl = descUrl;
+    }
+
     QString url() {
 	return m_url;
     }
@@ -126,10 +131,15 @@ public:
 	return m_instead;
     }
 
+    QString descUrl() {
+	return m_descUrl;
+    }
+
     private:
 	QString m_url;
 	QString m_md5;
 	QString m_instead;
+	QString m_descUrl;
 };
 
 class MainWindow : public QMainWindow

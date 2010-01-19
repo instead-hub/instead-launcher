@@ -234,6 +234,8 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
         	info.setInstead( xml->readElementText() );
             else if( xml->name() == "lang" )
         	info.setLang( xml->readElementText() );
+            else if( xml->name() == "descurl" )
+        	info.setDescUrl( xml->readElementText() );
         }
         if( xml->isEndElement() && xml->name()=="game" )
             break;
@@ -519,4 +521,3 @@ void MainWindow::on_deleteListSource_clicked()
     int curr = m_ui->updateUrlList->currentRow();
     delete m_ui->updateUrlList->takeItem(curr);
 }
-
