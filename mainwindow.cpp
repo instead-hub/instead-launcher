@@ -65,12 +65,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_ui->setupUi(this);
 
-    m_ui->listGames->header()->setResizeMode( 0, QHeaderView::Stretch );
+    m_ui->listGames->header()->setResizeMode( 0, QHeaderView::Interactive );
     m_ui->listGames->header()->setResizeMode( 1, QHeaderView::ResizeToContents );
     m_ui->listGames->header()->setDefaultAlignment( Qt::AlignHCenter );
     m_ui->listNewGames->header()->setResizeMode( 0, QHeaderView::Interactive );
     m_ui->listNewGames->header()->setResizeMode( 1, QHeaderView::Fixed );
-    m_ui->listNewGames->header()->setResizeMode( 2, QHeaderView::Fixed );
+    m_ui->listNewGames->header()->setResizeMode( 2, QHeaderView::ResizeToContents );
     m_ui->listNewGames->header()->setDefaultAlignment( Qt::AlignHCenter );
 
     setWindowTitle( "instead-launcher" );
@@ -259,9 +259,9 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
 	
 	QWidget *detailsWidget = new QWidget( m_ui->listNewGames );
 	QHBoxLayout *detailsLayout = new QHBoxLayout( detailsWidget );
-	detailsLayout->setContentsMargins( 0, 5, 7, 0 );
+	detailsLayout->setContentsMargins( 0, 7, 0, 7 );
 	QPushButton *detailsPushButton = new QPushButton( tr( "Open" ) + "...", detailsWidget );
-	detailsPushButton->setMaximumWidth( 80 );
+	detailsPushButton->setMaximumWidth( 100 );
 	connect( detailsPushButton, SIGNAL( clicked() ), this, SLOT( detailsPushButtonClicked() ) );
 	detailsPushButton->setProperty( "descurl", info.descUrl() );
 	detailsLayout->addWidget( detailsPushButton );
