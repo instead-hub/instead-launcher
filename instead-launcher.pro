@@ -8,17 +8,16 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     unzip/unzip.c \
     unzip/ioapi.c \
-    qunzip.cpp
+    qunzip.cpp \
+    platform.cpp
 HEADERS += mainwindow.h \
     unzip/unzip.h \
     unzip/ioapi.h \
-    qunzip.h
+    qunzip.h \
+    platform.h
 FORMS += mainwindow.ui
 LIBS += -qt-zlib # use zlib embedded into qt
 DEFINES += NOUNCRIPT # need for unzip library build
 RESOURCES += instead-launcher.qrc
 TRANSLATIONS += instead-launcher_ru.ts
-
-win32 {
-    INCLUDEPATH += ${QTDIR}/src/3rdparty/zlib
-}
+win32:INCLUDEPATH += ${QTDIR}/src/3rdparty/zlib

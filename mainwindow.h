@@ -159,11 +159,7 @@ private:
     void parseGameList( QXmlStreamReader *xml );
     void parseGameInfo( QXmlStreamReader *xml );
 
-    void downloadGame(QTreeWidgetItem *game);
-    QString getGameDirPath() const;
-    QString getDefaultInterpreterPath() const;
-    QString getConfigPath() const;
-    bool checkOrCreateGameDir(QString gameDir);
+    void downloadGame(QTreeWidgetItem *game);        
 
     void resetConfig();
     void loadConfig();

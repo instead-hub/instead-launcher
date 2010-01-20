@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "qunzip.h"
+#include "platform.h"
 #include <QSettings>
 
 #define DEFAULT_UPDATE_URL "http://instead-launcher.googlecode.com/files/game_list.xml"
@@ -480,6 +481,8 @@ void MainWindow::refreshLocalGameList() {
     qDebug() << "game path: " << gamePath;
 
     if (!checkOrCreateGameDir(gamePath)) {
+        qWarning() << "Can't create games directory";
+        QMessageBox::critical(this, tr( "Error" ), tr( "Can't create dir" ) + ": " + gamePath);
         return;
     }
 
@@ -584,63 +587,6 @@ void MainWindow::tabChanged(int pos) {
         qDebug() << "list dirty! reloading ...";
         refreshLocalGameList();
     }
-}
-
-
-// Platform specific functions. Maybe move them into "platform.h" ?
-
-bool MainWindow::checkOrCreateGameDir( QString gameDir ) {
-
-    QDir dir(gameDir);
-    if (dir.exists()) return true;
-
-    qWarning() << "mkpath " << gameDir;
-
-    if (!dir.mkpath( gameDir )) {
-        QMessageBox::critical(this, tr( "Error" ), tr( "Can't create dir" ) + ": " + gameDir);
-        qWarning() << "Can't create games directory";
-        return false;
-    }
-
-    return true;
-}
-
-QString MainWindow::getGameDirPath() const
-{
-#ifdef Q_OS_UNIX
-    return QDir::home().absolutePath() + "/.instead/games/";
-
-#elif defined(Q_OS_WIN)
-    return QDir::toNativeSeparators(QDir::home().absolutePath()) + "\\Local Settings\\Application Data\\instead\\games\\";
-
-#else
-#error "Unsupported OS"
-#endif
-}
-
-QString MainWindow::getConfigPath() const
-{
-#ifdef Q_OS_UNIX
-    return QDir::home().absolutePath() + "/.instead/launcher.ini";
-
-#elif defined(Q_OS_WIN)
-    return QDir::toNativeSeparators(QDir::home().absolutePath()) + "\\Local Settings\\Application Data\\instead\\launcher.ini";
-
-#else
-#error "Unsupported OS"
-#endif
-}
-
-QString MainWindow::getDefaultInterpreterPath() const {
-#ifdef Q_OS_UNIX
-    return "/usr/local/bin/sdl-instead";
-
-#elif defined(Q_OS_WIN)
-    return "c:\\Program Files\\Pinebrush games\\INSTEAD\\sdl-instead.exe";
-
-#else
-#error "Unsupported OS"
-#endif
 }
 
 void MainWindow::addSourcePushButtonClicked()
