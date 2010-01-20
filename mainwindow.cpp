@@ -514,12 +514,12 @@ void MainWindow::loadConfig() {
     QSettings conf(getConfigPath(), QSettings::IniFormat);
     QString insteadPath = conf.value("InsteadPath", getDefaultInterpreterPath()).toString();
     bool autoRefresh = conf.value("AutoRefresh", "false").toString() == "true";
-    QString lang = conf.value("Language", tr( "all" )).toString(); // TODO: язык системы по дефолту; no! it's game languages
+    QString lang = conf.value( "Language", "*" ).toString();
     QString gamesDir = conf.value("GamesPath", getGameDirPath()).toString();
 
     m_ui->lineInsteadPath->setText(insteadPath);
     m_ui->autoRefreshCheckBox->setChecked(autoRefresh);
-    int index = m_ui->langComboBox->findText( lang );
+    int index = m_ui->langComboBox->findText( ( lang == "*" ) ? tr( "all" ) : lang );
     m_ui->langComboBox->blockSignals( true );
     m_ui->langComboBox->setCurrentIndex( index );
     m_ui->langComboBox->blockSignals( false );
@@ -553,7 +553,7 @@ void MainWindow::saveConfig() {
     QSettings conf(getConfigPath(), QSettings::IniFormat);
     conf.setValue("InsteadPath", m_ui->lineInsteadPath->text());
     conf.setValue("AutoRefresh", (m_ui->autoRefreshCheckBox->isChecked() ? "true" : "false"));
-    conf.setValue("Language", m_ui->langComboBox->currentText());
+    conf.setValue("Language", ( m_ui->langComboBox->currentText() == tr( "all" ) ) ? "*" : m_ui->langComboBox->currentText() );
     conf.setValue( "LastTabIndex", m_ui->tabWidget->currentIndex() );
     conf.beginGroup( "MainWindow" );
 	conf.setValue( "Width", width() );
