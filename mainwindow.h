@@ -184,7 +184,7 @@ private slots:
     void installPushButtonClicked();
 
     void resetPushButtonClicked();
-    void detailsPushButtonClicked();
+    void detailsLinkClicked( const QString & );
     void playSelectedGame();
     void browseInsteadPath();
 
@@ -196,8 +196,8 @@ private slots:
     void processStarted();
     void processError( QProcess::ProcessError );
 
-    void on_addListSource_clicked();
-    void on_deleteListSource_clicked();
+    void addSourcePushButtonClicked();
+    void deleteSourcePushButtonClicked();
 };
 
 #endif // MAINWINDOW_H

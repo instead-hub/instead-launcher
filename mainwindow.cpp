@@ -106,6 +106,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect( m_ui->installPushButton, SIGNAL( clicked() ), this, SLOT( installPushButtonClicked() ) );
     connect( m_ui->refreshPushButton, SIGNAL( clicked() ), this, SLOT( refreshNetGameList() ) );
+    connect( m_ui->addSourcePushButton, SIGNAL( clicked() ), this, SLOT( addSourcePushButtonClicked() ) );
+    connect( m_ui->deleteSourcePushButton, SIGNAL( clicked() ), this, SLOT( deleteSourcePushButtonClicked() ) );
     connect( m_ui->playPushButton, SIGNAL( clicked() ), this, SLOT( playSelectedGame() ) );
     connect( m_ui->resetPushButton, SIGNAL( clicked() ), this, SLOT( resetPushButtonClicked() ) );
     connect( m_ui->langComboBox, SIGNAL( activated( int ) ), this, SLOT( refreshNetGameList() ) );
@@ -147,10 +149,9 @@ void MainWindow::playSelectedGame()
     connect( m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT( processFinished(int, QProcess::ExitStatus)) );
 }
 
-void MainWindow::detailsPushButtonClicked() 
+void MainWindow::detailsLinkClicked( const QString &link ) 
 {
-    QString descUrl = ( ( QObject * )sender() )->property( "descurl" ).toString();
-    QDesktopServices::openUrl( descUrl );
+    QDesktopServices::openUrl( link );
 }
 
 void MainWindow::browseInsteadPath() {
@@ -274,11 +275,10 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
 	QWidget *detailsWidget = new QWidget( m_ui->listNewGames );
 	QHBoxLayout *detailsLayout = new QHBoxLayout( detailsWidget );
 	detailsLayout->setContentsMargins( 0, 7, 0, 7 );
-	QPushButton *detailsPushButton = new QPushButton( tr( "Open" ) + "...", detailsWidget );
-	detailsPushButton->setMaximumWidth( 100 );
-	connect( detailsPushButton, SIGNAL( clicked() ), this, SLOT( detailsPushButtonClicked() ) );
-	detailsPushButton->setProperty( "descurl", info.descUrl() );
-	detailsLayout->addWidget( detailsPushButton );
+	QLabel *detailsLinkLabel = new QLabel( "<a href=" + info.descUrl() + ">" + tr( "open" ) +  " ..." + "</a>", detailsWidget );
+	detailsLinkLabel->setAlignment( Qt::AlignCenter );
+	connect( detailsLinkLabel, SIGNAL( linkActivated( const QString & ) ), this, SLOT( detailsLinkClicked( const QString & ) ) );
+	detailsLayout->addWidget( detailsLinkLabel );
 	m_ui->listNewGames->setItemWidget( game, 2, detailsWidget );
     }
 }
@@ -546,16 +546,16 @@ QString MainWindow::getDefaultInterpreterPath() const {
 #endif
 }
 
-void MainWindow::on_addListSource_clicked()
+void MainWindow::addSourcePushButtonClicked()
 {
-    QListWidgetItem * newItem = new QListWidgetItem("http://");
+    QListWidgetItem * newItem = new QListWidgetItem( "http://" );
     uint newItemIdx = m_ui->updateUrlList->count();
     newItem->setFlags(Qt::ItemIsEditable|Qt::ItemIsSelectable|newItem->flags());
     m_ui->updateUrlList->insertItem(newItemIdx, newItem);
     m_ui->updateUrlList->editItem(m_ui->updateUrlList->item(newItemIdx));
 }
 
-void MainWindow::on_deleteListSource_clicked()
+void MainWindow::deleteSourcePushButtonClicked()
 {
     int curr = m_ui->updateUrlList->currentRow();
     delete m_ui->updateUrlList->takeItem(curr);

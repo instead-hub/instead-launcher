@@ -4,47 +4,47 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="mainwindow.cpp" line="88"/>
+        <location filename="mainwindow.cpp" line="95"/>
         <source>Game list downloading</source>
         <translation>Загрузка списка игр</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="155"/>
+        <location filename="mainwindow.cpp" line="170"/>
         <source>Can&apos;t run the game</source>
         <translation>Невозможно выполнить игру</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="155"/>
+        <location filename="mainwindow.cpp" line="170"/>
         <source>Make sure that INSTEAD has been installed</source>
         <translation>Убедитесь, что интепретатор был установлен</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="263"/>
-        <source>Open</source>
-        <translation>Открыть</translation>
+        <location filename="mainwindow.cpp" line="278"/>
+        <source>open</source>
+        <translation type="unfinished">открыть</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="281"/>
+        <location filename="mainwindow.cpp" line="295"/>
         <source>Game downloading</source>
         <translation>Загрузка игры</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="315"/>
+        <location filename="mainwindow.cpp" line="329"/>
         <source>Success</source>
         <translation>Операция завершена успешно</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="315"/>
+        <location filename="mainwindow.cpp" line="329"/>
         <source>The game has been downloaded and unpacked</source>
         <translation>Игра была успешно загружена и распакована</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="504"/>
+        <location filename="mainwindow.cpp" line="503"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="504"/>
+        <location filename="mainwindow.cpp" line="503"/>
         <source>Can&apos;t create dir</source>
         <translation>Невозможно создать директорию</translation>
     </message>
@@ -103,8 +103,12 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="139"/>
+        <source>Web</source>
+        <translation>Страница игры</translation>
+    </message>
+    <message>
         <source>Details</source>
-        <translation>Описание</translation>
+        <translation type="obsolete">Описание</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="149"/>
