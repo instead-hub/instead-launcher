@@ -163,7 +163,7 @@ private:
     QString getGameDirPath() const;
     QString getDefaultInterpreterPath() const;
     QString getConfigPath() const;
-    bool checkOrCreateGameDir();
+    bool checkOrCreateGameDir(QString gameDir);
 
     void resetConfig();
     void loadConfig();

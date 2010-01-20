@@ -397,7 +397,7 @@ void MainWindow::refreshLocalGameList() {
     QDir gameDir(gamePath);
     qDebug() << "game path: " << gamePath;
 
-    if (!checkOrCreateGameDir()) {
+    if (!checkOrCreateGameDir(gamePath)) {
         return;
     }
 
@@ -480,25 +480,15 @@ void MainWindow::resetPushButtonClicked() {
 
 // Platform specific functions. Maybe move them into "platform.h" ?
 
-bool MainWindow::checkOrCreateGameDir() {
-    QDir gameDir(getGameDirPath());
-    if ( gameDir.exists() ) return true;
+bool MainWindow::checkOrCreateGameDir( QString gameDir ) {
 
-    // если директория не существует, то создаем ее
+    QDir dir(gameDir);
+    if (dir.exists()) return true;
 
-    qDebug() << "created games directory";
-    bool result = false;
+    qWarning() << "mkpath " << gameDir;
 
-#ifdef Q_OS_UNIX
-    result = QDir::home().mkpath( ".instead/games" );
-
-#elif defined(Q_OS_WIN)
-    result = QDir::home().mkpath( "Local Settings\\Application Data\\instead\\games" );
-
-#endif
-
-    if (!result) {
-        QMessageBox::critical(this, tr( "Error" ), tr( "Can't create dir" ) + ": " + gameDir.absolutePath());
+    if (!dir.mkpath( gameDir )) {
+        QMessageBox::critical(this, tr( "Error" ), tr( "Can't create dir" ) + ": " + gameDir);
         qWarning() << "Can't create games directory";
         return false;
     }
