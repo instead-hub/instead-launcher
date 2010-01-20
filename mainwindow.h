@@ -159,7 +159,11 @@ private:
     void parseGameList( QXmlStreamReader *xml );
     void parseGameInfo( QXmlStreamReader *xml );
 
-    void downloadGame(QTreeWidgetItem *game);        
+    void downloadGame(QTreeWidgetItem *game);
+//    QString getGameDirPath() const;
+//    QString getDefaultInterpreterPath() const;
+//    QString getConfigPath() const;
+//    bool checkOrCreateGameDir(QString gameDir);
 
     void resetConfig();
     void loadConfig();
@@ -182,6 +186,7 @@ private slots:
 
     void resetPushButtonClicked();
     void detailsLinkClicked( const QString & );
+    void openDescriptionClicked();
     void playSelectedGame();
     void browseInsteadPath();
     void browseGamesPath();
@@ -200,8 +205,6 @@ private slots:
 
     void gamesDirChanged();
     void tabChanged(int pos);
-
-    void openDescriptionClicked();
 };
 
 #endif // MAINWINDOW_H

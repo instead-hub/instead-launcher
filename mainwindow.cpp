@@ -77,8 +77,10 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->listGames->header()->setResizeMode( 1, QHeaderView::ResizeToContents );
     m_ui->listGames->header()->setDefaultAlignment( Qt::AlignHCenter );
     m_ui->listNewGames->header()->setResizeMode( 0, QHeaderView::Interactive );
-    m_ui->listNewGames->header()->setResizeMode( 1, QHeaderView::ResizeToContents );
+    m_ui->listNewGames->header()->setResizeMode( 1, QHeaderView::Fixed );
+    m_ui->listNewGames->header()->setResizeMode( 2, QHeaderView::ResizeToContents );
     m_ui->listNewGames->headerItem()->setTextAlignment( 1, Qt::AlignHCenter );
+    m_ui->listNewGames->headerItem()->setTextAlignment( 2, Qt::AlignHCenter );
 
     m_ui->listGames->setAlternatingRowColors( true );
     m_ui->listNewGames->setAlternatingRowColors( true );
@@ -356,6 +358,11 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
 	qDebug( "Adding game to the list %s", info.title().toLocal8Bit().data() );
 	NetGameItem *game = new NetGameItem( m_ui->listNewGames );
 	game->setInfo( info );
+
+	QLabel *detailsLinkLabel = new QLabel( "<a href=" + info.descUrl() + ">" + tr( "open" ) +  " ..." + "</a>", this );
+	detailsLinkLabel->setAlignment( Qt::AlignCenter );
+	connect( detailsLinkLabel, SIGNAL( linkActivated( const QString & ) ), this, SLOT( detailsLinkClicked( const QString & ) ) );
+	m_ui->listNewGames->setItemWidget( game, 2, detailsLinkLabel );
     }
 }
 
@@ -601,7 +608,7 @@ void MainWindow::deleteSourcePushButtonClicked()
 
 /* slot */
 void MainWindow::openDescriptionClicked()
-{    
+{
     QTreeWidgetItem * wi = m_ui->listNewGames->currentItem();
     if(wi!=NULL) {
         const QString url = static_cast<NetGameItem *>(wi)->info().descUrl();
