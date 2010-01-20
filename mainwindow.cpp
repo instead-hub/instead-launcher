@@ -117,6 +117,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect( m_ui->langComboBox, SIGNAL( activated( int ) ), this, SLOT( refreshNetGameList() ) );
     connect( m_ui->listGames, SIGNAL( itemDoubleClicked( QTreeWidgetItem *, int ) ), this, SLOT( playSelectedGame() ) );
     connect( m_ui->browseInsteadPath, SIGNAL( clicked() ), this, SLOT( browseInsteadPath() ) );
+    connect( m_ui->browseGamesPath, SIGNAL( clicked() ), this, SLOT( browseGamesPath() ) );
     connect( m_ui->removePushButton, SIGNAL( clicked() ), this, SLOT( removeSelectedGame() ) );
 
     connect( m_ui->gamesDir, SIGNAL(textChanged ( const QString &)), this, SLOT(gamesDirChanged()) );
@@ -228,6 +229,12 @@ void MainWindow::detailsLinkClicked( const QString &link )
 void MainWindow::browseInsteadPath() {
     QString fileName = QDir::toNativeSeparators(QFileDialog::getOpenFileName(this));
     if (!fileName.isEmpty()) m_ui->lineInsteadPath->setText(fileName);
+}
+
+void MainWindow::browseGamesPath() {
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Games directory"), "", QFileDialog::ShowDirsOnly);
+    dir = QDir::toNativeSeparators(dir);
+    if (!dir.isEmpty()) m_ui->gamesDir->setText(dir);
 }
 
 void MainWindow::processStarted() {

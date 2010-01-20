@@ -188,6 +188,7 @@ private slots:
     void detailsLinkClicked( const QString & );
     void playSelectedGame();
     void browseInsteadPath();
+    void browseGamesPath();
     void removeSelectedGame();
 
     void listServerDone( bool );
