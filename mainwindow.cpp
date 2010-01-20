@@ -305,7 +305,7 @@ void MainWindow::gameServerDone( bool error ) {
     m_gameLoadProgress->reset();
     m_ui->installPushButton->setEnabled(true);
     if(!error){
-        QString games_dir = getGameDirPath();
+        QString games_dir = m_ui->gamesDir->text();
         QString arch_name = games_dir + m_downloadingFileName;
         if ( QFile::exists( arch_name ) ) {
 	    QFile::remove( arch_name );
@@ -393,7 +393,7 @@ void MainWindow::refreshLocalGameList() {
     m_ui->listGames->clear();
 
     // получаем директорию с играми
-    QString gamePath = getGameDirPath();
+    QString gamePath = m_ui->gamesDir->text();
     QDir gameDir(gamePath);
     qDebug() << "game path: " << gamePath;
 
@@ -424,6 +424,7 @@ void MainWindow::resetConfig() {
     m_ui->updateUrlList->addItem( DEFAULT_UPDATE_URL );
     QListWidgetItem *item = m_ui->updateUrlList->item(0);
     item->setFlags(item->flags() & ~ (Qt::ItemIsEnabled));
+    m_ui->gamesDir->setText( getGameDirPath() );
 }
 
 void MainWindow::loadConfig() {
@@ -431,6 +432,7 @@ void MainWindow::loadConfig() {
     QString insteadPath = conf.value("InsteadPath", getDefaultInterpreterPath()).toString();
     bool autoRefresh = conf.value("AutoRefresh", "false").toString() == "true";
     QString lang = conf.value("Language", "ru").toString(); // TODO: язык системы по дефолту; no! it's game languages
+    QString gamesDir = conf.value("GamesPath", getGameDirPath()).toString();
 
     m_ui->lineInsteadPath->setText(insteadPath);
     m_ui->autoRefreshCheckBox->setChecked(autoRefresh);
@@ -454,6 +456,7 @@ void MainWindow::loadConfig() {
     	    }
 	}
     }
+    m_ui->gamesDir->setText(gamesDir);
     conf.endArray();
     qDebug() << "Config loaded";
 }
@@ -470,6 +473,8 @@ void MainWindow::saveConfig() {
         conf.setValue("URL", m_ui->updateUrlList->item(i)->text());
     }
     conf.endArray();
+    conf.setValue("GamesPath", m_ui->gamesDir->text());
+
     qDebug() << "Config saved";
 }
 
