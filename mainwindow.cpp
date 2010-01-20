@@ -184,6 +184,7 @@ void MainWindow::removeSelectedGame()
     }
 
     refreshLocalGameList();
+    refreshNetGameList();
 
     QMessageBox::information( this, tr( "Success" ), tr( "The game has successfully removed" ) );
 }
