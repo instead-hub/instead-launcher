@@ -145,7 +145,7 @@ void MainWindow::removeSelectedGame()
     QString gameName = item->info().name();
     QString gamesPath = m_ui->gamesDir->text();
 
-    QString message = QString( "%1 \"%2\"?" ).arg( tr( "Do you really want to remove game" ) ).arg( gameName );
+    QString message = QString( "%1 \"%2\"?" ).arg( tr( "Do you really want to remove game" ) ).arg( item->info().title() );
     if ( QMessageBox::question( this, tr( "Confirm" ), message, QMessageBox::Yes, QMessageBox::No ) != QMessageBox::Yes ) {
 	return;
     }
