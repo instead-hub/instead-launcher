@@ -80,6 +80,9 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->listNewGames->headerItem()->setTextAlignment( 1, Qt::AlignHCenter );
     m_ui->listNewGames->headerItem()->setTextAlignment( 2, Qt::AlignHCenter );
 
+    m_ui->listGames->setAlternatingRowColors( true );
+    m_ui->listNewGames->setAlternatingRowColors( true );
+
     setWindowTitle( "instead-launcher" );
     setWindowIcon( QIcon( ":/resources/icon.png" ) );
 
@@ -238,7 +241,6 @@ void MainWindow::parseGameList( QXmlStreamReader *xml )
             parseGameInfo( xml );
         }
     }
-    m_ui->listNewGames->viewport()->adjustSize();
 }
 
 void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
@@ -273,14 +275,10 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
 	NetGameItem *game = new NetGameItem( m_ui->listNewGames );
 	game->setInfo( info );
 	
-	QWidget *detailsWidget = new QWidget( m_ui->listNewGames );
-	QHBoxLayout *detailsLayout = new QHBoxLayout( detailsWidget );
-	detailsLayout->setContentsMargins( 0, 7, 0, 7 );
-	QLabel *detailsLinkLabel = new QLabel( "<a href=" + info.descUrl() + ">" + tr( "open" ) +  " ..." + "</a>", detailsWidget );
+	QLabel *detailsLinkLabel = new QLabel( "<a href=" + info.descUrl() + ">" + tr( "open" ) +  " ..." + "</a>", this );
 	detailsLinkLabel->setAlignment( Qt::AlignCenter );
 	connect( detailsLinkLabel, SIGNAL( linkActivated( const QString & ) ), this, SLOT( detailsLinkClicked( const QString & ) ) );
-	detailsLayout->addWidget( detailsLinkLabel );
-	m_ui->listNewGames->setItemWidget( game, 2, detailsWidget );
+	m_ui->listNewGames->setItemWidget( game, 2, detailsLinkLabel );
     }
 }
 
