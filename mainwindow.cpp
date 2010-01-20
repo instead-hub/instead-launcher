@@ -350,7 +350,7 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
             break;
     }
     // проверяем что такой же версии игры нет в локальном списке
-    if ( !hasLocalGame( info ) && ( m_ui->langComboBox->currentText() == "*" || info.lang() == m_ui->langComboBox->currentText() ) ) {
+    if ( !hasLocalGame( info ) && ( m_ui->langComboBox->currentText() == tr( "all" ) || info.lang() == m_ui->langComboBox->currentText() ) ) {
 	qDebug( "Adding game to the list %s", info.title().toLocal8Bit().data() );
 	NetGameItem *game = new NetGameItem( m_ui->listNewGames );
 	game->setInfo( info );
@@ -514,7 +514,7 @@ void MainWindow::loadConfig() {
     QSettings conf(getConfigPath(), QSettings::IniFormat);
     QString insteadPath = conf.value("InsteadPath", getDefaultInterpreterPath()).toString();
     bool autoRefresh = conf.value("AutoRefresh", "false").toString() == "true";
-    QString lang = conf.value("Language", "*").toString(); // TODO: язык системы по дефолту; no! it's game languages
+    QString lang = conf.value("Language", tr( "all" )).toString(); // TODO: язык системы по дефолту; no! it's game languages
     QString gamesDir = conf.value("GamesPath", getGameDirPath()).toString();
 
     m_ui->lineInsteadPath->setText(insteadPath);
