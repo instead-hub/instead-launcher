@@ -109,7 +109,7 @@
            <widget class="QComboBox" name="langComboBox">
             <item>
              <property name="text">
-              <string>any</string>
+              <string>*</string>
              </property>
             </item>
             <item>
