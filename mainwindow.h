@@ -200,6 +200,8 @@ private slots:
 
     void gamesDirChanged();
     void tabChanged(int pos);
+
+    void openDescriptionClicked();
 };
 
 #endif // MAINWINDOW_H
