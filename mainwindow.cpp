@@ -207,26 +207,24 @@ void MainWindow::playSelectedGame()
     if (gamesPath.right(1) != QDir::separator()) gamesPath += QDir::separator();
     m_process = new QProcess();
 
+    QStringList arguments;
+
 #ifdef Q_OS_WIN
     QFileInfo fileInfo(insteadPath);
     m_process->setWorkingDirectory(fileInfo.path());
-    qDebug() << QDir::toNativeSeparators(fileInfo.path());
-    QString command = "\"" + insteadPath + "\" -game " + gameName;
-    command += " -gamespath \"" + gamesPath + "\"";
-#else
-    QString command = insteadPath + " -game " + gameName;
-    command += " -gamespath " + gamesPath;
 #endif
 
-    command += " -nostdgames";
+    arguments << "-game" << gameName;
+    arguments << "-nostdgames";
+    arguments << "-gamespath" << gamesPath;
 
-    qDebug() << "Launching " << command;
+    qDebug() << "Launching " << insteadPath << arguments;
 
     connect( m_process, SIGNAL(started()), this, SLOT( processStarted()) );
     connect( m_process, SIGNAL(error(QProcess::ProcessError)), this, SLOT( processError(QProcess::ProcessError)) );
     connect( m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT( processFinished(int, QProcess::ExitStatus)) );
 
-    m_process->start(command); // may startDetached be better? :)
+    m_process->start(insteadPath, arguments); // may startDetached be better? :)
 
 }
 
