@@ -238,6 +238,7 @@ void MainWindow::parseGameList( QXmlStreamReader *xml )
             parseGameInfo( xml );
         }
     }
+    m_ui->listNewGames->viewport()->adjustSize();
 }
 
 void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
@@ -415,7 +416,6 @@ void MainWindow::refreshLocalGameList() {
         }
     }
     m_ui->listGames->resizeColumnToContents(0);
-    
 }
 
 void MainWindow::resetConfig() {
