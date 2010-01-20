@@ -134,6 +134,7 @@ void MainWindow::playSelectedGame()
     QString gameName = item->info().name();
     QString insteadPath = m_ui->lineInsteadPath->text();
     QString gamesPath = m_ui->gamesDir->text();
+    if (gamesPath.right(1) != "/") gamesPath += "/";
     m_process = new QProcess();
 
 #ifdef Q_OS_WIN
@@ -141,14 +142,10 @@ void MainWindow::playSelectedGame()
     m_process->setWorkingDirectory(fileInfo.path());
     qDebug() << QDir::toNativeSeparators(fileInfo.path());
     QString command = "\"" + insteadPath + "\" -game " + gameName;
-    if (gamesPath != getGameDirPath()) {
-        command += " -gamespath \"" + gamesPath + "\"";
-    }
+    command += " -gamespath \"" + gamesPath + "\"";
 #else
     QString command = insteadPath + " -game " + gameName;
-    if (gamesPath != getGameDirPath()) {
-        command += " -gamespath " + gamesPath;
-    }
+    command += " -gamespath " + gamesPath;
 #endif
 
     command += " -nostdgames";
@@ -315,6 +312,7 @@ void MainWindow::gameServerDone( bool error ) {
     m_ui->installPushButton->setEnabled(true);
     if(!error){
         QString games_dir = m_ui->gamesDir->text();
+        if (games_dir.right(1) != "/") games_dir += "/";
         QString arch_name = games_dir + m_downloadingFileName;
         if ( QFile::exists( arch_name ) ) {
 	    QFile::remove( arch_name );
