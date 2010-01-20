@@ -133,6 +133,7 @@ void MainWindow::playSelectedGame()
     LocalGameItem *item = static_cast<LocalGameItem *>(m_ui->listGames->currentItem());
     QString gameName = item->info().name();
     QString insteadPath = m_ui->lineInsteadPath->text();
+    QString gamesPath = m_ui->gamesDir->text();
     m_process = new QProcess();
 
 #ifdef Q_OS_WIN
@@ -140,9 +141,17 @@ void MainWindow::playSelectedGame()
     m_process->setWorkingDirectory(fileInfo.path());
     qDebug() << QDir::toNativeSeparators(fileInfo.path());
     QString command = "\"" + insteadPath + "\" -game " + gameName;
+    if (gamesPath != getGameDirPath()) {
+        command += " -gamespath \"" + gamesPath + "\"";
+    }
 #else
     QString command = insteadPath + " -game " + gameName;
+    if (gamesPath != getGameDirPath()) {
+        command += " -gamespath " + gamesPath;
+    }
 #endif
+
+    command += " -nostdgames";
 
     qDebug() << "Launching " << command;
     m_process->start(command); // may startDetached be better? :)
