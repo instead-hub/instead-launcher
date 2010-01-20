@@ -219,11 +219,13 @@ void MainWindow::playSelectedGame()
     command += " -nostdgames";
 
     qDebug() << "Launching " << command;
-    m_process->start(command); // may startDetached be better? :)
 
     connect( m_process, SIGNAL(started()), this, SLOT( processStarted()) );
     connect( m_process, SIGNAL(error(QProcess::ProcessError)), this, SLOT( processError(QProcess::ProcessError)) );
     connect( m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT( processFinished(int, QProcess::ExitStatus)) );
+
+    m_process->start(command); // may startDetached be better? :)
+
 }
 
 void MainWindow::detailsLinkClicked( const QString &link ) 
