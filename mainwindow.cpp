@@ -441,6 +441,10 @@ void MainWindow::loadConfig() {
     m_ui->langComboBox->setCurrentIndex( index );
     m_ui->langComboBox->blockSignals( false );
     m_ui->updateUrlList->clear();
+    m_ui->tabWidget->setCurrentIndex( conf.value( "LastTabIndex", 0 ).toInt() );
+    conf.beginGroup( "MainWindow" );
+	resize( conf.value( "Width", 500 ).toInt(), conf.value( "Height", 350 ).toInt() );
+    conf.endGroup( );
     int count = conf.beginReadArray("UpdateURLs");
     if ( !count ) {
 	m_ui->updateUrlList->addItem( DEFAULT_UPDATE_URL );
@@ -467,6 +471,11 @@ void MainWindow::saveConfig() {
     conf.setValue("InsteadPath", m_ui->lineInsteadPath->text());
     conf.setValue("AutoRefresh", (m_ui->autoRefreshCheckBox->isChecked() ? "true" : "false"));
     conf.setValue("Language", m_ui->langComboBox->currentText());
+    conf.setValue( "LastTabIndex", m_ui->tabWidget->currentIndex() );
+    conf.beginGroup( "MainWindow" );
+	conf.setValue( "Width", width() );
+	conf.setValue( "Height", height() );
+    conf.endGroup( );
     conf.beginWriteArray("UpdateURLs", m_ui->updateUrlList->count());
     for (int i=0;i<m_ui->updateUrlList->count();i++) {
         conf.setArrayIndex(i);
