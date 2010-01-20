@@ -514,7 +514,7 @@ void MainWindow::loadConfig() {
     QSettings conf(getConfigPath(), QSettings::IniFormat);
     QString insteadPath = conf.value("InsteadPath", getDefaultInterpreterPath()).toString();
     bool autoRefresh = conf.value("AutoRefresh", "false").toString() == "true";
-    QString lang = conf.value("Language", "ru").toString(); // TODO: язык системы по дефолту; no! it's game languages
+    QString lang = conf.value("Language", "any").toString(); // TODO: язык системы по дефолту; no! it's game languages
     QString gamesDir = conf.value("GamesPath", getGameDirPath()).toString();
 
     m_ui->lineInsteadPath->setText(insteadPath);
