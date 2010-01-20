@@ -117,6 +117,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect( m_ui->langComboBox, SIGNAL( activated( int ) ), this, SLOT( refreshNetGameList() ) );
     connect( m_ui->listGames, SIGNAL( itemDoubleClicked( QTreeWidgetItem *, int ) ), this, SLOT( playSelectedGame() ) );
     connect( m_ui->browseInsteadPath, SIGNAL( clicked() ), this, SLOT( browseInsteadPath() ) );
+    connect( m_ui->removePushButton, SIGNAL( clicked() ), this, SLOT( removeSelectedGame() ) );
 
     connect( m_ui->gamesDir, SIGNAL(textChanged ( const QString &)), this, SLOT(gamesDirChanged()) );
     connect( m_ui->tabWidget, SIGNAL(currentChanged ( int )), this, SLOT(tabChanged(int)) );
@@ -131,6 +132,62 @@ MainWindow::~MainWindow()
     saveConfig();
     delete m_ui;
 }
+
+void MainWindow::removeSelectedGame()
+{
+    LocalGameItem *item = ( LocalGameItem * )m_ui->listGames->currentItem();
+
+    if ( !item ) {
+	return;
+    }
+
+    QString gameName = item->info().name();
+    QString gamesPath = m_ui->gamesDir->text();
+
+    QString path = QString( gamesPath + "/" + gameName ).replace( "//", "/" );
+
+    if ( !QDir( path ).exists() ) {
+	QMessageBox::critical( this, tr( "Fail" ), tr( "Nothing to done" ) );
+	return;
+    }
+
+    qWarning() << "removing game " << gameName + " at " + path;
+
+    QStack<QString> m_pathStack;
+    m_pathStack.push( path );
+
+    while( m_pathStack.count() ) {
+	QDir dir( m_pathStack.pop() );
+	if ( !dir.exists() ) {
+	    continue;
+	}
+	if ( QDir().rmpath( dir.absolutePath() ) ) {
+	    qWarning() << "removed: " << dir.absolutePath();
+	    continue;
+	} else m_pathStack.push( dir.absolutePath() );
+	QFileInfoList infos = dir.entryInfoList( QDir::AllEntries | QDir::NoDotAndDotDot );
+	QFileInfoList::Iterator infoIt = infos.begin();
+	while( infoIt != infos.end() ) {
+	    if ( ( *infoIt ).isDir() ) {
+		m_pathStack.push( dir.absolutePath() + "/" + ( *infoIt ).fileName() );
+		break;
+	    } else {
+		QString filePath = ( *infoIt ).absolutePath() + "/" + ( *infoIt ).fileName();
+		if( !QFile( ( *infoIt ).absolutePath() + "/" + ( *infoIt ).fileName() ).remove() ) {
+		    qWarning() << "can't remove file: " << filePath;
+		    return;
+		}
+		qWarning() << "removed: " << filePath;
+	    }
+	    infoIt++;
+	}
+    }
+
+    QMessageBox::information( this, tr( "Success" ), tr( "The game has successfully removed" ) );
+    
+    refreshLocalGameList();
+}
+
 
 void MainWindow::playSelectedGame() 
 {

@@ -188,6 +188,7 @@ private slots:
     void detailsLinkClicked( const QString & );
     void playSelectedGame();
     void browseInsteadPath();
+    void removeSelectedGame();
 
     void listServerDone( bool );
     void gameServerResponseHeaderReceived( const QHttpResponseHeader & );
