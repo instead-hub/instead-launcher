@@ -183,9 +183,9 @@ void MainWindow::removeSelectedGame()
 	}
     }
 
-    QMessageBox::information( this, tr( "Success" ), tr( "The game has successfully removed" ) );
-    
     refreshLocalGameList();
+
+    QMessageBox::information( this, tr( "Success" ), tr( "The game has successfully removed" ) );
 }
 
 
