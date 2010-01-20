@@ -145,6 +145,11 @@ void MainWindow::removeSelectedGame()
     QString gameName = item->info().name();
     QString gamesPath = m_ui->gamesDir->text();
 
+    QString message = QString( "%1 \"%2\"?" ).arg( tr( "Do you really want to remove game" ) ).arg( gameName );
+    if ( QMessageBox::question( this, tr( "Confirm" ), message, QMessageBox::Yes, QMessageBox::No ) != QMessageBox::Yes ) {
+	return;
+    }
+
     QString path = QString( gamesPath + "/" + gameName ).replace( "//", "/" );
 
     if ( !QDir( path ).exists() ) {

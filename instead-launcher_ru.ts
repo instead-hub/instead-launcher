@@ -9,58 +9,68 @@
         <translation>Загрузка списка игр</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="150"/>
+        <location filename="mainwindow.cpp" line="147"/>
+        <source>Do you really want to remove game</source>
+        <translation>Вы действительно хотите удалить игру</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="148"/>
+        <source>Confirm</source>
+        <translation>Подтверждение</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="155"/>
         <source>Fail</source>
         <translation>Неудача</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="150"/>
+        <location filename="mainwindow.cpp" line="155"/>
         <source>Nothing to done</source>
         <translation>Невозможно удалить игру</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="186"/>
+        <location filename="mainwindow.cpp" line="194"/>
         <source>The game has successfully removed</source>
         <translation>Игра была успешно удалена</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="240"/>
+        <location filename="mainwindow.cpp" line="246"/>
         <source>Can&apos;t run the game</source>
         <translation>Невозможно выполнить игру</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="240"/>
+        <location filename="mainwindow.cpp" line="246"/>
         <source>Make sure that INSTEAD has been installed</source>
         <translation>Убедитесь, что интепретатор был установлен</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="345"/>
+        <location filename="mainwindow.cpp" line="351"/>
         <source>open</source>
         <translation>открыть</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="361"/>
+        <location filename="mainwindow.cpp" line="367"/>
         <source>Game downloading</source>
         <translation>Загрузка игры</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="186"/>
-        <location filename="mainwindow.cpp" line="396"/>
+        <location filename="mainwindow.cpp" line="194"/>
+        <location filename="mainwindow.cpp" line="402"/>
         <source>Success</source>
         <translation>Операция завершена успешно</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="396"/>
+        <location filename="mainwindow.cpp" line="402"/>
         <source>The game has been downloaded and unpacked</source>
         <translation>Игра была успешно загружена и распакована</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="587"/>
+        <location filename="mainwindow.cpp" line="593"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="587"/>
+        <location filename="mainwindow.cpp" line="593"/>
         <source>Can&apos;t create dir</source>
         <translation>Невозможно создать директорию</translation>
     </message>
