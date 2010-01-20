@@ -361,8 +361,9 @@ bool MainWindow::getLocalGameInfo(const QDir gameDir, const QString gameID, Game
     QRegExp regexName("-- \\$Name:(.*)\\$");
     if (!regexName.exactMatch(name)) {
         qWarning() << "First line doesn't contains game name";
-    }
-    name = regexName.capturedTexts()[1].trimmed();
+        name = gameID;
+    } else name = regexName.capturedTexts()[1].trimmed();
+
 
     QRegExp regexVersion("-- \\$Version:(.*)\\$");
     if (!regexVersion.exactMatch(version)) {
