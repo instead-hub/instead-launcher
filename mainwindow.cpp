@@ -64,6 +64,7 @@ class LocalGameItem: public QTreeWidgetItem {
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), m_ui(new Ui::MainWindow)
 {
+    listIsDirty = false;
     QString langSuffix = QLocale().name().split( "_" ).first();
     QTranslator *translator = new QTranslator( this );
     if ( translator->load( "instead-launcher_" + langSuffix + ".qm" ) )
@@ -116,6 +117,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect( m_ui->langComboBox, SIGNAL( activated( int ) ), this, SLOT( refreshNetGameList() ) );
     connect( m_ui->listGames, SIGNAL( itemDoubleClicked( QTreeWidgetItem *, int ) ), this, SLOT( playSelectedGame() ) );
     connect( m_ui->browseInsteadPath, SIGNAL( clicked() ), this, SLOT( browseInsteadPath() ) );
+
+    connect( m_ui->gamesDir, SIGNAL(textChanged ( const QString &)), this, SLOT(gamesDirChanged()) );
+    connect( m_ui->tabWidget, SIGNAL(currentChanged ( int )), this, SLOT(tabChanged(int)) );
 
     if (m_ui->autoRefreshCheckBox->isChecked()) {
         refreshNetGameList();
@@ -422,6 +426,7 @@ void MainWindow::refreshLocalGameList() {
         }
     }
     m_ui->listGames->resizeColumnToContents(0);
+    listIsDirty = false;
 }
 
 void MainWindow::resetConfig() {
@@ -497,6 +502,18 @@ void MainWindow::saveConfig() {
 
 void MainWindow::resetPushButtonClicked() {
     resetConfig();
+}
+
+void MainWindow::gamesDirChanged() {
+    listIsDirty = true;
+    qDebug() << "set dirty flag";
+}
+
+void MainWindow::tabChanged(int pos) {
+    if (listIsDirty && pos == 0) {
+        qDebug() << "list dirty! reloading ...";
+        refreshLocalGameList();
+    }
 }
 
 

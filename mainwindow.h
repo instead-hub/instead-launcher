@@ -175,6 +175,7 @@ private:
     QString m_downloadingFileName;
     QProcess *m_process;
     Ui::MainWindow *m_ui;
+    bool listIsDirty;
 
 private slots:
 
@@ -198,6 +199,9 @@ private slots:
 
     void addSourcePushButtonClicked();
     void deleteSourcePushButtonClicked();
+
+    void gamesDirChanged();
+    void tabChanged(int pos);
 };
 
 #endif // MAINWINDOW_H
