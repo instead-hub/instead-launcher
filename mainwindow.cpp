@@ -393,6 +393,7 @@ void MainWindow::gameServerDone( bool error ) {
             qWarning() << "Can't create games directory";
             QMessageBox::critical(this, tr( "Error" ), tr( "Can't create dir" ) + ": " + games_dir);
             m_gameFile->close();
+            delete m_gameFile;
             return;
         }
         QString arch_name = games_dir + m_downloadingFileName;
@@ -402,6 +403,7 @@ void MainWindow::gameServerDone( bool error ) {
         if ( !m_gameFile->copy( arch_name ) ) {
             qCritical() << "can't copy temporary file to the game dir: " << arch_name;
             m_gameFile->close();
+            delete m_gameFile;
             return;
         }
 	bool unzipped = true;
@@ -414,6 +416,7 @@ void MainWindow::gameServerDone( bool error ) {
         }
         if ( !unzipped ) {
             m_gameFile->close();
+            delete m_gameFile;
             return;
         }
         QMessageBox::information( this, tr( "Success" ), tr( "The game has been downloaded and unpacked" ) );
@@ -425,6 +428,7 @@ void MainWindow::gameServerDone( bool error ) {
         qWarning()<<QHttp().errorString();
     }
     m_gameFile->close();
+    delete m_gameFile;
 }
 
 
