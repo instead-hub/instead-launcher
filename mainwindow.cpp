@@ -389,12 +389,19 @@ void MainWindow::gameServerDone( bool error ) {
     if(!error){
         QString games_dir = m_ui->gamesDir->text();
         if (games_dir.right(1) != QDir::separator()) games_dir += QDir::separator();
+        if (!checkOrCreateGameDir(games_dir)) {
+            qWarning() << "Can't create games directory";
+            QMessageBox::critical(this, tr( "Error" ), tr( "Can't create dir" ) + ": " + games_dir);
+            m_gameFile->close();
+            return;
+        }
         QString arch_name = games_dir + m_downloadingFileName;
         if ( QFile::exists( arch_name ) ) {
 	    QFile::remove( arch_name );
         }
         if ( !m_gameFile->copy( arch_name ) ) {
             qCritical() << "can't copy temporary file to the game dir: " << arch_name;
+            m_gameFile->close();
             return;
         }
 	bool unzipped = true;
@@ -406,7 +413,8 @@ void MainWindow::gameServerDone( bool error ) {
 	    qCritical() << "can't remove temporary file: " << arch_name;
         }
         if ( !unzipped ) {
-	    return;
+            m_gameFile->close();
+            return;
         }
         QMessageBox::information( this, tr( "Success" ), tr( "The game has been downloaded and unpacked" ) );
 	refreshLocalGameList();
@@ -481,11 +489,16 @@ void MainWindow::refreshLocalGameList() {
     QDir gameDir(gamePath);
     qDebug() << "game path: " << gamePath;
 
-    if (!checkOrCreateGameDir(gamePath)) {
+    // now we don't create directory and silently return
+    if (!gameDir.exists()) {
+        listIsDirty = false;
+        return;
+    }
+    /*if (!checkOrCreateGameDir(gamePath)) {
         qWarning() << "Can't create games directory";
         QMessageBox::critical(this, tr( "Error" ), tr( "Can't create dir" ) + ": " + gamePath);
         return;
-    }
+    }*/
 
     // просматриваем все подкаталоги
     QStringList gameList = gameDir.entryList( QDir::AllDirs|QDir::NoDotAndDotDot, QDir::NoSort );
