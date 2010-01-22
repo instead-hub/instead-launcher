@@ -109,7 +109,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect( m_gameServer, SIGNAL( dataReadProgress( int, int ) ), m_gameLoadProgress, SLOT( setValue( int ) ) );
     connect( m_gameLoadProgress, SIGNAL(canceled()), m_gameServer, SLOT(abort()));
 
-    connect( m_ui->installPushButton, SIGNAL( clicked() ), this, SLOT( installPushButtonClicked() ) );
+    connect( m_ui->installPushButton, SIGNAL( clicked() ), this, SLOT( installSelectedGame() ) );
     connect( m_ui->refreshPushButton, SIGNAL( clicked() ), this, SLOT( refreshNetGameList() ) );
     connect( m_ui->addSourcePushButton, SIGNAL( clicked() ), this, SLOT( addSourcePushButtonClicked() ) );
     connect( m_ui->deleteSourcePushButton, SIGNAL( clicked() ), this, SLOT( deleteSourcePushButtonClicked() ) );
@@ -121,7 +121,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect( m_ui->browseGamesPath, SIGNAL( clicked() ), this, SLOT( browseGamesPath() ) );
     connect( m_ui->removePushButton, SIGNAL( clicked() ), this, SLOT( removeSelectedGame() ) );
     connect( m_ui->openDescription, SIGNAL( clicked() ), this, SLOT( openDescriptionClicked() ) );
-    connect( m_ui->listNewGames, SIGNAL( itemDoubleClicked( QTreeWidgetItem *, int ) ), this, SLOT( installPushButtonClicked() ) );
+    connect( m_ui->listNewGames, SIGNAL( itemDoubleClicked( QTreeWidgetItem *, int ) ), this, SLOT( installSelectedGame() ) );
 
     connect( m_ui->gamesDir, SIGNAL(textChanged ( const QString &)), this, SLOT(gamesDirChanged()) );
     connect( m_ui->tabWidget, SIGNAL(currentChanged ( int )), this, SLOT(tabChanged(int)) );
@@ -286,7 +286,7 @@ void MainWindow::refreshNetGameList(bool next) {
     }
 }
 
-void MainWindow::installPushButtonClicked() {
+void MainWindow::installSelectedGame() {
     m_ui->installPushButton->setDisabled(true);
     downloadGame(m_ui->listNewGames->currentItem());
 }

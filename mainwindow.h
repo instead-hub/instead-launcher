@@ -182,7 +182,7 @@ private slots:
     void refreshLocalGameList();
     void refreshNetGameList(bool next=false);
 
-    void installPushButtonClicked();
+    void installSelectedGame();
 
     void resetPushButtonClicked();
     void detailsLinkClicked( const QString & );
