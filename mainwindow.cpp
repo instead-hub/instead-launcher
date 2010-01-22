@@ -208,6 +208,7 @@ void MainWindow::removeSelectedGame()
 
 void MainWindow::playSelectedGame() 
 {
+    if (!m_ui->listGames->currentItem()) return;
     LocalGameItem *item = static_cast<LocalGameItem *>(m_ui->listGames->currentItem());
     QString gameName = item->info().name();
     QString insteadPath = m_ui->lineInsteadPath->text();
