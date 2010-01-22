@@ -134,9 +134,25 @@ void UpdateWindow::generateUpdateMessage() {
     qDebug() << "Local instead version " << localInsteadVersion;
     qDebug() << "Local launcher version " << localLauncherVersion;
 
+    bool needUpdateInstead = false;
+    bool needUpdateLauncher = false;
+
     QString text;
 
-    text += "<h1>Available updates</h1>";
+    if (localInsteadVersion != remoteInsteadVersion) {
+        text += "<h3>Instead update</h3>";
+        text += "<a href=\"" + urlInstead + "\">" + urlInstead + "</a>";
+        needUpdateInstead = true;
+    }
+    if (localLauncherVersion != remoteLauncherVersion) {
+        text += "<h3>Launcher update</h3>";
+        text += "<a href=\"" + urlLauncher + "\">" + urlLauncher + "</a>";
+        needUpdateLauncher = true;
+    }
+
+    if (!needUpdateInstead && !needUpdateLauncher) {
+        text += "<h3>No updates available</h3>";
+    }
 
     m_ui->textBrowser->setHtml(text);
 
