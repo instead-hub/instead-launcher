@@ -9,81 +9,81 @@
         <translation>Загрузка списка игр</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="150"/>
+        <location filename="mainwindow.cpp" line="158"/>
         <source>Do you really want to remove game</source>
         <translation>Вы действительно хотите удалить игру</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="151"/>
+        <location filename="mainwindow.cpp" line="159"/>
         <source>Confirm</source>
         <translation>Подтверждение</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="158"/>
+        <location filename="mainwindow.cpp" line="166"/>
         <source>Fail</source>
         <translation>Неудача</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="158"/>
+        <location filename="mainwindow.cpp" line="166"/>
         <source>Nothing to done</source>
         <translation>Невозможно удалить игру</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="197"/>
+        <location filename="mainwindow.cpp" line="205"/>
         <source>The game has successfully removed</source>
         <translation>Игра была успешно удалена</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="244"/>
+        <location filename="mainwindow.cpp" line="254"/>
         <source>Games directory</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="257"/>
+        <location filename="mainwindow.cpp" line="267"/>
         <source>Can&apos;t run the game</source>
         <translation>Невозможно выполнить игру</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="257"/>
+        <location filename="mainwindow.cpp" line="267"/>
         <source>Make sure that INSTEAD has been installed</source>
         <translation>Убедитесь, что интепретатор был установлен</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="357"/>
-        <location filename="mainwindow.cpp" line="527"/>
-        <location filename="mainwindow.cpp" line="561"/>
+        <location filename="mainwindow.cpp" line="367"/>
+        <location filename="mainwindow.cpp" line="559"/>
+        <location filename="mainwindow.cpp" line="595"/>
         <location filename="mainwindow.ui" line="112"/>
         <source>all</source>
         <translation>все</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="362"/>
+        <location filename="mainwindow.cpp" line="372"/>
         <source>open</source>
         <translation>открыть</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="378"/>
+        <location filename="mainwindow.cpp" line="388"/>
         <source>Game downloading</source>
         <translation>Загрузка игры</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="197"/>
-        <location filename="mainwindow.cpp" line="413"/>
+        <location filename="mainwindow.cpp" line="205"/>
+        <location filename="mainwindow.cpp" line="434"/>
         <source>Success</source>
         <translation>Операция завершена успешно</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="413"/>
+        <location filename="mainwindow.cpp" line="434"/>
         <source>The game has been downloaded and unpacked</source>
         <translation>Игра была успешно загружена и распакована</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="488"/>
+        <location filename="mainwindow.cpp" line="406"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="488"/>
+        <location filename="mainwindow.cpp" line="406"/>
         <source>Can&apos;t create dir</source>
         <translation>Невозможно создать директорию</translation>
     </message>
@@ -161,6 +161,43 @@
         <translation>Путь к играм:</translation>
     </message>
     <message>
+        <location filename="mainwindow.ui" line="259"/>
+        <source>Additional INSTEAD parameters:</source>
+        <translation>Дополнительные параметры INSTEAD:</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="277"/>
+        <source>Check game updates on start</source>
+        <translation>Проверять обновления игр при запуске</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="284"/>
+        <source>Check program updates on start</source>
+        <translation>Проверять обновления программ при запуске</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="383"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-weight:600;&quot;&gt;Game update/launch program for INSTEAD&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt;&quot;&gt;INSTEAD web-site:&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;http://code.google.com/p/instead/&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://code.google.com/p/instead/&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt;&quot;&gt;Discussion forum thread:&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;http://instead.pinebrush.com/forum/viewtopic.php?pid=1281#p1281&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://instead.pinebrush.com/forum/viewtopic.php?pid=1281#p1281&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt;&quot;&gt; &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-weight:600;&quot;&gt;Программа для обновления и запуска игр для INSTEAD&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt;&quot;&gt;Сайт INSTEAD:&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;http://code.google.com/p/instead/&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://code.google.com/p/instead/&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt;&quot;&gt;Ветка обсуждения на форуме:&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;http://instead.pinebrush.com/forum/viewtopic.php?pid=1281#p1281&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://instead.pinebrush.com/forum/viewtopic.php?pid=1281#p1281&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt;&quot;&gt; &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="414"/>
+        <source>Check Program Updates</source>
+        <translation>Проверить обновления программ</translation>
+    </message>
+    <message>
         <source>Details</source>
         <translation type="obsolete">Описание</translation>
     </message>
@@ -212,42 +249,40 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">URL списка обновлений:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="257"/>
         <source>Check updates on start</source>
-        <translation>Проверять обновления при запуске</translation>
+        <translation type="obsolete">Проверять обновления при запуске</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="264"/>
+        <location filename="mainwindow.ui" line="293"/>
         <source>Update sources</source>
         <translation>Источники обновления</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="283"/>
+        <location filename="mainwindow.ui" line="312"/>
         <source>http://instead-launcher.googlecode.com/files/game_list.xml</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="304"/>
+        <location filename="mainwindow.ui" line="333"/>
         <source>Add</source>
         <translation>Добавить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="311"/>
+        <location filename="mainwindow.ui" line="340"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="338"/>
+        <location filename="mainwindow.ui" line="367"/>
         <source>Reset</source>
         <translation>Сбросить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="348"/>
+        <location filename="mainwindow.ui" line="377"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="354"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -262,13 +297,61 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-weight:600;&quot;&gt;Game update/launch program for INSTEAD&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt;&quot;&gt;INSTEAD web-site:&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;http://code.google.com/p/instead/&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://code.google.com/p/instead/&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt;&quot;&gt;Discussion forum thread:&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;http://instead.pinebrush.com/forum/viewtopic.php?pid=1281#p1281&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://instead.pinebrush.com/forum/viewtopic.php?pid=1281#p1281&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt;&quot;&gt; &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</oldsource>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;Программа для обновления и запуска игр для INSTEAD&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;Сайт INSTEAD:&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;http://code.google.com/p/instead/&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;http://code.google.com/p/instead/&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;Ветка обсуждения на форуме:&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;http://instead.pinebrush.com/forum/viewtopic.php?pid=1281#p1281&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;http://instead.pinebrush.com/forum/viewtopic.php?pid=1281#p1281&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt; &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>UpdateWindow</name>
+    <message>
+        <location filename="updatewindow.cpp" line="18"/>
+        <source>Update list downloading</source>
+        <translation>Загрузка списка обновлений</translation>
+    </message>
+    <message>
+        <location filename="updatewindow.cpp" line="51"/>
+        <source>Loading updates ... please wait</source>
+        <translation>Поиск обновлений ... пожалуйста подождите</translation>
+    </message>
+    <message>
+        <location filename="updatewindow.cpp" line="86"/>
+        <source>Error</source>
+        <translation>Ошибка</translation>
+    </message>
+    <message>
+        <location filename="updatewindow.cpp" line="86"/>
+        <source>Can&apos;t download update list</source>
+        <translation>Не удалось загрузить список обновлений</translation>
+    </message>
+    <message>
+        <location filename="updatewindow.cpp" line="142"/>
+        <source>Instead update from </source>
+        <translation>Обновление instead с</translation>
+    </message>
+    <message>
+        <location filename="updatewindow.cpp" line="147"/>
+        <source>Launcher update from </source>
+        <translation>Обновление launcher с</translation>
+    </message>
+    <message>
+        <location filename="updatewindow.cpp" line="158"/>
+        <source>No updates available</source>
+        <translation>Нет доступных обновлений</translation>
+    </message>
+    <message>
+        <location filename="updatewindow.ui" line="14"/>
+        <source>Updates</source>
+        <translation>Обновления</translation>
+    </message>
+    <message>
+        <location filename="updatewindow.ui" line="42"/>
+        <source>Close</source>
+        <translation>Закрыть</translation>
     </message>
 </context>
 </TS>
