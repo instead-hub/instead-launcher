@@ -215,7 +215,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="mainwindow.ui" line="207"/>
         <source>Preferences</source>
-        <translation>Установки</translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="215"/>
