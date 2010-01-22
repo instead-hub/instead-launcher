@@ -76,6 +76,10 @@ void UpdateWindow::listServerDone( bool error ) {
             qWarning("Warning: errors while parsing update list");
             const QString s = xml.errorString();
             qWarning() << s;
+        } else {
+            // all right, generate message
+            refreshLocalVersions();
+            generateUpdateMessage();
         }
     }
     else {
@@ -116,7 +120,24 @@ void UpdateWindow::parseUpdateList( QXmlStreamReader *xml ) {
             }
         }
     }
-    qDebug() << "Instead version " << remoteInsteadVersion << "at url" << urlInstead;
-    qDebug() << "Launcher version " << remoteLauncherVersion << "at url" << urlLauncher;
 }
 
+void UpdateWindow::refreshLocalVersions() {
+    // TODO
+    localInsteadVersion = "1.0.0";
+    localLauncherVersion = "0.0.0";
+}
+
+void UpdateWindow::generateUpdateMessage() {
+    qDebug() << "Instead version " << remoteInsteadVersion << "at url" << urlInstead;
+    qDebug() << "Launcher version " << remoteLauncherVersion << "at url" << urlLauncher;
+    qDebug() << "Local instead version " << localInsteadVersion;
+    qDebug() << "Local launcher version " << localLauncherVersion;
+
+    QString text;
+
+    text += "<h1>Available updates</h1>";
+
+    m_ui->textBrowser->setHtml(text);
+
+}

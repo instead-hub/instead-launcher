@@ -33,6 +33,8 @@ private:
 
     void refreshUpdateList();
     void parseUpdateList( QXmlStreamReader *xml );
+    void refreshLocalVersions();
+    void generateUpdateMessage();
 
 private slots:
     void listServerDone( bool );
