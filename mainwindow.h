@@ -205,6 +205,9 @@ private slots:
 
     void gamesDirChanged();
     void tabChanged(int pos);
+
+    void checkUpdates();
+
 };
 
 #endif // MAINWINDOW_H

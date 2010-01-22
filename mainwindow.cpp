@@ -3,6 +3,7 @@
 #include "qunzip.h"
 #include "platform.h"
 #include <QSettings>
+#include "updatewindow.h"
 
 #define DEFAULT_UPDATE_URL "http://instead-launcher.googlecode.com/files/game_list.xml"
 
@@ -125,6 +126,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect( m_ui->gamesDir, SIGNAL(textChanged ( const QString &)), this, SLOT(gamesDirChanged()) );
     connect( m_ui->tabWidget, SIGNAL(currentChanged ( int )), this, SLOT(tabChanged(int)) );
+
+    connect( m_ui->checkUpdatesButton, SIGNAL( clicked() ), this, SLOT( checkUpdates() ) );
 
     if (m_ui->autoRefreshCheckBox->isChecked()) {
         refreshNetGameList();
@@ -638,4 +641,9 @@ void MainWindow::openDescriptionClicked()
         const QString url = static_cast<NetGameItem *>(wi)->info().descUrl();
         QDesktopServices::openUrl(url);
     }
+}
+
+void MainWindow::checkUpdates() {
+    UpdateWindow dialog;
+    dialog.exec();
 }
