@@ -327,6 +327,38 @@ void MainWindow::parseGameList( QXmlStreamReader *xml )
             qDebug("A game in the list!");
             parseGameInfo( xml );
         }
+        if ( xml->isStartElement() && xml->name() == "instead" ) {
+            QString version = "", url = "";
+            while ( !xml->atEnd() ) {
+                xml->readNext();
+                if ( xml->isStartElement() ) {
+                    if ( xml->name() == "version" ) {
+                        version = xml->readElementText();
+                    } else if ( xml->name() == "url" ) {
+                        url = xml->readElementText();
+                    }
+                } else if ( xml->isEndElement() && xml->name()=="instead" ) {
+                    break;
+                }
+            }
+            qDebug() << "Instead version " << version << " url " << url;
+        }
+        if ( xml->isStartElement() && xml->name() == "launcher" ) {
+            QString version = "", url = "";
+            while ( !xml->atEnd() ) {
+                xml->readNext();
+                if ( xml->isStartElement() ) {
+                    if ( xml->name() == "version" ) {
+                        version = xml->readElementText();
+                    } else if ( xml->name() == "url" ) {
+                        url = xml->readElementText();
+                    }
+                } else if ( xml->isEndElement() && xml->name()=="launcher" ) {
+                    break;
+                }
+            }
+            qDebug() << "Launcher version " << version << " url " << url;
+        }
     }
 }
 
