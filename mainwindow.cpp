@@ -121,6 +121,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect( m_ui->browseGamesPath, SIGNAL( clicked() ), this, SLOT( browseGamesPath() ) );
     connect( m_ui->removePushButton, SIGNAL( clicked() ), this, SLOT( removeSelectedGame() ) );
     connect( m_ui->openDescription, SIGNAL( clicked() ), this, SLOT( openDescriptionClicked() ) );
+    connect( m_ui->listNewGames, SIGNAL( itemDoubleClicked( QTreeWidgetItem *, int ) ), this, SLOT( installPushButtonClicked() ) );
 
     connect( m_ui->gamesDir, SIGNAL(textChanged ( const QString &)), this, SLOT(gamesDirChanged()) );
     connect( m_ui->tabWidget, SIGNAL(currentChanged ( int )), this, SLOT(tabChanged(int)) );
