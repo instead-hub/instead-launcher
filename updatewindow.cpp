@@ -122,9 +122,9 @@ void UpdateWindow::parseUpdateList( QXmlStreamReader *xml ) {
 }
 
 void UpdateWindow::refreshLocalVersions() {
-    // TODO
+    // TODO: detect instead version
     localInsteadVersion = "1.0.0";
-    localLauncherVersion = "0.0.0";
+    localLauncherVersion = LAUNCHER_VERSION;
 }
 
 void UpdateWindow::generateUpdateMessage() {
@@ -139,18 +139,18 @@ void UpdateWindow::generateUpdateMessage() {
     QString text;
 
     if (localInsteadVersion != remoteInsteadVersion) {
-        text += "<h3>Instead update</h3>";
+        text += "<h3>" + tr("Instead update from ") + localInsteadVersion + " to " + remoteInsteadVersion + "</h3>";
         text += "<a href=\"" + urlInstead + "\">" + urlInstead + "</a>";
         needUpdateInstead = true;
     }
     if (localLauncherVersion != remoteLauncherVersion) {
-        text += "<h3>Launcher update</h3>";
+        text += "<h3>" + tr("Launcher update from ") + localLauncherVersion + " to " + remoteLauncherVersion + "</h3>";
         text += "<a href=\"" + urlLauncher + "\">" + urlLauncher + "</a>";
         needUpdateLauncher = true;
     }
 
     if (!needUpdateInstead && !needUpdateLauncher) {
-        text += "<h3>No updates available</h3>";
+        text += "<h3>"+tr("No updates available")+"</h3>";
     }
 
     m_ui->textBrowser->setHtml(text);
