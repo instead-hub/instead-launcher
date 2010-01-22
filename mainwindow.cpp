@@ -218,6 +218,10 @@ void MainWindow::playSelectedGame()
     arguments << "-nostdgames";
     arguments << "-gamespath" << gamesPath;
 
+    if ( !m_ui->insteadParameters->text().isEmpty() ) {
+        arguments.append( m_ui->insteadParameters->text().split(" ",  QString::SkipEmptyParts) );
+    }
+
     qDebug() << "Launching " << insteadPath << arguments;
 
     connect( m_process, SIGNAL(started()), this, SLOT( processStarted()) );
@@ -528,6 +532,7 @@ void MainWindow::resetConfig() {
     QListWidgetItem *item = m_ui->updateUrlList->item(0);
     item->setFlags(item->flags() & ~ (Qt::ItemIsEnabled));
     m_ui->gamesDir->setText( getGameDirPath() );
+    m_ui->insteadParameters->setText("");
 }
 
 void MainWindow::loadConfig() {
@@ -536,6 +541,7 @@ void MainWindow::loadConfig() {
     bool autoRefresh = conf.value("AutoRefresh", "false").toString() == "true";
     QString lang = conf.value( "Language", "*" ).toString();
     QString gamesDir = conf.value("GamesPath", getGameDirPath()).toString();
+    QString insteadParameters = conf.value("InsteadParameters", "").toString();
 
     m_ui->lineInsteadPath->setText(insteadPath);
     m_ui->autoRefreshCheckBox->setChecked(autoRefresh);
@@ -564,6 +570,7 @@ void MainWindow::loadConfig() {
 	}
     }
     m_ui->gamesDir->setText(gamesDir);
+    m_ui->insteadParameters->setText(insteadParameters);
     conf.endArray();
     qDebug() << "Config loaded";
 }
@@ -586,6 +593,7 @@ void MainWindow::saveConfig() {
     }
     conf.endArray();
     conf.setValue("GamesPath", m_ui->gamesDir->text());
+    conf.setValue("InsteadParameters", m_ui->insteadParameters->text());
 
     qDebug() << "Config saved";
 }
