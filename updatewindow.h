@@ -2,6 +2,9 @@
 #define UPDATEWINDOW_H
 
 #include <QtGui/QDialog>
+#include <QHttp>
+#include <QProgressDialog>
+#include <QXmlStreamReader>
 
 namespace Ui {
     class UpdateWindow;
@@ -18,6 +21,15 @@ protected:
 
 private:
     Ui::UpdateWindow *m_ui;
+    QHttp *m_listServer;
+    QProgressDialog *m_listLoadProgress;
+
+    void refreshUpdateList();
+    void parseUpdateList( QXmlStreamReader *xml );
+
+private slots:
+    void listServerDone( bool );
+
 };
 
 #endif // UPDATEWINDOW_H
