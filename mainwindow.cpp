@@ -530,6 +530,7 @@ void MainWindow::refreshLocalGameList() {
 void MainWindow::resetConfig() {
     m_ui->lineInsteadPath->setText( getDefaultInterpreterPath() );
     m_ui->autoRefreshCheckBox->setChecked(false);
+    m_ui->autoRefreshSwCheckBox->setChecked(false);
     m_ui->updateUrlList->clear();
     m_ui->updateUrlList->addItem( GAMES_UPDATE_URL );
     QListWidgetItem *item = m_ui->updateUrlList->item(0);
@@ -542,12 +543,14 @@ void MainWindow::loadConfig() {
     QSettings conf(getConfigPath(), QSettings::IniFormat);
     QString insteadPath = conf.value("InsteadPath", getDefaultInterpreterPath()).toString();
     bool autoRefresh = conf.value("AutoRefresh", "false").toString() == "true";
+    bool autoRefreshSW = conf.value("AutoRefreshSW", "false").toString() == "true";
     QString lang = conf.value( "Language", "*" ).toString();
     QString gamesDir = conf.value("GamesPath", getGameDirPath()).toString();
     QString insteadParameters = conf.value("InsteadParameters", "").toString();
 
     m_ui->lineInsteadPath->setText(insteadPath);
     m_ui->autoRefreshCheckBox->setChecked(autoRefresh);
+    m_ui->autoRefreshSwCheckBox->setChecked(autoRefreshSW);
     int index = m_ui->langComboBox->findText( ( lang == "*" ) ? tr( "all" ) : lang );
     m_ui->langComboBox->blockSignals( true );
     m_ui->langComboBox->setCurrentIndex( index );
@@ -583,6 +586,7 @@ void MainWindow::saveConfig() {
     QSettings conf(getConfigPath(), QSettings::IniFormat);
     conf.setValue("InsteadPath", m_ui->lineInsteadPath->text());
     conf.setValue("AutoRefresh", (m_ui->autoRefreshCheckBox->isChecked() ? "true" : "false"));
+    conf.setValue("AutoRefreshSW", (m_ui->autoRefreshSwCheckBox->isChecked() ? "true" : "false"));
     conf.setValue("Language", ( m_ui->langComboBox->currentText() == tr( "all" ) ) ? "*" : m_ui->langComboBox->currentText() );
     conf.setValue( "LastTabIndex", m_ui->tabWidget->currentIndex() );
     conf.beginGroup( "MainWindow" );
