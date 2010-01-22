@@ -131,6 +131,11 @@ MainWindow::MainWindow(QWidget *parent)
     if (m_ui->autoRefreshCheckBox->isChecked()) {
         refreshNetGameList();
     }
+
+    if (m_ui->autoRefreshSwCheckBox->isChecked()) {
+        UpdateWindow::checkUpdates( this, true );
+    }
+
 }
 
 MainWindow::~MainWindow()
@@ -647,6 +652,5 @@ void MainWindow::openDescriptionClicked()
 }
 
 void MainWindow::checkUpdates() {
-    UpdateWindow dialog;
-    dialog.exec();
+    UpdateWindow::checkUpdates( this, false );
 }

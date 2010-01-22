@@ -19,10 +19,15 @@ public:
 protected:
     void changeEvent(QEvent *e);
 
+public:
+
+    static void checkUpdates( QWidget *parent, bool automatically );
+
 private:
     Ui::UpdateWindow *m_ui;
     QHttp *m_listServer;
     QProgressDialog *m_listLoadProgress;
+    bool m_automatically;
 
     QString localInsteadVersion;
     QString localLauncherVersion;
@@ -31,7 +36,7 @@ private:
     QString urlInstead;
     QString urlLauncher;
 
-    void refreshUpdateList();
+    void refreshUpdateList( bool automatically );
     void parseUpdateList( QXmlStreamReader *xml );
     void refreshLocalVersions();
     void generateUpdateMessage();
