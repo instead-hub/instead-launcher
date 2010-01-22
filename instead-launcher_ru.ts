@@ -331,7 +331,13 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="updatewindow.cpp" line="142"/>
         <source>Instead update from </source>
-        <translation>Обновление instead с</translation>
+        <translation>Обновление instead с </translation>
+    </message>
+    <message>
+        <location filename="updatewindow.cpp" line="142"/>
+        <location filename="updatewindow.cpp" line="147"/>
+        <source> to </source>
+        <translation> до </translation>
     </message>
     <message>
         <location filename="updatewindow.cpp" line="147"/>

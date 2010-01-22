@@ -139,12 +139,12 @@ void UpdateWindow::generateUpdateMessage() {
     QString text;
 
     if (localInsteadVersion != remoteInsteadVersion) {
-        text += "<h3>" + tr("Instead update from ") + localInsteadVersion + " to " + remoteInsteadVersion + "</h3>";
+        text += "<h3>" + tr("Instead update from ") + localInsteadVersion + tr(" to ") + remoteInsteadVersion + "</h3>";
         text += "<a href=\"" + urlInstead + "\">" + urlInstead + "</a>";
         needUpdateInstead = true;
     }
     if (localLauncherVersion != remoteLauncherVersion) {
-        text += "<h3>" + tr("Launcher update from ") + localLauncherVersion + " to " + remoteLauncherVersion + "</h3>";
+        text += "<h3>" + tr("Launcher update from ") + localLauncherVersion + tr(" to ") + remoteLauncherVersion + "</h3>";
         text += "<a href=\"" + urlLauncher + "\">" + urlLauncher + "</a>";
         needUpdateLauncher = true;
     }
