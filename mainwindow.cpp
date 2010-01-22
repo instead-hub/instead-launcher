@@ -4,8 +4,7 @@
 #include "platform.h"
 #include <QSettings>
 #include "updatewindow.h"
-
-#define DEFAULT_UPDATE_URL "http://instead-launcher.googlecode.com/files/game_list.xml"
+#include "config.h"
 
 class NetGameItem: public QTreeWidgetItem {
     public:
@@ -532,7 +531,7 @@ void MainWindow::resetConfig() {
     m_ui->lineInsteadPath->setText( getDefaultInterpreterPath() );
     m_ui->autoRefreshCheckBox->setChecked(false);
     m_ui->updateUrlList->clear();
-    m_ui->updateUrlList->addItem( DEFAULT_UPDATE_URL );
+    m_ui->updateUrlList->addItem( GAMES_UPDATE_URL );
     QListWidgetItem *item = m_ui->updateUrlList->item(0);
     item->setFlags(item->flags() & ~ (Qt::ItemIsEnabled));
     m_ui->gamesDir->setText( getGameDirPath() );
@@ -560,7 +559,7 @@ void MainWindow::loadConfig() {
     conf.endGroup( );
     int count = conf.beginReadArray("UpdateURLs");
     if ( !count ) {
-	m_ui->updateUrlList->addItem( DEFAULT_UPDATE_URL );
+        m_ui->updateUrlList->addItem( GAMES_UPDATE_URL );
         QListWidgetItem *item = m_ui->updateUrlList->item(0);
         item->setFlags(item->flags() & ~ (Qt::ItemIsEnabled));
     } else {

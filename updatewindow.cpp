@@ -3,8 +3,7 @@
 #include <QtGui>
 #include <QtCore>
 #include <QtNetwork>
-
-#define UPDATE_URL "http://instead-launcher.googlecode.com/files/update_list.xml"
+#include "config.h"
 
 UpdateWindow::UpdateWindow(QWidget *parent) :
     QDialog(parent),
@@ -50,7 +49,7 @@ void UpdateWindow::changeEvent(QEvent *e)
 }
 
 void UpdateWindow::refreshUpdateList() {
-    QUrl url(UPDATE_URL);
+    QUrl url(SW_UPDATE_URL);
     qDebug() << "Downloading update list from " << url.toString();
     m_listServer->setHost(url.host());
     setEnabled( false );

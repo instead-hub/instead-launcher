@@ -16,7 +16,8 @@ HEADERS += mainwindow.h \
     unzip/ioapi.h \
     qunzip.h \
     platform.h \
-    updatewindow.h
+    updatewindow.h \
+    config.h
 FORMS += mainwindow.ui \
     updatewindow.ui
 LIBS += -qt-zlib # use zlib embedded into qt
