@@ -20,8 +20,16 @@ UpdateWindow::UpdateWindow(QWidget *parent) :
     connect( m_listLoadProgress, SIGNAL(canceled()), m_listServer, SLOT(abort()));
     connect( m_listServer, SIGNAL( dataReadProgress( int, int ) ), m_listLoadProgress, SLOT( setValue( int ) ) );
 
-    // start downloading
+
+    localInsteadVersion = "";
+    localLauncherVersion = "";
+    remoteInsteadVersion = "";
+    remoteLauncherVersion = "";
+    urlInstead = "";
+    urlLauncher = "";
+
     refreshUpdateList();
+
 }
 
 UpdateWindow::~UpdateWindow()
@@ -77,5 +85,38 @@ void UpdateWindow::listServerDone( bool error ) {
 }
 
 void UpdateWindow::parseUpdateList( QXmlStreamReader *xml ) {
-    qDebug() << "TODO: Parse update list";
+    Q_ASSERT( xml->name() == "updates" );
+    while( !xml->atEnd() ) {
+        xml->readNext();
+        if ( xml->isStartElement() && xml->name() == "instead" ) {
+            while ( !xml->atEnd() ) {
+                xml->readNext();
+                if ( xml->isStartElement() ) {
+                    if ( xml->name() == "version" ) {
+                        remoteInsteadVersion = xml->readElementText();
+                    } else if ( xml->name() == "url" ) {
+                        urlInstead = xml->readElementText();
+                    }
+                } else if ( xml->isEndElement() && xml->name()=="instead" ) {
+                    break;
+                }
+            }
+        } else  if ( xml->isStartElement() && xml->name() == "launcher" ) {
+            while ( !xml->atEnd() ) {
+                xml->readNext();
+                if ( xml->isStartElement() ) {
+                    if ( xml->name() == "version" ) {
+                        remoteLauncherVersion = xml->readElementText();
+                    } else if ( xml->name() == "url" ) {
+                        urlLauncher = xml->readElementText();
+                    }
+                } else if ( xml->isEndElement() && xml->name()=="launcher" ) {
+                    break;
+                }
+            }
+        }
+    }
+    qDebug() << "Instead version " << remoteInsteadVersion << "at url" << urlInstead;
+    qDebug() << "Launcher version " << remoteLauncherVersion << "at url" << urlLauncher;
 }
+

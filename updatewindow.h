@@ -24,6 +24,13 @@ private:
     QHttp *m_listServer;
     QProgressDialog *m_listLoadProgress;
 
+    QString localInsteadVersion;
+    QString localLauncherVersion;
+    QString remoteInsteadVersion;
+    QString remoteLauncherVersion;
+    QString urlInstead;
+    QString urlLauncher;
+
     void refreshUpdateList();
     void parseUpdateList( QXmlStreamReader *xml );
 
