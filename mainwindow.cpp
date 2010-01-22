@@ -98,14 +98,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_listLoadProgress = new QProgressDialog(parent);
     m_listLoadProgress->setLabelText( tr( "Game list downloading" ) + "..." );
+    m_listLoadProgress->setWindowIcon( QIcon( ":/resources/icon.png" ) );
     connect( m_listLoadProgress, SIGNAL(canceled()), m_listServer, SLOT(abort()));
     connect( m_listServer, SIGNAL( dataReadProgress( int, int ) ), m_listLoadProgress, SLOT( setValue( int ) ) );
 
     m_gameServer = new QHttp( this );
     connect( m_gameServer, SIGNAL( done(bool ) ), this, SLOT( gameServerDone( bool ) ) );
     connect( m_gameServer, SIGNAL( responseHeaderReceived( QHttpResponseHeader ) ), this, SLOT( gameServerResponseHeaderReceived( QHttpResponseHeader ) ) );
-
     m_gameLoadProgress = new QProgressDialog(parent);
+    m_gameLoadProgress->setWindowIcon( QIcon( ":/resources/icon.png" ) );
     connect( m_gameServer, SIGNAL( dataReadProgress( int, int ) ), m_gameLoadProgress, SLOT( setValue( int ) ) );
     connect( m_gameLoadProgress, SIGNAL(canceled()), m_gameServer, SLOT(abort()));
 
@@ -205,8 +206,7 @@ void MainWindow::removeSelectedGame()
     QMessageBox::information( this, tr( "Success" ), tr( "The game has successfully removed" ) );
 }
 
-
-void MainWindow::playSelectedGame() 
+void MainWindow::playSelectedGame()
 {
     if (!m_ui->listGames->currentItem()) return;
     LocalGameItem *item = static_cast<LocalGameItem *>(m_ui->listGames->currentItem());
@@ -376,7 +376,6 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
 	m_ui->listNewGames->setItemWidget( game, 2, detailsLinkLabel );
     }
 }
-
 
 void MainWindow::downloadGame( QTreeWidgetItem *game ) {
     Q_ASSERT( game != NULL );
