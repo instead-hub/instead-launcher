@@ -175,36 +175,49 @@ void UpdateWindow::checkUpdates( QWidget *parent, QString insteadBinary, bool au
 
 QString UpdateWindow::detectInsteadVersion( QString insteadBinary ) {
 
+    QString version = "0";
     QDir tempDir = QDir::temp();
-    tempDir.mkdir( "instead-version" );
-    QFile file(tempDir.absolutePath() + "/instead-version/main.lua");
-    file.open(QIODevice::WriteOnly);
-    QTextStream stream(&file);
-    QString savePath = QDir::toNativeSeparators(tempDir.absolutePath() + "/instead-version/version.txt");
-    stream << "-- $Name: Version$\n";
-    stream << "f = io.open(\"" + savePath + "\", \"w\");\n";
-    stream << "io.output(f):write(stead.version);\n";
-    stream << "io.close(f);\n";
-    stream << "os.exit(1);\n";
-    file.close();
-
-    QStringList arguments;
-    arguments << "-game" << "instead-version";
-    arguments << "-nostdgames";
-    arguments << "-gamespath" << QDir::toNativeSeparators(tempDir.absolutePath());
-
-    QProcess process(this);
-    qDebug() << "Execute " << insteadBinary << " with args " << arguments;
-    process.execute( insteadBinary, arguments);
-
-    QFile verFile(savePath);
-    verFile.open(QIODevice::ReadOnly);
-    QTextStream verStream(&verFile);
-    QString version = verStream.readLine();
-
-    tempDir.remove("instead-version/main.lua");
-    tempDir.remove("instead-version/version.txt");
-    tempDir.rmdir("instead-version");
+    if (tempDir.mkdir( "instead-version" )) {
+        QFile file(tempDir.absolutePath() + "/instead-version/main.lua");
+        if (file.open(QIODevice::WriteOnly)) {
+            QTextStream stream(&file);
+            QString savePath = QDir::toNativeSeparators(tempDir.absolutePath() + "/instead-version/version.txt");
+            stream << "-- $Name: Version$\n";
+            stream << "f = io.open(\"" + savePath + "\", \"w\");\n";
+            stream << "io.output(f):write(stead.version);\n";
+            stream << "io.close(f);\n";
+            stream << "os.exit(123);\n";
+            file.close();
+            QStringList arguments;
+            arguments << "-game" << "instead-version";
+            arguments << "-nostdgames";
+            arguments << "-gamespath" << QDir::toNativeSeparators(tempDir.absolutePath());
+            QProcess process(this);
+            qDebug() << "Execute " << insteadBinary << " with args " << arguments;
+            int res = process.execute( insteadBinary, arguments);
+            qDebug() << "Process exited with code " << res;
+            if ( res == 123) {
+                QFile verFile(savePath);
+                if (verFile.open(QIODevice::ReadOnly)) {
+                    QTextStream verStream(&verFile);
+                    version = verStream.readLine();
+                    qDebug() << "Instead version is " << version;
+                    verFile.close();
+                } else {
+                    qWarning() << "Can't open version.txt";
+                }
+            } else {
+                qWarning() << "Failed to execute instead process";
+            }
+        } else {
+            qWarning() << "Can't create main.lua";
+        }
+        tempDir.remove("instead-version/main.lua");
+        tempDir.remove("instead-version/version.txt");
+        tempDir.rmdir("instead-version");
+    } else {
+        qWarning() << "Can't create temp directory";
+    }
 
     return version;
 
