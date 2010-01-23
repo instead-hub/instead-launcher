@@ -174,6 +174,7 @@ void UpdateWindow::checkUpdates( QWidget *parent, QString insteadBinary, bool au
 }
 
 void UpdateWindow::detectInsteadVersion() {
+    localInsteadVersion = "0";
     QDir tempDir = QDir::temp();
     tempDir.remove("instead-version/main.lua");
     tempDir.remove("instead-version/version.txt");
@@ -223,7 +224,6 @@ void UpdateWindow::processError( QProcess::ProcessError error) {
     tempDir.remove("instead-version/main.lua");
     tempDir.remove("instead-version/version.txt");
     tempDir.rmdir("instead-version");
-    localInsteadVersion = "0";
     generateUpdateMessage();
 }
 
@@ -232,7 +232,6 @@ void UpdateWindow::processFinished( int exitCode, QProcess::ExitStatus exitStatu
     qDebug() << "Instead exited with code " << m_process->exitCode();
     QDir tempDir = QDir::temp();
     if (m_process->exitCode() != 123) {
-        localInsteadVersion = "0";
         qWarning() << "Wrong exit code";
     } else {
         QString savePath = QDir::toNativeSeparators(tempDir.absolutePath() + "/instead-version/version.txt");
