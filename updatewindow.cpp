@@ -196,18 +196,15 @@ QString UpdateWindow::detectInsteadVersion( QString insteadBinary ) {
             arguments << "-game" << "instead-version";
             arguments << "-nostdgames";
             arguments << "-gamespath" << QDir::toNativeSeparators(tempDir.absolutePath());
-            m_process = new QProcess(this);
             QFileInfo info(insteadBinary);
-            m_process->setWorkingDirectory( info.path() );
-            //connect( m_process, SIGNAL(started()), this, SLOT( processStarted()) );
-            //connect( m_process, SIGNAL(error(QProcess::ProcessError)), this, SLOT( processError(QProcess::ProcessError)) );
-            //connect( m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT( processFinished(int, QProcess::ExitStatus)) );
+            QProcess process(this);
+            process.setWorkingDirectory( info.path() );
             qDebug() << "Launch " << insteadBinary << " with args " << arguments;
             // execute doesn't work for windows instead version, sorry :(
-            m_process->start( insteadBinary, arguments );
-            m_process->waitForFinished(3000);
-            qDebug() << "Instead finished with exit code " << m_process->exitCode();
-            if (m_process->exitCode() != 123) {
+            process.start( insteadBinary, arguments );
+            process.waitForFinished(2000);
+            qDebug() << "Instead finished with exit code " << process.exitCode();
+            if (process.exitCode() != 123) {
                 qWarning() << "Wrong exit code";
             } else {
                 QFile verFile(savePath);

@@ -29,7 +29,6 @@ private:
     QHttp *m_listServer;
     QProgressDialog *m_listLoadProgress;
     bool m_automatically;
-    QProcess *m_process;
 
     QString localInsteadVersion;
     QString localLauncherVersion;
