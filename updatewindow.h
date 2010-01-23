@@ -45,9 +45,6 @@ private:
 
 private slots:
     void listServerDone( bool );
-    //void processFinished( int exitCode, QProcess::ExitStatus exitStatus );
-    //void processStarted();
-    //void processError( QProcess::ProcessError );
 
 };
 

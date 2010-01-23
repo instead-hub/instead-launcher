@@ -231,43 +231,6 @@ QString UpdateWindow::detectInsteadVersion( QString insteadBinary ) {
     return version;
 }
 
-/*void UpdateWindow::processStarted() {
-    qDebug() << "Succesfully launched";
-}
-
-void UpdateWindow::processError( QProcess::ProcessError error) {
-    m_process->deleteLater();
-    qDebug() << "Process launching error";
-    QDir tempDir = QDir::temp();
-    tempDir.remove("instead-version/main.lua");
-    tempDir.remove("instead-version/version.txt");
-    tempDir.rmdir("instead-version");
-    generateUpdateMessage();
-}
-
-void UpdateWindow::processFinished( int exitCode, QProcess::ExitStatus exitStatus ) {
-    m_process->deleteLater();
-    qDebug() << "Instead exited with code " << m_process->exitCode();
-    QDir tempDir = QDir::temp();
-    if (m_process->exitCode() != 123) {
-        qWarning() << "Wrong exit code";
-    } else {
-        QString savePath = QDir::toNativeSeparators(tempDir.absolutePath() + "/instead-version/version.txt");
-        QFile verFile(savePath);
-        if (verFile.open(QIODevice::ReadOnly)) {
-            QTextStream verStream(&verFile);
-            localInsteadVersion = verStream.readLine();
-            verFile.close();
-        } else {
-            qWarning() << "Can't open version.txt";
-        }
-    }
-    tempDir.remove("instead-version/main.lua");
-    tempDir.remove("instead-version/version.txt");
-    tempDir.rmdir("instead-version");
-    generateUpdateMessage();
-}*/
-
 /* QString UpdateWindow::detectInsteadVersion( QString insteadBinary ) {
 
     qDebug() << "Instead binary at " << insteadBinary;
