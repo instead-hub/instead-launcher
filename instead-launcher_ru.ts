@@ -9,47 +9,47 @@
         <translation>Загрузка списка игр</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="158"/>
+        <location filename="mainwindow.cpp" line="159"/>
         <source>Do you really want to remove game</source>
         <translation>Вы действительно хотите удалить игру</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="159"/>
+        <location filename="mainwindow.cpp" line="160"/>
         <source>Confirm</source>
         <translation>Подтверждение</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="166"/>
+        <location filename="mainwindow.cpp" line="167"/>
         <source>Fail</source>
         <translation>Неудача</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="166"/>
+        <location filename="mainwindow.cpp" line="167"/>
         <source>Nothing to done</source>
         <translation>Невозможно удалить игру</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="205"/>
+        <location filename="mainwindow.cpp" line="206"/>
         <source>The game has successfully removed</source>
         <translation>Игра была успешно удалена</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="254"/>
+        <location filename="mainwindow.cpp" line="255"/>
         <source>Games directory</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="267"/>
+        <location filename="mainwindow.cpp" line="268"/>
         <source>Can&apos;t run the game</source>
         <translation>Невозможно выполнить игру</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="267"/>
+        <location filename="mainwindow.cpp" line="268"/>
         <source>Make sure that INSTEAD has been installed</source>
         <translation>Убедитесь, что интепретатор был установлен</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="367"/>
+        <location filename="mainwindow.cpp" line="368"/>
         <location filename="mainwindow.cpp" line="559"/>
         <location filename="mainwindow.cpp" line="595"/>
         <location filename="mainwindow.ui" line="112"/>
@@ -57,7 +57,7 @@
         <translation>все</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="372"/>
+        <location filename="mainwindow.cpp" line="373"/>
         <source>open</source>
         <translation>открыть</translation>
     </message>
@@ -67,7 +67,7 @@
         <translation>Загрузка игры</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="205"/>
+        <location filename="mainwindow.cpp" line="206"/>
         <location filename="mainwindow.cpp" line="434"/>
         <source>Success</source>
         <translation>Операция завершена успешно</translation>
@@ -314,19 +314,24 @@ p, li { white-space: pre-wrap; }
         <translation>Загрузка списка обновлений</translation>
     </message>
     <message>
-        <location filename="updatewindow.cpp" line="51"/>
+        <location filename="updatewindow.cpp" line="55"/>
         <source>Loading updates ... please wait</source>
         <translation>Поиск обновлений ... пожалуйста подождите</translation>
     </message>
     <message>
-        <location filename="updatewindow.cpp" line="86"/>
+        <location filename="updatewindow.cpp" line="89"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="updatewindow.cpp" line="86"/>
+        <location filename="updatewindow.cpp" line="89"/>
         <source>Can&apos;t download update list</source>
         <translation>Не удалось загрузить список обновлений</translation>
+    </message>
+    <message>
+        <location filename="updatewindow.cpp" line="140"/>
+        <source>Instead update to </source>
+        <translation>Обновление instead до </translation>
     </message>
     <message>
         <location filename="updatewindow.cpp" line="142"/>
@@ -335,17 +340,17 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="updatewindow.cpp" line="142"/>
-        <location filename="updatewindow.cpp" line="147"/>
+        <location filename="updatewindow.cpp" line="148"/>
         <source> to </source>
         <translation> до </translation>
     </message>
     <message>
-        <location filename="updatewindow.cpp" line="147"/>
+        <location filename="updatewindow.cpp" line="148"/>
         <source>Launcher update from </source>
         <translation>Обновление launcher с</translation>
     </message>
     <message>
-        <location filename="updatewindow.cpp" line="158"/>
+        <location filename="updatewindow.cpp" line="159"/>
         <source>No updates available</source>
         <translation>Нет доступных обновлений</translation>
     </message>

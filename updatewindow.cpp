@@ -136,7 +136,11 @@ void UpdateWindow::generateUpdateMessage() {
     QString text;
 
     if (localInsteadVersion != remoteInsteadVersion) {
-        text += "<h3>" + tr("Instead update from ") + localInsteadVersion + tr(" to ") + remoteInsteadVersion + "</h3>";
+        if ( localInsteadVersion == "0" ) {
+            text += "<h3>" + tr("Instead update to ") + remoteInsteadVersion + "</h3>";
+        } else {
+            text += "<h3>" + tr("Instead update from ") + localInsteadVersion + tr(" to ") + remoteInsteadVersion + "</h3>";
+        }
         text += "<a href=\"" + urlInstead + "\">" + urlInstead + "</a>";
         needUpdateInstead = true;
     }
