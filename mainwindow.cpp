@@ -134,7 +134,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     if (m_ui->autoRefreshSwCheckBox->isChecked()) {
-        UpdateWindow::checkUpdates( this, true );
+        UpdateWindow::checkUpdates( this, m_ui->lineInsteadPath->text(), true );
     }
 
 }
@@ -652,5 +652,5 @@ void MainWindow::openDescriptionClicked()
 }
 
 void MainWindow::checkUpdates() {
-    UpdateWindow::checkUpdates( this, false );
+    UpdateWindow::checkUpdates( this, m_ui->lineInsteadPath->text(), false );
 }

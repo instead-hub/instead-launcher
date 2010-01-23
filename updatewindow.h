@@ -21,13 +21,14 @@ protected:
 
 public:
 
-    static void checkUpdates( QWidget *parent, bool automatically );
+    static void checkUpdates( QWidget *parent, QString insteadBinary, bool automatically );
 
 private:
     Ui::UpdateWindow *m_ui;
     QHttp *m_listServer;
     QProgressDialog *m_listLoadProgress;
     bool m_automatically;
+    QString m_insteadBinary;
 
     QString localInsteadVersion;
     QString localLauncherVersion;
@@ -36,7 +37,7 @@ private:
     QString urlInstead;
     QString urlLauncher;
 
-    void refreshUpdateList( bool automatically );
+    void refreshUpdateList( QString insteadBinary, bool automatically );
     void parseUpdateList( QXmlStreamReader *xml );
     void refreshLocalVersions();
     void generateUpdateMessage();
