@@ -170,6 +170,100 @@ void UpdateWindow::checkUpdates( QWidget *parent, QString insteadBinary, bool au
 }
 
 QString UpdateWindow::detectInsteadVersion( QString insteadBinary ) {
+
     qDebug() << "Instead binary at " << insteadBinary;
-    return "1.0.5";
+
+    QFile file( insteadBinary );
+    if ( !file.open( QIODevice::ReadOnly ) ) {
+        qWarning( "Can't open instead binary for reading " );
+        return "0";
+    }
+
+    // stupid state machine
+
+    char *prefix = "<[VERSION ";
+    char *suffix = "]>";
+    int state = 0;
+    // 0 - wait for first letter of prefix
+    // 1 - wait for letter of prefix
+    // 2 - wait digit
+    // 3 - wait digit or . or first letter of suffix
+    // 4 - wait for letter of suffix
+    int pos = 0; // position in prefix/suffix
+    char buf;
+    bool reuse = false; // reuse last character again
+    QString ver = "";
+
+    while (!file.atEnd()) {
+
+        if ( reuse ) {
+            reuse = false;
+        } else {
+            file.read( &buf, 1 );
+        }
+
+        switch ( state ) {
+            case 0:
+                if ( buf == prefix[0] ) {
+                    state = 1;
+                    pos = 1;
+                }
+                break;
+
+            case 1:
+                if ( !prefix[pos] ) {
+                    state = 2;
+                    ver = "";
+                    reuse = true;
+                } else if ( buf != prefix[pos]) {
+                    state = 0;
+                    reuse = true;
+                } else {
+                    ++pos;
+                }
+                break;
+
+            case 2:
+                if ( buf >= '0' && buf <= '9' ) {
+                    ver += buf;
+                    state = 3;
+                } else {
+                    state = 0;
+                    reuse = true;
+                }
+                break;
+
+            case 3:
+                if ( buf == suffix[0] ) {
+                    state = 4;
+                    pos = 1;
+                } else if ( buf == '.' ) {
+                    ver += buf;
+                    state = 2;
+                } else if ( buf >= '0' && buf <= '9' ) {
+                    ver += buf;
+                } else {
+                    state = 0;
+                    reuse = true;
+                }
+                break;
+
+            case 4:
+                if ( !suffix[pos] ) {
+                    qDebug() << "Instead version detected: " << ver;
+                    return ver;
+                } else if ( buf != suffix[pos] ) {
+                    state = 0;
+                    reuse = true;
+                } else {
+                    ++pos;
+                }
+                break;
+
+        }
+
+    }
+
+    qWarning() << "No version string found in binary";
+    return "0";
 }
