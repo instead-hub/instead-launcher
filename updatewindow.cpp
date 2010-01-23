@@ -47,8 +47,11 @@ void UpdateWindow::changeEvent(QEvent *e)
 }
 
 void UpdateWindow::refreshUpdateList( QString insteadBinary, bool automatically ) {
+    // local versions
+    localLauncherVersion = LAUNCHER_VERSION;
+    localInsteadVersion = detectInsteadVersion( insteadBinary );
+    // retrieve remote versions
     m_automatically = automatically;
-    m_insteadBinary = insteadBinary;
     m_ui->textBrowser->setHtml( "<h3>" + tr("Loading updates ... please wait") + "</h3>" );
     QUrl url(SW_UPDATE_URL);
     qDebug() << "Downloading update list from " << url.toString();
@@ -78,7 +81,6 @@ void UpdateWindow::listServerDone( bool error ) {
             qWarning() << s;
         } else {
             // all right, generate message
-            refreshLocalVersions();
             generateUpdateMessage();
         }
     }
@@ -120,13 +122,6 @@ void UpdateWindow::parseUpdateList( QXmlStreamReader *xml ) {
             }
         }
     }
-}
-
-void UpdateWindow::refreshLocalVersions() {
-    // TODO: detect instead version
-    qDebug() << "Instead binary at " << m_insteadBinary;
-    localInsteadVersion = "1.0.5";
-    localLauncherVersion = LAUNCHER_VERSION;
 }
 
 void UpdateWindow::generateUpdateMessage() {
@@ -172,4 +167,9 @@ void UpdateWindow::checkUpdates( QWidget *parent, QString insteadBinary, bool au
     window->setWindowModality(Qt::WindowModal);
     if ( !automatically ) window->show();
     window->refreshUpdateList( insteadBinary, automatically );
+}
+
+QString UpdateWindow::detectInsteadVersion( QString insteadBinary ) {
+    qDebug() << "Instead binary at " << insteadBinary;
+    return "1.0.5";
 }

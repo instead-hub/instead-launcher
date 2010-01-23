@@ -28,7 +28,6 @@ private:
     QHttp *m_listServer;
     QProgressDialog *m_listLoadProgress;
     bool m_automatically;
-    QString m_insteadBinary;
 
     QString localInsteadVersion;
     QString localLauncherVersion;
@@ -39,8 +38,8 @@ private:
 
     void refreshUpdateList( QString insteadBinary, bool automatically );
     void parseUpdateList( QXmlStreamReader *xml );
-    void refreshLocalVersions();
     void generateUpdateMessage();
+    QString detectInsteadVersion( QString insteadBinary );
 
 private slots:
     void listServerDone( bool );
