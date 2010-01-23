@@ -175,6 +175,43 @@ void UpdateWindow::checkUpdates( QWidget *parent, QString insteadBinary, bool au
 
 QString UpdateWindow::detectInsteadVersion( QString insteadBinary ) {
 
+    QDir tempDir = QDir::temp();
+    tempDir.mkdir( "instead-version" );
+    QFile file(tempDir.absolutePath() + "/instead-version/main.lua");
+    file.open(QIODevice::WriteOnly);
+    QTextStream stream(&file);
+    QString savePath = QDir::toNativeSeparators(tempDir.absolutePath() + "/instead-version/version.txt");
+    stream << "-- $Name: Version$\n";
+    stream << "f = io.open(\"" + savePath + "\", \"w\");\n";
+    stream << "io.output(f):write(stead.version);\n";
+    stream << "io.close(f);\n";
+    stream << "os.exit(1);\n";
+    file.close();
+
+    QStringList arguments;
+    arguments << "-game" << "instead-version";
+    arguments << "-nostdgames";
+    arguments << "-gamespath" << QDir::toNativeSeparators(tempDir.absolutePath());
+
+    QProcess process(this);
+    qDebug() << "Execute " << insteadBinary << " with args " << arguments;
+    process.execute( insteadBinary, arguments);
+
+    QFile verFile(savePath);
+    verFile.open(QIODevice::ReadOnly);
+    QTextStream verStream(&verFile);
+    QString version = verStream.readLine();
+
+    tempDir.remove("instead-version/main.lua");
+    tempDir.remove("instead-version/version.txt");
+    tempDir.rmdir("instead-version");
+
+    return version;
+
+}
+
+/* QString UpdateWindow::detectInsteadVersion( QString insteadBinary ) {
+
     qDebug() << "Instead binary at " << insteadBinary;
 
     QFile file( insteadBinary );
@@ -270,4 +307,4 @@ QString UpdateWindow::detectInsteadVersion( QString insteadBinary ) {
 
     qWarning() << "No version string found in binary";
     return "0";
-}
+} */
