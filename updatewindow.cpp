@@ -47,9 +47,9 @@ void UpdateWindow::changeEvent(QEvent *e)
 }
 
 void UpdateWindow::refreshUpdateList( QString insteadBinary, bool automatically ) {
-    // local versions
+    // local versions of launcher
     localLauncherVersion = LAUNCHER_VERSION;
-    localInsteadVersion = detectInsteadVersion( insteadBinary );
+    m_insteadBinary = insteadBinary;
     // retrieve remote versions
     m_automatically = automatically;
     m_ui->textBrowser->setHtml( "<h3>" + tr("Loading updates ... please wait") + "</h3>" );
@@ -80,8 +80,8 @@ void UpdateWindow::listServerDone( bool error ) {
             const QString s = xml.errorString();
             qWarning() << s;
         } else {
-            // all right, generate message
-            generateUpdateMessage();
+            // all right, detect instead version
+            detectInsteadVersion( );
         }
     }
     else {
@@ -173,54 +173,82 @@ void UpdateWindow::checkUpdates( QWidget *parent, QString insteadBinary, bool au
     window->refreshUpdateList( insteadBinary, automatically );
 }
 
-QString UpdateWindow::detectInsteadVersion( QString insteadBinary ) {
-
-    QString version = "0";
+void UpdateWindow::detectInsteadVersion() {
     QDir tempDir = QDir::temp();
+    tempDir.remove("instead-version/main.lua");
+    tempDir.remove("instead-version/version.txt");
+    tempDir.rmdir("instead-version");
     if (tempDir.mkdir( "instead-version" )) {
         QFile file(tempDir.absolutePath() + "/instead-version/main.lua");
         if (file.open(QIODevice::WriteOnly)) {
+            // generate main.lua
             QTextStream stream(&file);
             QString savePath = QDir::toNativeSeparators(tempDir.absolutePath() + "/instead-version/version.txt");
             stream << "-- $Name: Version$\n";
-            stream << "f = io.open(\"" + savePath + "\", \"w\");\n";
+            stream << "f = io.open(\"" + QDir::fromNativeSeparators(savePath) + "\", \"w\");\n";
             stream << "io.output(f):write(stead.version);\n";
             stream << "io.close(f);\n";
             stream << "os.exit(123);\n";
             file.close();
+            // launch process
             QStringList arguments;
             arguments << "-game" << "instead-version";
             arguments << "-nostdgames";
             arguments << "-gamespath" << QDir::toNativeSeparators(tempDir.absolutePath());
-            QProcess process(this);
-            qDebug() << "Execute " << insteadBinary << " with args " << arguments;
-            int res = process.execute( insteadBinary, arguments);
-            qDebug() << "Process exited with code " << res;
-            if ( res == 123) {
-                QFile verFile(savePath);
-                if (verFile.open(QIODevice::ReadOnly)) {
-                    QTextStream verStream(&verFile);
-                    version = verStream.readLine();
-                    qDebug() << "Instead version is " << version;
-                    verFile.close();
-                } else {
-                    qWarning() << "Can't open version.txt";
-                }
-            } else {
-                qWarning() << "Failed to execute instead process";
-            }
+            m_process = new QProcess(this);
+            QFileInfo info(m_insteadBinary);
+            m_process->setWorkingDirectory( info.path() );
+            connect( m_process, SIGNAL(started()), this, SLOT( processStarted()) );
+            connect( m_process, SIGNAL(error(QProcess::ProcessError)), this, SLOT( processError(QProcess::ProcessError)) );
+            connect( m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT( processFinished(int, QProcess::ExitStatus)) );
+            qDebug() << "Launch " << m_insteadBinary << " with args " << arguments;
+            // execute doesn't work for windows instead version, sorry :(
+            m_process->start( m_insteadBinary, arguments );
         } else {
             qWarning() << "Can't create main.lua";
         }
-        tempDir.remove("instead-version/main.lua");
-        tempDir.remove("instead-version/version.txt");
-        tempDir.rmdir("instead-version");
     } else {
         qWarning() << "Can't create temp directory";
     }
+}
 
-    return version;
+void UpdateWindow::processStarted() {
+    qDebug() << "Succesfully launched";
+}
 
+void UpdateWindow::processError( QProcess::ProcessError error) {
+    m_process->deleteLater();
+    qDebug() << "Process launching error";
+    QDir tempDir = QDir::temp();
+    tempDir.remove("instead-version/main.lua");
+    tempDir.remove("instead-version/version.txt");
+    tempDir.rmdir("instead-version");
+    localInsteadVersion = "0";
+    generateUpdateMessage();
+}
+
+void UpdateWindow::processFinished( int exitCode, QProcess::ExitStatus exitStatus ) {
+    m_process->deleteLater();
+    qDebug() << "Instead exited with code " << m_process->exitCode();
+    QDir tempDir = QDir::temp();
+    if (m_process->exitCode() != 123) {
+        localInsteadVersion = "0";
+        qWarning() << "Wrong exit code";
+    } else {
+        QString savePath = QDir::toNativeSeparators(tempDir.absolutePath() + "/instead-version/version.txt");
+        QFile verFile(savePath);
+        if (verFile.open(QIODevice::ReadOnly)) {
+            QTextStream verStream(&verFile);
+            localInsteadVersion = verStream.readLine();
+            verFile.close();
+        } else {
+            qWarning() << "Can't open version.txt";
+        }
+    }
+    tempDir.remove("instead-version/main.lua");
+    tempDir.remove("instead-version/version.txt");
+    tempDir.rmdir("instead-version");
+    generateUpdateMessage();
 }
 
 /* QString UpdateWindow::detectInsteadVersion( QString insteadBinary ) {

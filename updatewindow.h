@@ -5,6 +5,7 @@
 #include <QHttp>
 #include <QProgressDialog>
 #include <QXmlStreamReader>
+#include <QProcess>
 
 namespace Ui {
     class UpdateWindow;
@@ -28,6 +29,8 @@ private:
     QHttp *m_listServer;
     QProgressDialog *m_listLoadProgress;
     bool m_automatically;
+    QProcess *m_process;
+    QString m_insteadBinary;
 
     QString localInsteadVersion;
     QString localLauncherVersion;
@@ -39,10 +42,13 @@ private:
     void refreshUpdateList( QString insteadBinary, bool automatically );
     void parseUpdateList( QXmlStreamReader *xml );
     void generateUpdateMessage();
-    QString detectInsteadVersion( QString insteadBinary );
+    void detectInsteadVersion();
 
 private slots:
     void listServerDone( bool );
+    void processFinished( int exitCode, QProcess::ExitStatus exitStatus );
+    void processStarted();
+    void processError( QProcess::ProcessError );
 
 };
 
