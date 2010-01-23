@@ -30,7 +30,6 @@ private:
     QProgressDialog *m_listLoadProgress;
     bool m_automatically;
     QProcess *m_process;
-    QString m_insteadBinary;
 
     QString localInsteadVersion;
     QString localLauncherVersion;
@@ -42,13 +41,13 @@ private:
     void refreshUpdateList( QString insteadBinary, bool automatically );
     void parseUpdateList( QXmlStreamReader *xml );
     void generateUpdateMessage();
-    void detectInsteadVersion();
+    QString detectInsteadVersion(QString insteadBinary);
 
 private slots:
     void listServerDone( bool );
-    void processFinished( int exitCode, QProcess::ExitStatus exitStatus );
-    void processStarted();
-    void processError( QProcess::ProcessError );
+    //void processFinished( int exitCode, QProcess::ExitStatus exitStatus );
+    //void processStarted();
+    //void processError( QProcess::ProcessError );
 
 };
 

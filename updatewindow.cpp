@@ -49,7 +49,7 @@ void UpdateWindow::changeEvent(QEvent *e)
 void UpdateWindow::refreshUpdateList( QString insteadBinary, bool automatically ) {
     // local versions of launcher
     localLauncherVersion = LAUNCHER_VERSION;
-    m_insteadBinary = insteadBinary;
+    localInsteadVersion = detectInsteadVersion(insteadBinary);
     // retrieve remote versions
     m_automatically = automatically;
     m_ui->textBrowser->setHtml( "<h3>" + tr("Loading updates ... please wait") + "</h3>" );
@@ -81,7 +81,7 @@ void UpdateWindow::listServerDone( bool error ) {
             qWarning() << s;
         } else {
             // all right, detect instead version
-            detectInsteadVersion( );
+            generateUpdateMessage();
         }
     }
     else {
@@ -173,8 +173,8 @@ void UpdateWindow::checkUpdates( QWidget *parent, QString insteadBinary, bool au
     window->refreshUpdateList( insteadBinary, automatically );
 }
 
-void UpdateWindow::detectInsteadVersion() {
-    localInsteadVersion = "0";
+QString UpdateWindow::detectInsteadVersion( QString insteadBinary ) {
+    QString version = "0";
     QDir tempDir = QDir::temp();
     tempDir.remove("instead-version/main.lua");
     tempDir.remove("instead-version/version.txt");
@@ -197,23 +197,41 @@ void UpdateWindow::detectInsteadVersion() {
             arguments << "-nostdgames";
             arguments << "-gamespath" << QDir::toNativeSeparators(tempDir.absolutePath());
             m_process = new QProcess(this);
-            QFileInfo info(m_insteadBinary);
+            QFileInfo info(insteadBinary);
             m_process->setWorkingDirectory( info.path() );
-            connect( m_process, SIGNAL(started()), this, SLOT( processStarted()) );
-            connect( m_process, SIGNAL(error(QProcess::ProcessError)), this, SLOT( processError(QProcess::ProcessError)) );
-            connect( m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT( processFinished(int, QProcess::ExitStatus)) );
-            qDebug() << "Launch " << m_insteadBinary << " with args " << arguments;
+            //connect( m_process, SIGNAL(started()), this, SLOT( processStarted()) );
+            //connect( m_process, SIGNAL(error(QProcess::ProcessError)), this, SLOT( processError(QProcess::ProcessError)) );
+            //connect( m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT( processFinished(int, QProcess::ExitStatus)) );
+            qDebug() << "Launch " << insteadBinary << " with args " << arguments;
             // execute doesn't work for windows instead version, sorry :(
-            m_process->start( m_insteadBinary, arguments );
+            m_process->start( insteadBinary, arguments );
+            m_process->waitForFinished(3000);
+            qDebug() << "Instead finished with exit code " << m_process->exitCode();
+            if (m_process->exitCode() != 123) {
+                qWarning() << "Wrong exit code";
+            } else {
+                QFile verFile(savePath);
+                if (verFile.open(QIODevice::ReadOnly)) {
+                    QTextStream verStream(&verFile);
+                    version = verStream.readLine();
+                    verFile.close();
+                } else {
+                    qWarning() << "Can't open version.txt";
+                }
+            }
         } else {
             qWarning() << "Can't create main.lua";
         }
+        tempDir.remove("instead-version/main.lua");
+        tempDir.remove("instead-version/version.txt");
+        tempDir.rmdir("instead-version");
     } else {
         qWarning() << "Can't create temp directory";
     }
+    return version;
 }
 
-void UpdateWindow::processStarted() {
+/*void UpdateWindow::processStarted() {
     qDebug() << "Succesfully launched";
 }
 
@@ -248,7 +266,7 @@ void UpdateWindow::processFinished( int exitCode, QProcess::ExitStatus exitStatu
     tempDir.remove("instead-version/version.txt");
     tempDir.rmdir("instead-version");
     generateUpdateMessage();
-}
+}*/
 
 /* QString UpdateWindow::detectInsteadVersion( QString insteadBinary ) {
 
