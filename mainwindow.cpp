@@ -70,6 +70,12 @@ MainWindow::MainWindow(QWidget *parent)
     QTranslator *translator = new QTranslator( this );
     if ( translator->load( "instead-launcher_" + langSuffix + ".qm" ) )
 	QApplication::installTranslator( translator );
+    else qDebug() << "can't find instead-launcher_" + langSuffix + ".qm";
+
+    QTranslator *sysTranslator = new QTranslator( this );
+    if ( sysTranslator->load( "qt_" + langSuffix + ".qm" ) )
+	QApplication::installTranslator( sysTranslator );
+    else qDebug() << "can't find qt_" + langSuffix + ".qm";
 
     m_ui->setupUi(this);
 
