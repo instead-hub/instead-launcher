@@ -72,10 +72,18 @@ MainWindow::MainWindow(QWidget *parent)
 	QApplication::installTranslator( translator );
     else qDebug() << "can't find instead-launcher_" + langSuffix + ".qm";
 
+    QString translationsPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+    qDebug() << "Qt translations path " << translationsPath;
     QTranslator *sysTranslator = new QTranslator( this );
-    if ( sysTranslator->load( "qt_" + langSuffix + ".qm" ) )
-	QApplication::installTranslator( sysTranslator );
-    else qDebug() << "can't find qt_" + langSuffix + ".qm";
+    if ( sysTranslator->load( translationsPath + "/qt_" + langSuffix + ".qm" ) ) {
+        QApplication::installTranslator( sysTranslator );
+        qDebug() << "Used Qt translation from " << translationsPath;
+    } else if ( sysTranslator->load( "qt_" + langSuffix + ".qm" ) ) {
+        QApplication::installTranslator( sysTranslator );
+        qDebug() << "Used Qt translation from local directory";
+    } else {
+        qDebug() << "Can't find qt_" + langSuffix + ".qm";
+    }
 
     m_ui->setupUi(this);
 
