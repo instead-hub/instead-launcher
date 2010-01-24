@@ -455,28 +455,33 @@ bool MainWindow::getLocalGameInfo(const QDir gameDir, const QString gameID, Game
         return false;
     }
 
-    // читаем первые две строчки main.lua
+    // читаем main.lua
     QFile file(gameDir.absolutePath() + "/" + gameID + "/main.lua");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qWarning() << "Can't open " << file.fileName();
         return false;
     }
     QTextStream in(&file);
-    QString name = in.readLine();
-    QString version = in.readLine();
 
     QRegExp regexName("-- \\$Name:(.*)\\$");
-    if (!regexName.exactMatch(name)) {
-        qWarning() << "First line doesn't contains game name";
-        name = gameID;
-    } else name = regexName.capturedTexts()[1].trimmed();
-
-
     QRegExp regexVersion("-- \\$Version:(.*)\\$");
-    if (!regexVersion.exactMatch(version)) {
-        qWarning() << "Second line doesn't contains game version";
+    QString name = gameID;
+    QString version = "0";
+    bool hasVersion = false, hasName = false;
+    while (!hasVersion || !hasName) {
+        QString line = in.readLine();
+        if (line.isNull()) break;
+        if (regexName.exactMatch(line)) {
+            name = regexName.capturedTexts()[1].trimmed();
+            hasName = true;
+        } else if (regexVersion.exactMatch(line)) {
+            version = regexVersion.capturedTexts()[1].trimmed();
+            hasVersion = true;
+        }
     }
-    version = regexVersion.capturedTexts()[1].trimmed();
+
+    if (!hasName) qWarning() << "Game doesn't have $Name tag!";
+    if (!hasVersion) qWarning() << "Game doesn't have $Version tag!";
 
     info.setName( gameID );
     info.setTitle( name );
