@@ -187,7 +187,11 @@ QString UpdateWindow::detectInsteadVersion( QString insteadBinary ) {
             QString savePath = QDir::toNativeSeparators(tempDir.absolutePath() + "/instead-version/version.txt");
             stream << "-- $Name: Version$\n";
             stream << "f = io.open(\"" + QDir::fromNativeSeparators(savePath) + "\", \"w\");\n";
-            stream << "io.output(f):write(stead.version);\n";
+            stream << "if type(stead) ~= 'table' then\n";
+            stream << "  io.output(f):write(version)\n";
+            stream << "else\n";
+            stream << "io.output(f):write(stead.version)\n";
+            stream << "end\n";
             stream << "io.close(f);\n";
             stream << "os.exit(123);\n";
             file.close();
