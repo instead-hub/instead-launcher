@@ -144,7 +144,7 @@ void UpdateWindow::generateUpdateMessage() {
         text += "<a href=\"" + urlInstead + "\">" + urlInstead + "</a>";
         needUpdateInstead = true;
     }
-    if (localLauncherVersion != remoteLauncherVersion) {
+    if (localLauncherVersion < remoteLauncherVersion) {
         text += "<h3>" + tr("Launcher update from ") + localLauncherVersion + tr(" to ") + remoteLauncherVersion + "</h3>";
         text += "<a href=\"" + urlLauncher + "\">" + urlLauncher + "</a>";
         needUpdateLauncher = true;
