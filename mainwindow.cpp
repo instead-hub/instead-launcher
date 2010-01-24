@@ -477,22 +477,22 @@ bool MainWindow::getLocalGameInfo(const QDir gameDir, const QString gameID, Game
     }
     QTextStream in(&file);
 
-    QRegExp regexName("-- \\$Name:(.*)\\$");
-    QRegExp regexVersion("-- \\$Version:(.*)\\$");
+    QString namePrefix = "-- $Name:";
+    QString versionPrefix = "-- $Version:";
     QString name = gameID;
     QString version = "0";
     bool hasVersion = false, hasName = false;
     while (!hasVersion || !hasName) {
         QString line = in.readLine();
-        if (line.isNull()) break;
-        if (regexName.exactMatch(line)) {
-            name = regexName.capturedTexts()[1].trimmed();
+        if ( line.isNull() || !line.startsWith("--") ) break;
+        if ( line.startsWith( namePrefix ) ) {
+            name = line.mid( namePrefix.length() ).trimmed();
+            if ( name.endsWith('$') ) name = name.left( name.length() - 1 ).trimmed();
             hasName = true;
-        } else if (regexVersion.exactMatch(line)) {
-            version = regexVersion.capturedTexts()[1].trimmed();
+        } else if ( line.startsWith( versionPrefix ) ) {
+            version = line.mid( versionPrefix.length() ).trimmed();
+            if ( version.endsWith('$') ) version = version.left( version.length() - 1 ).trimmed();
             hasVersion = true;
-        } else if ( line.left(2) != "--" ) { // as Peter says, we need to check until first non comment line
-            break;
         }
     }
 
