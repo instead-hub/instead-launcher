@@ -135,7 +135,7 @@ void UpdateWindow::generateUpdateMessage() {
 
     QString text;
 
-    if (localInsteadVersion != remoteInsteadVersion) {
+    if (localInsteadVersion < remoteInsteadVersion) {
         if ( localInsteadVersion == "0" ) {
             text += "<h3>" + tr("Instead update to ") + remoteInsteadVersion + "</h3>";
         } else {
