@@ -5,6 +5,31 @@
 #include <QtNetwork>
 #include "config.h"
 
+// -1  ver1 <  ver2
+// 0   ver1 == ver2
+// 1   ver1 >  ver2
+int compareVersions( QString ver1, QString ver2 ) {
+    QStringList v1 = ver1.split(".");
+    QStringList v2 = ver2.split(".");
+    int n1 = v1.count(), n2 = v2.count(), n = qMax( n1, n2 );
+    for ( int i = 0; i < n; i++ ) {
+        int d1 = 0, d2 = 0;
+        if ( i < n1 ) {
+            bool ok;
+            d1 = v1[i].toInt( &ok );
+            if ( !ok ) d1 = 0;
+        }
+        if ( i < n2 ) {
+            bool ok;
+            d2 = v2[i].toInt( &ok );
+            if ( !ok ) d2 = 0;
+        }
+        if ( d1 > d2 ) return 1;
+        if ( d1 < d2 ) return -1;
+    }
+    return 0;
+}
+
 UpdateWindow::UpdateWindow(QWidget *parent) :
     QDialog(parent),
     m_ui(new Ui::UpdateWindow)
@@ -135,7 +160,7 @@ void UpdateWindow::generateUpdateMessage() {
 
     QString text;
 
-    if (localInsteadVersion < remoteInsteadVersion) {
+    if ( compareVersions( remoteInsteadVersion, localInsteadVersion) == 1 ) {
         if ( localInsteadVersion == "0" ) {
             text += "<h3>" + tr("Instead update to ") + remoteInsteadVersion + "</h3>";
         } else {
@@ -144,7 +169,7 @@ void UpdateWindow::generateUpdateMessage() {
         text += "<a href=\"" + urlInstead + "\">" + urlInstead + "</a>";
         needUpdateInstead = true;
     }
-    if (localLauncherVersion < remoteLauncherVersion) {
+    if ( compareVersions( remoteLauncherVersion, localLauncherVersion) == 1 ) {
         text += "<h3>" + tr("Launcher update from ") + localLauncherVersion + tr(" to ") + remoteLauncherVersion + "</h3>";
         text += "<a href=\"" + urlLauncher + "\">" + urlLauncher + "</a>";
         needUpdateLauncher = true;
