@@ -491,6 +491,8 @@ bool MainWindow::getLocalGameInfo(const QDir gameDir, const QString gameID, Game
         } else if (regexVersion.exactMatch(line)) {
             version = regexVersion.capturedTexts()[1].trimmed();
             hasVersion = true;
+        } else if ( line.left(2) != "--" ) { // as Peter says, we need to check until first non comment line
+            break;
         }
     }
 
