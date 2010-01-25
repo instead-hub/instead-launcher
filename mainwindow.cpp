@@ -480,7 +480,7 @@ bool MainWindow::getLocalGameInfo(const QDir gameDir, const QString gameID, Game
     QString namePrefix = "-- $Name:";
     QString versionPrefix = "-- $Version:";
     QString name = gameID;
-    QString version = "0";
+    QString version = "";
     bool hasVersion = false, hasName = false;
     while (!hasVersion || !hasName) {
         QString line = in.readLine();
