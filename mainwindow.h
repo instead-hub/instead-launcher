@@ -23,10 +23,10 @@ public:
 	m_lang = info.m_lang;
     }
 
-    ~GameInfo() {
+    virtual ~GameInfo() {
     }
 
-    void setName( const QString &name ) {        
+    void setName( const QString &name ) {
 	m_name = name;
     }
 
@@ -100,7 +100,7 @@ public:
 	return *this;
     }
 
-    ~NetGameInfo() {
+    virtual ~NetGameInfo() {
     }
 
     void setUrl( const QString &url ) {
