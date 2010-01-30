@@ -259,7 +259,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mainwindow.ui" line="312"/>
-        <source>http://instead-launcher.googlecode.com/files/game_list.xml</source>
+        <source>http://instead-launcher.googlecode.com/svn/pool/game_list.xml</source>
         <translation></translation>
     </message>
     <message>
