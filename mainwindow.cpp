@@ -414,7 +414,8 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
 }
 
 bool MainWindow::downloadGame( QTreeWidgetItem *game ) {
-    Q_ASSERT( game != NULL );
+    if ( !game )
+	return false;
     QList<QTreeWidgetItem *> list = findEssentialGames( game );
     if ( list.count() ) {
 	QList<QTreeWidgetItem *>::Iterator it = list.begin();
@@ -494,6 +495,9 @@ void MainWindow::gameServerDone( bool error ) {
 // try to find all essential games for the selected one
 QList<QTreeWidgetItem *> MainWindow::findEssentialGames( QTreeWidgetItem *item ) {
     QList<QTreeWidgetItem *> essential;
+    if ( !item ) {
+	return essential;
+    }
     for( int i = 0; i < m_ui->listNewGames->topLevelItemCount(); i++ ) {
 	if ( ( ( NetGameItem * )item )->info().depends().contains( ( ( NetGameItem * )m_ui->listNewGames->topLevelItem( i ) )->info().name() ) ) {
 	    essential.append( m_ui->listNewGames->topLevelItem( i ) );
