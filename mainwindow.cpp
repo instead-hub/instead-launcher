@@ -369,7 +369,6 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
     while( !xml->atEnd() ) {
         xml->readNext();
         if ( xml->isStartElement() ) {
-	    qDebug( "element: %s", xml->name().toString().toLocal8Bit().data() );
 	    if( xml->name() == "name" )
         	info.setName( xml->readElementText() );
             else if( xml->name() == "title" )
@@ -382,18 +381,12 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
         	info.setMD5( xml->readElementText() );
             else if( xml->name() == "instead" )
         	info.setInstead( xml->readElementText() );
-            else if( xml->name() == "lang" ) {
+            else if( xml->name() == "lang" )
         	info.setLang( xml->readElementText() );
-        	qDebug( "lang" );
-	    }
-            else if( xml->name() == "descurl" ) {
+            else if( xml->name() == "descurl" )
         	info.setDescUrl( xml->readElementText() );
-        	qDebug( "descurl" );
-	    }
-            else if( xml->name() == "depend" ) {
+            else if( xml->name() == "depend" )
         	depends.append( xml->readElementText() );
-        	qDebug( "depends" );
-	    }
         }
         if( xml->isEndElement() && xml->name()=="game" )
             break;
