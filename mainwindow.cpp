@@ -526,7 +526,7 @@ bool MainWindow::getLocalGameInfo(const QDir gameDir, const QString gameID, Game
     QString version = "";
     bool hasVersion = false, hasName = false;
     while (!hasVersion || !hasName) {
-        QString line = in.readLine();
+        QString line = in.readLine().simplified();
         if ( line.isNull() || !line.startsWith("--") ) break;
         if ( line.startsWith( namePrefix ) ) {
             name = line.mid( namePrefix.length() ).trimmed();
