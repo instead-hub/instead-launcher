@@ -152,6 +152,14 @@ MainWindow::MainWindow(QWidget *parent)
         m_swUpdateWidget->checkUpdates( this, m_ui->lineInsteadPath->text(), true );
     }
 
+    if ( !QFile::exists( m_ui->lineInsteadPath->text() ) ) {
+	show();
+	update();
+	m_ui->tabWidget->setCurrentIndex( 2 );
+	m_ui->lineInsteadPath->setFocus();
+	QMessageBox::warning( this, tr( "INSTEAD was not found" ), tr( "Please input the proper INSTEAD path" ) + "." );
+    }
+
 /*
     if (m_ui->autoRefreshSwCheckBox->isChecked()) {
         UpdateWindow::checkUpdates( this, m_ui->lineInsteadPath->text(), true );
