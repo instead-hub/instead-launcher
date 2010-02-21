@@ -186,7 +186,6 @@ private slots:
 
     void resetPushButtonClicked();
     void detailsLinkClicked( const QString & );
-    void openDescriptionClicked();
     void playSelectedGame();
     void browseInsteadPath();
     void browseGamesPath();

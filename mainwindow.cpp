@@ -135,7 +135,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect( m_ui->browseInsteadPath, SIGNAL( clicked() ), this, SLOT( browseInsteadPath() ) );
     connect( m_ui->browseGamesPath, SIGNAL( clicked() ), this, SLOT( browseGamesPath() ) );
     connect( m_ui->removePushButton, SIGNAL( clicked() ), this, SLOT( removeSelectedGame() ) );
-    connect( m_ui->openDescription, SIGNAL( clicked() ), this, SLOT( openDescriptionClicked() ) );
     connect( m_ui->listNewGames, SIGNAL( itemDoubleClicked( QTreeWidgetItem *, int ) ), this, SLOT( installSelectedGame() ) );
 
     connect( m_ui->gamesDir, SIGNAL(textChanged ( const QString &)), this, SLOT(gamesDirChanged()) );
@@ -384,8 +383,8 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
 	NetGameItem *game = new NetGameItem( m_ui->listNewGames );
 	game->setInfo( info );
 
-	QLabel *detailsLinkLabel = new QLabel( "<a href=" + info.descUrl() + ">" + tr( "open" ) +  " ..." + "</a>", this );
-	detailsLinkLabel->setAlignment( Qt::AlignCenter );
+	QLabel *detailsLinkLabel = new QLabel( "<a href=" + info.descUrl() + ">" + info.descUrl() + "</a>", this );
+	detailsLinkLabel->setAlignment( Qt::AlignLeft );
 	connect( detailsLinkLabel, SIGNAL( linkActivated( const QString & ) ), this, SLOT( detailsLinkClicked( const QString & ) ) );
 	m_ui->listNewGames->setItemWidget( game, 2, detailsLinkLabel );
     }
@@ -660,16 +659,6 @@ void MainWindow::deleteSourcePushButtonClicked()
 {
     int curr = m_ui->updateUrlList->currentRow();
     delete m_ui->updateUrlList->takeItem(curr);
-}
-
-/* slot */
-void MainWindow::openDescriptionClicked()
-{
-    QTreeWidgetItem * wi = m_ui->listNewGames->currentItem();
-    if(wi!=NULL) {
-        const QString url = static_cast<NetGameItem *>(wi)->info().descUrl();
-        QDesktopServices::openUrl(url);
-    }
 }
 
 void MainWindow::checkUpdates() {
