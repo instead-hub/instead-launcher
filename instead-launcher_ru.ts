@@ -49,9 +49,9 @@
         <translation>Убедитесь, что интепретатор был установлен</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="388"/>
-        <location filename="mainwindow.cpp" line="586"/>
-        <location filename="mainwindow.cpp" line="622"/>
+        <location filename="mainwindow.cpp" line="403"/>
+        <location filename="mainwindow.cpp" line="624"/>
+        <location filename="mainwindow.cpp" line="660"/>
         <location filename="mainwindow.ui" line="112"/>
         <source>all</source>
         <translation>все</translation>
@@ -61,28 +61,42 @@
         <translation type="obsolete">открыть</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="408"/>
+        <location filename="mainwindow.cpp" line="434"/>
         <source>Game downloading</source>
         <translation>Загрузка игры</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="226"/>
-        <location filename="mainwindow.cpp" line="454"/>
+        <location filename="mainwindow.cpp" line="481"/>
         <source>Success</source>
         <translation>Операция завершена успешно</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="454"/>
+        <source>Dependences</source>
+        <translation type="obsolete">Зависимости</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="425"/>
+        <source>You have to install the following games before this one</source>
+        <translation>Вы должны установить следующие игры</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="425"/>
+        <source>This game depends on the other ones</source>
+        <translation>Установка этой игры зависит от другой игры</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="481"/>
         <source>The game has been downloaded and unpacked</source>
         <translation>Игра была успешно загружена и распакована</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="426"/>
+        <location filename="mainwindow.cpp" line="453"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="426"/>
+        <location filename="mainwindow.cpp" line="453"/>
         <source>Can&apos;t create dir</source>
         <translation>Невозможно создать директорию</translation>
     </message>
@@ -145,7 +159,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="376"/>
+        <location filename="mainwindow.ui" line="360"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -250,7 +264,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt;&quot;&gt;Ветка обсуждения на форуме:&lt;br /&gt;&lt;/span&gt;&lt;a href=&quot;http://instead.pinebrush.com/forum/viewtopic.php?pid=1281#p1281&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://instead.pinebrush.com/forum/viewtopic.php?pid=1281#p1281&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt;&quot;&gt; &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="414"/>
+        <location filename="mainwindow.ui" line="398"/>
         <source>Check Program Updates</source>
         <translation>Проверить обновления программ</translation>
     </message>
@@ -320,27 +334,22 @@ p, li { white-space: pre-wrap; }
         <translation>Источники обновления</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="305"/>
-        <source>http://instead-launcher.googlecode.com/svn/pool/game_list.xml</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="326"/>
+        <location filename="mainwindow.ui" line="310"/>
         <source>Add</source>
         <translation>Добавить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="333"/>
+        <location filename="mainwindow.ui" line="317"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="360"/>
+        <location filename="mainwindow.ui" line="344"/>
         <source>Reset</source>
         <translation>Сбросить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="370"/>
+        <location filename="mainwindow.ui" line="354"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
@@ -376,43 +385,43 @@ p, li { white-space: pre-wrap; }
         <translation>Загрузка списка обновлений</translation>
     </message>
     <message>
-        <location filename="updatewidget.cpp" line="78"/>
+        <location filename="updatewidget.cpp" line="76"/>
         <source>Loading updates ... please wait</source>
         <translation>Поиск обновлений ... пожалуйста подождите</translation>
     </message>
     <message>
-        <location filename="updatewidget.cpp" line="112"/>
+        <location filename="updatewidget.cpp" line="110"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="updatewidget.cpp" line="112"/>
+        <location filename="updatewidget.cpp" line="110"/>
         <source>Can&apos;t download update list</source>
         <translation>Не удалось загрузить список обновлений</translation>
     </message>
     <message>
-        <location filename="updatewidget.cpp" line="163"/>
+        <location filename="updatewidget.cpp" line="161"/>
         <source>Instead update to </source>
         <translation>Обновление instead до </translation>
     </message>
     <message>
-        <location filename="updatewidget.cpp" line="165"/>
+        <location filename="updatewidget.cpp" line="163"/>
         <source>Instead update from </source>
         <translation>Обновление instead с </translation>
     </message>
     <message>
-        <location filename="updatewidget.cpp" line="165"/>
-        <location filename="updatewidget.cpp" line="171"/>
+        <location filename="updatewidget.cpp" line="163"/>
+        <location filename="updatewidget.cpp" line="169"/>
         <source> to </source>
         <translation> до </translation>
     </message>
     <message>
-        <location filename="updatewidget.cpp" line="171"/>
+        <location filename="updatewidget.cpp" line="169"/>
         <source>Launcher update from </source>
         <translation>Обновление launcher с</translation>
     </message>
     <message>
-        <location filename="updatewidget.cpp" line="182"/>
+        <location filename="updatewidget.cpp" line="180"/>
         <source>No updates available</source>
         <translation>Нет доступных обновлений</translation>
     </message>

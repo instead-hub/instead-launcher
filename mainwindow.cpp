@@ -316,7 +316,9 @@ void MainWindow::refreshNetGameList(bool next) {
 
 void MainWindow::installSelectedGame() {
     m_ui->installPushButton->setDisabled(true);
-    downloadGame(m_ui->listNewGames->currentItem());
+    if ( !downloadGame(m_ui->listNewGames->currentItem()) ) {
+        m_ui->installPushButton->setDisabled( false );
+    }
 }
 
 void MainWindow::listServerDone(bool error) {
@@ -325,7 +327,9 @@ void MainWindow::listServerDone(bool error) {
     setEnabled( true );
     m_listLoadProgress->reset();
     if(!error) {
-        QXmlStreamReader xml( m_listServer->readAll() );
+	QByteArray ba = m_listServer->readAll();
+	qDebug( "ALL LIST: %s", ba.data() );
+        QXmlStreamReader xml( ba );
         while (!xml.atEnd()) {
             xml.readNext();
             if (xml.isStartElement() && xml.name() == "game_list" && xml.attributes().value( "version" ) == "1.0" ) {
@@ -361,9 +365,11 @@ void MainWindow::parseGameList( QXmlStreamReader *xml )
 void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
     Q_ASSERT( xml->name() == "game" );
     NetGameInfo info;
+    QStringList depends;
     while( !xml->atEnd() ) {
         xml->readNext();
         if ( xml->isStartElement() ) {
+	    qDebug( "element: %s", xml->name().toString().toLocal8Bit().data() );
 	    if( xml->name() == "name" )
         	info.setName( xml->readElementText() );
             else if( xml->name() == "title" )
@@ -376,14 +382,23 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
         	info.setMD5( xml->readElementText() );
             else if( xml->name() == "instead" )
         	info.setInstead( xml->readElementText() );
-            else if( xml->name() == "lang" )
+            else if( xml->name() == "lang" ) {
         	info.setLang( xml->readElementText() );
-            else if( xml->name() == "descurl" )
+        	qDebug( "lang" );
+	    }
+            else if( xml->name() == "descurl" ) {
         	info.setDescUrl( xml->readElementText() );
+        	qDebug( "descurl" );
+	    }
+            else if( xml->name() == "depend" ) {
+        	depends.append( xml->readElementText() );
+        	qDebug( "depends" );
+	    }
         }
         if( xml->isEndElement() && xml->name()=="game" )
             break;
     }
+    info.setDepends( depends );
     // проверяем что такой же версии игры нет в локальном списке
     if ( !hasLocalGame( info ) && ( m_ui->langComboBox->currentText() == tr( "all" ) || info.lang() == m_ui->langComboBox->currentText() ) ) {
 	qDebug( "Adding game to the list %s", info.title().toLocal8Bit().data() );
@@ -397,8 +412,19 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
     }
 }
 
-void MainWindow::downloadGame( QTreeWidgetItem *game ) {
+bool MainWindow::downloadGame( QTreeWidgetItem *game ) {
     Q_ASSERT( game != NULL );
+    QList<QTreeWidgetItem *> list = findEssentialGames( game );
+    if ( list.count() ) {
+	QList<QTreeWidgetItem *>::Iterator it = list.begin();
+	QStringList games;
+	while( it != list.end() ) {
+	    games.append( QString( "\"%1\"" ).arg( ( ( NetGameItem * )( *it ) )->info().title() ) );
+	    it++;
+	}
+	QMessageBox::critical( this, tr( "This game depends on the other ones" ), tr( "You have to install the following games before this one" ) + ": " + games.join( ", " ) );
+	return false;
+    }
     m_gameFile = new QTemporaryFile();
     QUrl url( ( ( NetGameItem * )game )->info().url() );
     m_gameServer->setHost( url.host() );
@@ -407,6 +433,7 @@ void MainWindow::downloadGame( QTreeWidgetItem *game ) {
     m_downloadingFileName = url.path().split( "/" ).last();
     m_gameLoadProgress->setLabelText( QString( "%1 \"%2\"..." ).arg( tr( "Game downloading" ) ).arg( ( ( NetGameItem *)game )->info().title() ) );
     m_gameLoadProgress->setValue(0);
+    return true;
 }
 
 void MainWindow::gameServerResponseHeaderReceived ( const QHttpResponseHeader & resp ) {
@@ -455,7 +482,7 @@ void MainWindow::gameServerDone( bool error ) {
 	refreshLocalGameList();
 	refreshNetGameList();
     }
-    else {        
+    else {
         qWarning("WARN: Game load error");
         qWarning()<<QHttp().errorString();
     }
@@ -463,6 +490,16 @@ void MainWindow::gameServerDone( bool error ) {
     delete m_gameFile;
 }
 
+// try to find all essential games for the selected one
+QList<QTreeWidgetItem *> MainWindow::findEssentialGames( QTreeWidgetItem *item ) {
+    QList<QTreeWidgetItem *> essential;
+    for( int i = 0; i < m_ui->listNewGames->topLevelItemCount(); i++ ) {
+	if ( ( ( NetGameItem * )item )->info().depends().contains( ( ( NetGameItem * )m_ui->listNewGames->topLevelItem( i ) )->info().name() ) ) {
+	    essential.append( m_ui->listNewGames->topLevelItem( i ) );
+	}
+    }
+    return essential;
+}
 
 // Чтение инфы об игре из main.lua
 bool MainWindow::getLocalGameInfo(const QDir gameDir, const QString gameID, GameInfo &info) {
@@ -537,6 +574,7 @@ void MainWindow::refreshLocalGameList() {
         listIsDirty = false;
         return;
     }
+
     /*if (!checkOrCreateGameDir(gamePath)) {
         qWarning() << "Can't create games directory";
         QMessageBox::critical(this, tr( "Error" ), tr( "Can't create dir" ) + ": " + gamePath);

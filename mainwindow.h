@@ -91,6 +91,7 @@ public:
 	m_md5 = info.m_md5;
 	m_instead = info.m_instead;
 	m_descUrl = info.m_descUrl;
+	m_depends = info.m_depends;
     }
 
     virtual NetGameInfo operator=( const NetGameInfo &info ) {
@@ -99,6 +100,7 @@ public:
 	m_md5 = info.m_md5;
 	m_instead = info.m_instead;
 	m_descUrl = info.m_descUrl;
+	m_depends = info.m_depends;
 	return *this;
     }
 
@@ -164,13 +166,15 @@ public:
 
 private:
 
+    QList<QTreeWidgetItem *> findEssentialGames( QTreeWidgetItem * );
+
     bool getLocalGameInfo( const QDir gameDir, const QString gameID, GameInfo &info );
     bool hasLocalGame( const GameInfo & );
 
     void parseGameList( QXmlStreamReader *xml );
     void parseGameInfo( QXmlStreamReader *xml );
 
-    void downloadGame(QTreeWidgetItem *game);
+    bool downloadGame(QTreeWidgetItem *game);
 //    QString getGameDirPath() const;
 //    QString getDefaultInterpreterPath() const;
 //    QString getConfigPath() const;

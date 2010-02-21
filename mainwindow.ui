@@ -21,7 +21,7 @@
     <item row="1" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tabMain">
        <attribute name="title">
@@ -300,22 +300,6 @@
              <property name="resizeMode">
               <enum>QListView::Adjust</enum>
              </property>
-             <item>
-              <property name="text">
-               <string>http://instead-launcher.googlecode.com/svn/pool/game_list.xml</string>
-              </property>
-              <property name="flags">
-               <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string notr="true">http://instead-launcher.googlecode.com/svn/pool/game_list_alt.xml</string>
-              </property>
-              <property name="flags">
-               <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-              </property>
-             </item>
             </widget>
            </item>
            <item>
