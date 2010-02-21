@@ -121,6 +121,10 @@ public:
 	m_descUrl = descUrl;
     }
 
+    void setDepends( const QStringList &depends ) {
+	m_depends = depends;
+    }
+
     QString url() {
 	return m_url;
     }
@@ -137,11 +141,16 @@ public:
 	return m_descUrl;
     }
 
+    QStringList depends() {
+	return m_depends;
+    }
+
     private:
 	QString m_url;
 	QString m_md5;
 	QString m_instead;
 	QString m_descUrl;
+	QStringList m_depends;
 };
 
 class MainWindow : public QMainWindow

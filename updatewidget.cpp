@@ -68,8 +68,6 @@ void UpdateWidget::changeEvent(QEvent *e)
 */
 
 void UpdateWidget::refreshUpdateList( QString insteadBinary, bool automatically ) {
-    qDebug( "fuuuuuuuuck" );
-
     // local versions of launcher
     localLauncherVersion = LAUNCHER_VERSION;
     localInsteadVersion = detectInsteadVersion(insteadBinary);
@@ -189,7 +187,6 @@ void UpdateWidget::generateUpdateMessage() {
 }
 
 void UpdateWidget::checkUpdates( QWidget *parent, QString insteadBinary, bool automatically ) {
-    qDebug( "CCCCCHHHHHHHHHHH" );
 //    UpdateWidget *window = new UpdateWidget(parent);
 //    window->setAttribute(Qt::WA_DeleteOnClose, true);
 //    window->setWindowModality(Qt::WindowModal);
