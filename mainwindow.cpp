@@ -1,9 +1,9 @@
 #include "mainwindow.h"
+#include "updatewidget.h"
 #include "ui_mainwindow.h"
 #include "qunzip.h"
 #include "platform.h"
 #include <QSettings>
-#include "updatewindow.h"
 #include "config.h"
 
 class NetGameItem: public QTreeWidgetItem {
@@ -146,10 +146,17 @@ MainWindow::MainWindow(QWidget *parent)
         refreshNetGameList();
     }
 
+    m_swUpdateWidget = new UpdateWidget( this );
+    m_ui->swUpdateLayout->addWidget( m_swUpdateWidget );
+    if (m_ui->autoRefreshSwCheckBox->isChecked()) {
+        m_swUpdateWidget->checkUpdates( this, m_ui->lineInsteadPath->text(), true );
+    }
+
+/*
     if (m_ui->autoRefreshSwCheckBox->isChecked()) {
         UpdateWindow::checkUpdates( this, m_ui->lineInsteadPath->text(), true );
     }
-
+*/
 }
 
 MainWindow::~MainWindow()
@@ -662,5 +669,5 @@ void MainWindow::deleteSourcePushButtonClicked()
 }
 
 void MainWindow::checkUpdates() {
-    UpdateWindow::checkUpdates( this, m_ui->lineInsteadPath->text(), false );
+    m_swUpdateWidget->checkUpdates( this, m_ui->lineInsteadPath->text(), false );
 }

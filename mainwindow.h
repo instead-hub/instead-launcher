@@ -10,6 +10,8 @@ namespace Ui
     class MainWindow;
 }
 
+class UpdateWidget;
+
 class GameInfo {
 
 public:
@@ -169,6 +171,7 @@ private:
     void loadConfig();
     void saveConfig();
 
+    UpdateWidget *m_swUpdateWidget;
     QTemporaryFile *m_gameFile;
     QHttp *m_listServer, *m_gameServer;
     QProgressDialog *m_listLoadProgress, *m_gameLoadProgress;

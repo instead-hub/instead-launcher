@@ -10,16 +10,16 @@ SOURCES += main.cpp \
     unzip/ioapi.c \
     qunzip.cpp \
     platform.cpp \
-    updatewindow.cpp
+    updatewidget.cpp
+
 HEADERS += mainwindow.h \
     unzip/unzip.h \
     unzip/ioapi.h \
     qunzip.h \
     platform.h \
-    updatewindow.h \
+    updatewidget.h \
     config.h
-FORMS += mainwindow.ui \
-    updatewindow.ui
+FORMS += mainwindow.ui
 LIBS += -qt-zlib # use zlib embedded into qt
 DEFINES += NOUNCRIPT # need for unzip library build
 RESOURCES += instead-launcher.qrc
