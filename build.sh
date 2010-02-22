@@ -7,7 +7,15 @@ else
 	prefix="$ans"
 fi
 
-if ! qmake PREFIX="$ans"; then
+echo -n "Enter qmake [qmake]: "
+read qans
+if [ "x$qans" = "x" ]; then
+	prefix="qmake"
+else
+	prefix="$qans"
+fi
+
+if ! $qans PREFIX="$ans"; then
 	echo "E: Can't exec qmake"
 	exit 1
 fi
