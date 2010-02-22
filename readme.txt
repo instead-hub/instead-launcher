@@ -16,7 +16,7 @@ There are several ways to build package.
 
 1) Native qt build
 ====================================================
-	$ qmake [PRREFIX=/usr/local/bin]
+	$ qmake PRREFIX=/usr/local/ or qmake PRREFIX=/usr/
 	$ make
 	$ make install
 
