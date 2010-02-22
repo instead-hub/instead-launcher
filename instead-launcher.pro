@@ -30,6 +30,7 @@ RESOURCES += instead-launcher.qrc
 TRANSLATIONS += instead-launcher_ru.ts
 win32:INCLUDEPATH += ${QTDIR}/src/3rdparty/zlib
 OTHER_FILES += README.TXT
+RC_FILE = resources.rc
 
 unix:exists($$[QT_INSTALL_BINS]/lrelease){
 LRELEASE_EXECUTABLE = $$[QT_INSTALL_BINS]/lrelease
@@ -58,7 +59,6 @@ unix:DESTDIR = .
 
 unix:system(cat instead-launcher.desktop.in | sed -e "s\|@BIN\|$$[QT_INSTALL_BINS]\|g" > instead-launcher.desktop)
 unix{
-RC_FILE = resources.rc
 target.path = $$PREFIX/bin
 desktop.files = instead-launcher.desktop
 desktop.path = $$PREFIX/share/applications
