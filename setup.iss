@@ -15,7 +15,6 @@ Name: es; MessagesFile: compiler:Languages\Spanish.isl
 
 [Files]
 Source: "*.exe"; DestDir: "{app}"
-Source: "*.qm"; DestDir: "{app}"
 
 [CustomMessages]
 CreateDesktopIcon=Create a &desktop icon
