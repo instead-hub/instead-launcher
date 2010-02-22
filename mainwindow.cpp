@@ -96,6 +96,9 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->listNewGames->headerItem()->setTextAlignment( 1, Qt::AlignHCenter );
     m_ui->listNewGames->headerItem()->setTextAlignment( 2, Qt::AlignHCenter );
 
+    m_ui->listGames->sortByColumn(0, Qt::AscendingOrder); /* added by Peter */
+   /* m_ui->listNewGames->sortByColumn(0, Qt::AscendingOrder); */ /*new games are sorted by repo author! */
+
     m_ui->listGames->setAlternatingRowColors( true );
     m_ui->listNewGames->setAlternatingRowColors( true );
 
