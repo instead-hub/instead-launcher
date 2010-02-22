@@ -227,7 +227,7 @@ QString UpdateWidget::detectInsteadVersion( QString insteadBinary ) {
             qDebug() << "Launch " << insteadBinary << " with args " << arguments;
             // execute doesn't work for windows instead version, sorry :(
             process.start( insteadBinary, arguments );
-            process.waitForFinished(2000);
+            process.waitForFinished(20000);
             qDebug() << "Instead finished with exit code " << process.exitCode();
             if (process.exitCode() != 123) {
                 qWarning() << "Wrong exit code";
