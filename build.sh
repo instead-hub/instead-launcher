@@ -8,18 +8,18 @@ else
 fi
 
 if ! qmake PREFIX="$ans"; then
-	echo "E: Can not exec qmake"
+	echo "E: Can't exec qmake"
 	exit 1
 fi
 
 make clean
 
 if ! make; then
-	echo "E: Error while building"
+	echo "E: Error while it was building"
 	exit 1
 fi
 
-echo ":: Build is complete."
+echo ":: Build is completed."
 echo ":: Try: "
 echo "::    \$ sudo make install"
 echo ":: or just run launcher from build dir:"
