@@ -10,12 +10,12 @@ fi
 echo -n "Enter qmake [qmake]: "
 read qans
 if [ "x$qans" = "x" ]; then
-	prefix="qmake"
+	qmake="qmake"
 else
-	prefix="$qans"
+	qmake="$qans"
 fi
 
-if ! $qans PREFIX="$ans"; then
+if ! $qmake PREFIX="$prefix"; then
 	echo "E: Can't exec qmake"
 	exit 1
 fi
