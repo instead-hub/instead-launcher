@@ -249,10 +249,8 @@ void MainWindow::playSelectedGame()
 
     QStringList arguments;
 
-#ifdef Q_OS_WIN
     QFileInfo fileInfo(insteadPath);
     m_process->setWorkingDirectory(fileInfo.path());
-#endif
 
     arguments << "-game" << gameName;
     arguments << "-nostdgames";
