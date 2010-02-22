@@ -30,13 +30,35 @@ RESOURCES += instead-launcher.qrc
 TRANSLATIONS += instead-launcher_ru.ts
 win32:INCLUDEPATH += ${QTDIR}/src/3rdparty/zlib
 OTHER_FILES += README.TXT
-RC_FILE = resources.rc
+
+unix:exists($$[QT_INSTALL_BINS]/lrelease){
+LRELEASE_EXECUTABLE = $$[QT_INSTALL_BINS]/lrelease
+}
+
+unix:exists($$[QT_INSTALL_BINS]/lrelease-qt4){
+LRELEASE_EXECUTABLE = $$[QT_INSTALL_BINS]/lrelease-qt4
+}
+
+win32:exists($$[QT_INSTALL_BINS]/lrelease.exe){
+LRELEASE_EXECUTABLE = $$[QT_INSTALL_BINS]/lrelease.exe
+}
+
+isEmpty(LRELEASE_EXECUTABLE){
+error(Could not find lrelease executable)
+}
+else {
+message(Found lrelease executable: $$LRELEASE_EXECUTABLE)
+}
+
+message(generating translations)
+unix:system(find . -name *.ts | xargs $$LRELEASE_EXECUTABLE)
+win32:system(for /r %B in (*.ts) do $$LRELEASE_EXECUTABLE %B)
 
 unix:DESTDIR = .
 
 unix:system(cat instead-launcher.desktop.in | sed -e "s\|@BIN\|$$[QT_INSTALL_BINS]\|g" > instead-launcher.desktop)
-unix:system(find . -name *.ts | xargs $$LRELEASE_EXECUTABLE)
 unix{
+RC_FILE = resources.rc
 target.path = $$PREFIX/bin
 desktop.files = instead-launcher.desktop
 desktop.path = $$PREFIX/share/applications
