@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=0.1
+Type=Application
+Name=INSTEAD Launcher
+Name[ru]=INSTEAD Launcher
+Comment=Launcher and updater for INSTEAD games
+Comment[ru]=Установка и обновление игр для INSTEAD
+Exec=@BIN/instead-launcher
+Icon=sdl_instead.png
+Terminal=false
+Categories=Game;

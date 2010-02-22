@@ -68,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent)
     listIsDirty = false;
     QString langSuffix = QLocale().name().split( "_" ).first();
     QTranslator *translator = new QTranslator( this );
-    if ( translator->load( "instead-launcher_" + langSuffix + ".qm" ) )
+    if ( translator->load( ":/instead-launcher_" + langSuffix + ".qm" ) )
 	QApplication::installTranslator( translator );
     else qDebug() << "can't find instead-launcher_" + langSuffix + ".qm";
 
