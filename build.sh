@@ -16,7 +16,7 @@ else
 fi
 
 if ! $qmake PREFIX="$prefix"; then
-	echo "E: Can't exec qmake"
+	echo "E: Can't exec qmake. Please, try qmake, qmake-qt4 or others."
 	exit 1
 fi
 
