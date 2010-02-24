@@ -201,33 +201,37 @@ void MainWindow::removeSelectedGame()
 
     qWarning() << "removing game " << gameName + " at " + path;
 
-    QStack<QString> m_pathStack;
-    m_pathStack.push( path );
+    if ( QFileInfo( path ).isSymLink() ) {
+	QFile::remove( path );
+    } else {
+	QStack<QString> m_pathStack;
+	m_pathStack.push( path );
 
-    while( m_pathStack.count() ) {
-	QDir dir( m_pathStack.pop() );
-	if ( !dir.exists() ) {
-	    continue;
-	}
-	if ( QDir().rmpath( dir.absolutePath() ) ) {
-	    qWarning() << "removed: " << dir.absolutePath();
-	    continue;
-	} else m_pathStack.push( dir.absolutePath() );
-	QFileInfoList infos = dir.entryInfoList( QDir::AllEntries | QDir::NoDotAndDotDot );
-	QFileInfoList::Iterator infoIt = infos.begin();
-	while( infoIt != infos.end() ) {
-	    if ( ( *infoIt ).isDir() ) {
-		m_pathStack.push( dir.absolutePath() + "/" + ( *infoIt ).fileName() );
-		break;
-	    } else {
-		QString filePath = ( *infoIt ).absolutePath() + "/" + ( *infoIt ).fileName();
-		if( !QFile( ( *infoIt ).absolutePath() + "/" + ( *infoIt ).fileName() ).remove() ) {
-		    qWarning() << "can't remove file: " << filePath;
-		    return;
-		}
-		qWarning() << "removed: " << filePath;
+	while( m_pathStack.count() ) {
+	    QDir dir( m_pathStack.pop() );
+	    if ( !dir.exists() ) {
+		continue;
 	    }
-	    infoIt++;
+	    if ( QDir().rmpath( dir.absolutePath() ) ) {
+		qWarning() << "removed: " << dir.absolutePath();
+		continue;
+	    } else m_pathStack.push( dir.absolutePath() );
+	    QFileInfoList infos = dir.entryInfoList( QDir::AllEntries | QDir::NoDotAndDotDot );
+	    QFileInfoList::Iterator infoIt = infos.begin();
+	    while( infoIt != infos.end() ) {
+		if ( ( *infoIt ).isDir() ) {
+		    m_pathStack.push( dir.absolutePath() + "/" + ( *infoIt ).fileName() );
+		    break;
+		} else {
+		    QString filePath = ( *infoIt ).absolutePath() + "/" + ( *infoIt ).fileName();
+		    if( !QFile( ( *infoIt ).absolutePath() + "/" + ( *infoIt ).fileName() ).remove() ) {
+			qWarning() << "can't remove file: " << filePath;
+			return;
+		    }
+		    qWarning() << "removed: " << filePath;
+		}
+		infoIt++;
+	    }
 	}
     }
 
