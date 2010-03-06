@@ -381,7 +381,7 @@ void MainWindow::parseGameList( QXmlStreamReader *xml )
     while (!xml->atEnd()) {
         xml->readNext();
         if ( xml->isStartElement() && xml->name() == "game" ) {
-            qDebug("game is already downloaded");
+            qDebug("game has already downloaded");
             parseGameInfo( xml );
         }
     }
