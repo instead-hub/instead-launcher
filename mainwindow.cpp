@@ -74,16 +74,16 @@ MainWindow::MainWindow(QWidget *parent)
     else qDebug() << "can't find instead-launcher_" + langSuffix + ".qm";
 
     QString translationsPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
-    qDebug() << "Qt translations path " << translationsPath;
+    qDebug() << "qt translations path " << translationsPath;
     QTranslator *sysTranslator = new QTranslator( this );
     if ( sysTranslator->load( translationsPath + "/qt_" + langSuffix + ".qm" ) ) {
         QApplication::installTranslator( sysTranslator );
-        qDebug() << "Used Qt translation from " << translationsPath;
+        qDebug() << "used Qt translation from " << translationsPath;
     } else if ( sysTranslator->load( "qt_" + langSuffix + ".qm" ) ) {
         QApplication::installTranslator( sysTranslator );
-        qDebug() << "Used Qt translation from local directory";
+        qDebug() << "used Qt translation from local directory";
     } else {
-        qDebug() << "Can't find qt_" + langSuffix + ".qm";
+        qDebug() << "can't find qt_" + langSuffix + ".qm";
     }
 
     m_ui->setupUi(this);
@@ -274,7 +274,7 @@ void MainWindow::playSelectedGame()
         arguments.append( m_ui->insteadParameters->text().split(" ",  QString::SkipEmptyParts) );
     }
 
-    qDebug() << "Launching " << insteadPath << arguments;
+    qDebug() << "launching " << insteadPath << arguments;
 
     connect( m_process, SIGNAL(started()), this, SLOT( processStarted()) );
     connect( m_process, SIGNAL(error(QProcess::ProcessError)), this, SLOT( processError(QProcess::ProcessError)) );
@@ -301,19 +301,19 @@ void MainWindow::browseGamesPath() {
 }
 
 void MainWindow::processStarted() {
-    qDebug() << "Succesfully launched";
+    qDebug() << "succesfully launched";
     hide();
 }
 
 void MainWindow::processError( QProcess::ProcessError error) {
     m_process->deleteLater();
-    qDebug() << "Creation error ";
+    qDebug() << "creation error ";
     QMessageBox::critical(this, tr( "Can't run the game" ), tr( "Make sure that INSTEAD has been installed" ) + "." );
 }
 
 void MainWindow::processFinished( int exitCode, QProcess::ExitStatus exitStatus ) {
     m_process->deleteLater();
-    qDebug() << "Game closed";
+    qDebug() << "game closed";
     show();
 }
 
@@ -327,7 +327,7 @@ void MainWindow::refreshNetGameList(bool next) {
     if(currentItem!=NULL) {
         const QString currentUrl = currentItem->text();
         currentIdx++;
-        qDebug() << "Updating list from " << currentUrl;
+        qDebug() << "updating list from " << currentUrl;
         QUrl url(currentUrl);
 	m_listServer->setProxy( *Global::ptr()->networkProxy() );
         m_listServer->setHost(url.host());
@@ -346,13 +346,13 @@ void MainWindow::installSelectedGame() {
 }
 
 void MainWindow::listServerDone(bool error) {
-    qDebug( "List has been downloaded" );
+    qDebug( "list has been downloaded" );
 
     setEnabled( true );
     m_listLoadProgress->reset();
     if(!error) {
 	QByteArray ba = m_listServer->readAll();
-	qDebug( "ALL LIST: %s", ba.data() );
+//	qDebug( "ALL LIST: %s", ba.data() );
         QXmlStreamReader xml( ba );
         while (!xml.atEnd()) {
             xml.readNext();
@@ -362,7 +362,7 @@ void MainWindow::listServerDone(bool error) {
             }
         }
         if (xml.hasError()) {
-            qWarning("Warning: errors while parsing game list");
+            qWarning("errors while parsing game list has been occured");
             const QString s = xml.errorString();
             qWarning("%s", s.toLocal8Bit().data());
         }
@@ -371,7 +371,7 @@ void MainWindow::listServerDone(bool error) {
     }
     else {
 	QMessageBox::critical( this, tr( "Error" ), tr( "Can't retrieve game list. If you use proxy connection, check the proxy settings." ) );
-        qWarning("WARN: errors while downloading");
+        qWarning("errors while downloading has been occured");
     }
 }
 
@@ -381,7 +381,7 @@ void MainWindow::parseGameList( QXmlStreamReader *xml )
     while (!xml->atEnd()) {
         xml->readNext();
         if ( xml->isStartElement() && xml->name() == "game" ) {
-            qDebug("A game in the list!");
+            qDebug("game is already downloaded");
             parseGameInfo( xml );
         }
     }
@@ -419,7 +419,7 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
     info.setDepends( depends );
     // проверяем что такой же версии игры нет в локальном списке
     if ( !hasLocalGame( info ) && ( m_ui->langComboBox->currentText() == tr( "all" ) || info.lang() == m_ui->langComboBox->currentText() ) ) {
-	qDebug( "Adding game to the list %s", info.title().toLocal8Bit().data() );
+	qDebug( "adding game to the list %s", info.title().toLocal8Bit().data() );
 	NetGameItem *game = new NetGameItem( m_ui->listNewGames );
 	game->setInfo( info );
 
@@ -457,7 +457,7 @@ bool MainWindow::downloadGame( QTreeWidgetItem *game ) {
 }
 
 void MainWindow::gameServerResponseHeaderReceived ( const QHttpResponseHeader & resp ) {
-    qDebug("Header received. LEN=%d", resp.contentLength());
+    qDebug("header received with length '%d'", resp.contentLength());
     m_gameLoadProgress->setMaximum(resp.contentLength());
 }
 
@@ -469,7 +469,7 @@ void MainWindow::gameServerDone( bool error ) {
         QString games_dir = m_ui->gamesDir->text();
         if (games_dir.right(1) != QDir::separator()) games_dir += QDir::separator();
         if (!checkOrCreateGameDir(games_dir)) {
-            qWarning() << "Can't create games directory";
+            qWarning() << "can't create games directory";
             QMessageBox::critical(this, tr( "Error" ), tr( "Can't create dir" ) + ": " + games_dir);
             m_gameFile->close();
             delete m_gameFile;
@@ -504,7 +504,7 @@ void MainWindow::gameServerDone( bool error ) {
     }
     else {
         QMessageBox::critical( this, tr( "Error" ), tr( "Can't download the game. If you use proxy connection, check the proxy settings." ) );
-        qWarning("WARN: Game load error");
+        qWarning("game load error");
         qWarning()<<QHttp().errorString();
     }
     m_gameFile->close();
@@ -528,7 +528,7 @@ QList<QTreeWidgetItem *> MainWindow::findEssentialGames( QTreeWidgetItem *item )
 // Чтение инфы об игре из main.lua
 bool MainWindow::getLocalGameInfo(const QDir gameDir, const QString gameID, GameInfo &info) {
 
-    qDebug() << "Analyzing subdir: " << gameID;
+    qDebug() << "exploring subdir: " << gameID;
 
     // проверяем наличие файлика main.lua
     if (!gameDir.exists(gameID + "/main.lua")) {
@@ -539,7 +539,7 @@ bool MainWindow::getLocalGameInfo(const QDir gameDir, const QString gameID, Game
     // читаем main.lua
     QFile file(gameDir.absolutePath() + "/" + gameID + "/main.lua");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qWarning() << "Can't open " << file.fileName();
+        qWarning() << "can't open " << file.fileName();
         return false;
     }
     QTextStream in(&file);
@@ -563,8 +563,8 @@ bool MainWindow::getLocalGameInfo(const QDir gameDir, const QString gameID, Game
         }
     }
 
-    if (!hasName) qWarning() << "Game doesn't have $Name tag!";
-    if (!hasVersion) qWarning() << "Game doesn't have $Version tag!";
+    if (!hasName) qWarning() << "game doesn't have $Name tag!";
+    if (!hasVersion) qWarning() << "game doesn't have $Version tag!";
 
     info.setName( gameID );
     info.setTitle( name );
@@ -688,7 +688,7 @@ void MainWindow::loadConfig() {
     m_ui->gamesDir->setText(gamesDir);
     m_ui->insteadParameters->setText(insteadParameters);
     conf.endArray();
-    qDebug() << "Config loaded";
+    qDebug() << "config has loaded";
 }
 
 
@@ -722,11 +722,11 @@ void MainWindow::saveConfig() {
     conf.setValue("GamesPath", m_ui->gamesDir->text());
     conf.setValue("InsteadParameters", m_ui->insteadParameters->text());
 
-    qDebug() << "Config saved";
+    qDebug() << "config has saved";
 }
 
 void MainWindow::resetPushButtonClicked() {
-    if( QMessageBox::question( this, tr( "Reset settings" ), tr( "Are you sure?" ) ) == QMessageBox::No )
+    if( QMessageBox::question( this, tr( "Reset settings" ), tr( "Are you sure?" ), QMessageBox::Yes, QMessageBox::No ) == QMessageBox::No )
 	return;
     resetConfig();
 }

@@ -51,7 +51,7 @@ UpdateWidget::UpdateWidget( QWidget *parent ) :
 
 UpdateWidget::~UpdateWidget()
 {
-    qDebug("~UpdateWindow");
+    qDebug("~updateWindow");
 }
 
 /*
@@ -76,7 +76,7 @@ void UpdateWidget::refreshUpdateList( QString insteadBinary, bool automatically 
     m_automatically = automatically;
     setHtml( "<h3>" + tr("Loading updates ... please wait") + "</h3>" );
     QUrl url(SW_UPDATE_URL);
-    qDebug() << "Downloading update list from " << url.toString();
+    qDebug() << "downloading update list from " << url.toString();
     m_listServer->setHost(url.host());
     m_listServer->setProxy( *Global::ptr()->networkProxy() );
     setEnabled( false );
@@ -85,7 +85,7 @@ void UpdateWidget::refreshUpdateList( QString insteadBinary, bool automatically 
 }
 
 void UpdateWidget::listServerDone( bool error ) {
-    qDebug( "Update list has been downloaded" );
+    qDebug( "update list has been downloaded" );
 
     setEnabled( true );
     m_listLoadProgress->reset();
@@ -99,7 +99,7 @@ void UpdateWidget::listServerDone( bool error ) {
             }
         }
         if (xml.hasError()) {
-            qWarning("Warning: errors while parsing update list");
+            qWarning("errors while parsing update list occured");
             const QString s = xml.errorString();
             qWarning() << s;
         } else {
@@ -108,7 +108,7 @@ void UpdateWidget::listServerDone( bool error ) {
         }
     }
     else {
-        qWarning("WARN: errors while downloading");
+        qWarning("errors while downloading occured");
         QMessageBox::critical(this, tr("Error"), tr("Can't download update list. If you use proxy, check the proxy settings."));
     }
 }
@@ -148,10 +148,10 @@ void UpdateWidget::parseUpdateList( QXmlStreamReader *xml ) {
 }
 
 void UpdateWidget::generateUpdateMessage() {
-    qDebug() << "Instead version " << remoteInsteadVersion << "at url" << urlInstead;
-    qDebug() << "Launcher version " << remoteLauncherVersion << "at url" << urlLauncher;
-    qDebug() << "Local instead version " << localInsteadVersion;
-    qDebug() << "Local launcher version " << localLauncherVersion;
+    qDebug() << "instead version " << remoteInsteadVersion << "at url" << urlInstead;
+    qDebug() << "launcher version " << remoteLauncherVersion << "at url" << urlLauncher;
+    qDebug() << "local instead version " << localInsteadVersion;
+    qDebug() << "local launcher version " << localLauncherVersion;
 
     bool needUpdateInstead = false;
     bool needUpdateLauncher = false;
@@ -226,13 +226,13 @@ QString UpdateWidget::detectInsteadVersion( QString insteadBinary ) {
             QFileInfo info(insteadBinary);
             QProcess process(this);
             process.setWorkingDirectory( info.path() );
-            qDebug() << "Launch " << insteadBinary << " with args " << arguments;
+            qDebug() << "launch " << insteadBinary << " with args " << arguments;
             // execute doesn't work for windows instead version, sorry :(
             process.start( insteadBinary, arguments );
             process.waitForFinished(20000);
-            qDebug() << "Instead finished with exit code " << process.exitCode();
+            qDebug() << "instead finished with exit code " << process.exitCode();
             if (process.exitCode() != 123) {
-                qWarning() << "Wrong exit code";
+                qWarning() << "wrong exit code";
             } else {
                 QFile verFile(savePath);
                 if (verFile.open(QIODevice::ReadOnly)) {
@@ -240,7 +240,7 @@ QString UpdateWidget::detectInsteadVersion( QString insteadBinary ) {
                     version = verStream.readLine();
                     verFile.close();
                 } else {
-                    qWarning() << "Can't open version.txt";
+                    qWarning() << "can't open version.txt";
                 }
             }
         } else {
@@ -250,7 +250,7 @@ QString UpdateWidget::detectInsteadVersion( QString insteadBinary ) {
         tempDir.remove("instead-version/version.txt");
         tempDir.rmdir("instead-version");
     } else {
-        qWarning() << "Can't create temp directory";
+        qWarning() << "can't create temp directory";
     }
     return version;
 }
