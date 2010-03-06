@@ -8,7 +8,7 @@
 class UpdateWidget : public QTextBrowser {
     Q_OBJECT
 public:
-    UpdateWidget(QWidget *parent = 0);
+    UpdateWidget( QWidget *parent = 0 );
     ~UpdateWidget();
 
 /*
@@ -22,6 +22,7 @@ public:
 
 private:
     QHttp *m_listServer;
+    QNetworkProxy *m_networkProxy;
     QProgressDialog *m_listLoadProgress;
     bool m_automatically;
 

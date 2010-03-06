@@ -184,6 +184,7 @@ private:
     void loadConfig();
     void saveConfig();
 
+    QNetworkProxy *m_networkProxy;
     UpdateWidget *m_swUpdateWidget;
     QTemporaryFile *m_gameFile;
     QHttp *m_listServer, *m_gameServer;
@@ -220,6 +221,7 @@ private slots:
 
     void gamesDirChanged();
     void tabChanged(int pos);
+    void updateProxy();
 
     void checkUpdates();
 

@@ -5,6 +5,7 @@
 #include "platform.h"
 #include <QSettings>
 #include "config.h"
+#include "global.h"
 
 class NetGameItem: public QTreeWidgetItem {
     public:
@@ -95,6 +96,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->listNewGames->header()->setResizeMode( 2, QHeaderView::ResizeToContents );
     m_ui->listNewGames->headerItem()->setTextAlignment( 1, Qt::AlignHCenter );
     m_ui->listNewGames->headerItem()->setTextAlignment( 2, Qt::AlignHCenter );
+    m_ui->proxyPasswordLineEdit->setEchoMode( QLineEdit::Password );
 
     m_ui->listGames->sortByColumn(0, Qt::AscendingOrder); /* added by Peter */
    /* m_ui->listNewGames->sortByColumn(0, Qt::AscendingOrder); */ /*new games are sorted by repo author! */
@@ -140,6 +142,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect( m_ui->removePushButton, SIGNAL( clicked() ), this, SLOT( removeSelectedGame() ) );
     connect( m_ui->listNewGames, SIGNAL( itemDoubleClicked( QTreeWidgetItem *, int ) ), this, SLOT( installSelectedGame() ) );
 
+    connect( m_ui->proxyServerLineEdit, SIGNAL( textChanged(const QString &) ), this, SLOT( updateProxy() ) );
+    connect( m_ui->proxyPortLineEdit, SIGNAL( textChanged(const QString &) ), this, SLOT( updateProxy() ) );
+    connect( m_ui->proxyUserLineEdit, SIGNAL( textChanged(const QString &) ), this, SLOT( updateProxy() ) );
+    connect( m_ui->proxyPasswordLineEdit, SIGNAL( textChanged(const QString &) ), this, SLOT( updateProxy() ) );
+    connect( m_ui->proxyGroupBox, SIGNAL( clicked( bool ) ), this, SLOT( updateProxy() ) );
+
     connect( m_ui->gamesDir, SIGNAL(textChanged ( const QString &)), this, SLOT(gamesDirChanged()) );
     connect( m_ui->tabWidget, SIGNAL(currentChanged ( int )), this, SLOT(tabChanged(int)) );
 
@@ -148,6 +156,8 @@ MainWindow::MainWindow(QWidget *parent)
     if (m_ui->autoRefreshCheckBox->isChecked()) {
         refreshNetGameList();
     }
+
+    updateProxy();
 
     m_swUpdateWidget = new UpdateWidget( this );
     m_ui->swUpdateLayout->addWidget( m_swUpdateWidget );
@@ -319,6 +329,7 @@ void MainWindow::refreshNetGameList(bool next) {
         currentIdx++;
         qDebug() << "Updating list from " << currentUrl;
         QUrl url(currentUrl);
+	m_listServer->setProxy( *Global::ptr()->networkProxy() );
         m_listServer->setHost(url.host());
         setEnabled( false );
         m_listServer->get(url.path());
@@ -359,6 +370,7 @@ void MainWindow::listServerDone(bool error) {
         refreshNetGameList(true); //load next game list if needed
     }
     else {
+	QMessageBox::critical( this, tr( "Error" ), tr( "Can't retrieve game list. If you use proxy connection, check the proxy settings." ) );
         qWarning("WARN: errors while downloading");
     }
 }
@@ -435,6 +447,7 @@ bool MainWindow::downloadGame( QTreeWidgetItem *game ) {
     m_gameFile = new QTemporaryFile();
     QUrl url( ( ( NetGameItem * )game )->info().url() );
     m_gameServer->setHost( url.host() );
+    m_gameServer->setProxy( *Global::ptr()->networkProxy() );
     setEnabled( false );
     m_gameServer->get( url.path(), m_gameFile );
     m_downloadingFileName = url.path().split( "/" ).last();
@@ -490,6 +503,7 @@ void MainWindow::gameServerDone( bool error ) {
 	refreshNetGameList();
     }
     else {
+        QMessageBox::critical( this, tr( "Error" ), tr( "Can't download the game. If you use proxy connection, check the proxy settings." ) );
         qWarning("WARN: Game load error");
         qWarning()<<QHttp().errorString();
     }
@@ -617,6 +631,12 @@ void MainWindow::resetConfig() {
     item->setFlags(item->flags() & ~ (Qt::ItemIsEnabled));
     m_ui->gamesDir->setText( getGameDirPath() );
     m_ui->insteadParameters->setText("");
+    m_ui->proxyServerLineEdit->setText( "127.0.0.1" );
+    m_ui->proxyPortLineEdit->setText( "3128" );
+    m_ui->proxyUserLineEdit->setText( QString() );
+    m_ui->proxyPasswordLineEdit->setText( QString() );
+    m_ui->proxyAuthGroupBox->setChecked( false );
+    m_ui->proxyGroupBox->setChecked( false );
 }
 
 void MainWindow::loadConfig() {
@@ -637,6 +657,16 @@ void MainWindow::loadConfig() {
     m_ui->langComboBox->blockSignals( false );
     m_ui->updateUrlList->clear();
     m_ui->tabWidget->setCurrentIndex( conf.value( "LastTabIndex", 0 ).toInt() );
+    conf.beginGroup( "Proxy" );
+	m_ui->proxyServerLineEdit->setText( conf.value( "Server", "127.0.0.1" ).toString() );
+	m_ui->proxyPortLineEdit->setText( conf.value( "Port", "3128" ).toString() );
+	conf.beginGroup( "Authentication" );
+	    m_ui->proxyUserLineEdit->setText( conf.value( "User", "" ).toString() );
+	    m_ui->proxyPasswordLineEdit->setText( conf.value( "Password", "" ).toString() );
+	    m_ui->proxyAuthGroupBox->setChecked( conf.value( "Enabled", "" ).toBool() );
+	conf.endGroup();
+	m_ui->proxyGroupBox->setChecked( conf.value( "Enabled", false ).toBool() );
+    conf.endGroup();
     conf.beginGroup( "MainWindow" );
 	resize( conf.value( "Width", 500 ).toInt(), conf.value( "Height", 350 ).toInt() );
     conf.endGroup( );
@@ -669,10 +699,20 @@ void MainWindow::saveConfig() {
     conf.setValue("AutoRefreshSW", (m_ui->autoRefreshSwCheckBox->isChecked() ? "true" : "false"));
     conf.setValue("Language", ( m_ui->langComboBox->currentText() == tr( "all" ) ) ? "*" : m_ui->langComboBox->currentText() );
     conf.setValue( "LastTabIndex", m_ui->tabWidget->currentIndex() );
+    conf.beginGroup( "Proxy" );
+	conf.setValue( "Server", m_ui->proxyServerLineEdit->text() );
+	conf.setValue( "Port", m_ui->proxyPortLineEdit->text() );
+	conf.beginGroup( "Authentication" );
+	    conf.setValue( "User", m_ui->proxyUserLineEdit->text() );
+	    conf.setValue( "Password", m_ui->proxyPasswordLineEdit->text() );
+	    conf.setValue( "Enabled", m_ui->proxyAuthGroupBox->isChecked() );
+	conf.endGroup();
+	conf.setValue( "Enabled", m_ui->proxyGroupBox->isChecked() );
+    conf.endGroup();
     conf.beginGroup( "MainWindow" );
 	conf.setValue( "Width", width() );
 	conf.setValue( "Height", height() );
-    conf.endGroup( );
+    conf.endGroup();
     conf.beginWriteArray("UpdateURLs", m_ui->updateUrlList->count());
     for (int i=0;i<m_ui->updateUrlList->count();i++) {
         conf.setArrayIndex(i);
@@ -686,6 +726,8 @@ void MainWindow::saveConfig() {
 }
 
 void MainWindow::resetPushButtonClicked() {
+    if( QMessageBox::question( this, tr( "Reset settings" ), tr( "Are you sure?" ) ) == QMessageBox::No )
+	return;
     resetConfig();
 }
 
@@ -714,6 +756,22 @@ void MainWindow::deleteSourcePushButtonClicked()
 {
     int curr = m_ui->updateUrlList->currentRow();
     delete m_ui->updateUrlList->takeItem(curr);
+}
+
+void MainWindow::updateProxy()
+{
+    qDebug( "update proxy" );
+    if ( m_ui->proxyGroupBox->isChecked() ) {
+	qDebug( "proxy has switched on" );
+        Global::ptr()->networkProxy()->setType( QNetworkProxy::HttpCachingProxy );
+	Global::ptr()->networkProxy()->setHostName( m_ui->proxyServerLineEdit->text().simplified() );
+        Global::ptr()->networkProxy()->setPort( m_ui->proxyPortLineEdit->text().simplified().toInt() );
+        Global::ptr()->networkProxy()->setUser( m_ui->proxyUserLineEdit->text().simplified() );
+        Global::ptr()->networkProxy()->setPassword( m_ui->proxyPasswordLineEdit->text() );
+    } else {
+	qDebug( "proxy has switched off" );
+	Global::ptr()->networkProxy()->operator=( QNetworkProxy() );
+    }
 }
 
 void MainWindow::checkUpdates() {

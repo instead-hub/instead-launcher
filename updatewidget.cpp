@@ -1,5 +1,6 @@
 #include "updatewidget.h"
 #include "config.h"
+#include "global.h"
 
 // -1  ver1 <  ver2
 // 0   ver1 == ver2
@@ -77,6 +78,7 @@ void UpdateWidget::refreshUpdateList( QString insteadBinary, bool automatically 
     QUrl url(SW_UPDATE_URL);
     qDebug() << "Downloading update list from " << url.toString();
     m_listServer->setHost(url.host());
+    m_listServer->setProxy( *Global::ptr()->networkProxy() );
     setEnabled( false );
     m_listServer->get(url.path());
     m_listLoadProgress->setValue(0);
@@ -107,7 +109,7 @@ void UpdateWidget::listServerDone( bool error ) {
     }
     else {
         qWarning("WARN: errors while downloading");
-        QMessageBox::critical(this, tr("Error"), tr("Can't download update list"));
+        QMessageBox::critical(this, tr("Error"), tr("Can't download update list. If you use proxy, check the proxy settings."));
     }
 }
 
