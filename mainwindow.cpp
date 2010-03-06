@@ -663,7 +663,7 @@ void MainWindow::loadConfig() {
 	conf.beginGroup( "Authentication" );
 	    m_ui->proxyUserLineEdit->setText( conf.value( "User", "" ).toString() );
 	    m_ui->proxyPasswordLineEdit->setText( conf.value( "Password", "" ).toString() );
-	    m_ui->proxyAuthGroupBox->setChecked( conf.value( "Enabled", "" ).toBool() );
+	    m_ui->proxyAuthGroupBox->setChecked( conf.value( "Enabled", false ).toBool() );
 	conf.endGroup();
 	m_ui->proxyGroupBox->setChecked( conf.value( "Enabled", false ).toBool() );
     conf.endGroup();
