@@ -104,7 +104,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->listGames->setAlternatingRowColors( true );
     m_ui->listNewGames->setAlternatingRowColors( true );
 
-    setWindowTitle( "INSTEAD LAUNCHER - "LAUNCHER_VERSION );
+    setWindowTitle( "INSTEAD launcher - "LAUNCHER_VERSION );
     setWindowIcon( QIcon( ":/resources/icon.png" ) );
 
     resetConfig();
