@@ -14,7 +14,8 @@ SOURCES += main.cpp \
     qunzip.cpp \
     platform.cpp \
     updatewidget.cpp \
-    global.cpp
+    global.cpp \
+    aboutwidget.cpp
 
 HEADERS += mainwindow.h \
     unzip/unzip.h \
@@ -23,7 +24,8 @@ HEADERS += mainwindow.h \
     platform.h \
     updatewidget.h \
     config.h \
-    global.h
+    global.h \
+    aboutwidget.h
 
 FORMS += mainwindow.ui
 #LIBS += -qt-zlib # use zlib embedded into qt

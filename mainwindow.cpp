@@ -6,6 +6,7 @@
 #include <QSettings>
 #include "config.h"
 #include "global.h"
+#include "aboutwidget.h"
 
 class NetGameItem: public QTreeWidgetItem {
     public:
@@ -104,6 +105,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->listGames->setAlternatingRowColors( true );
     m_ui->listNewGames->setAlternatingRowColors( true );
 
+
     setWindowTitle( "INSTEAD launcher - "LAUNCHER_VERSION );
     setWindowIcon( QIcon( ":/resources/icon.png" ) );
 
@@ -151,8 +153,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect( m_ui->gamesDir, SIGNAL(textChanged ( const QString &)), this, SLOT(gamesDirChanged()) );
     connect( m_ui->tabWidget, SIGNAL(currentChanged ( int )), this, SLOT(tabChanged(int)) );
 
-    connect( m_ui->checkUpdatesButton, SIGNAL( clicked() ), this, SLOT( checkUpdates() ) );
-
     if (m_ui->autoRefreshCheckBox->isChecked()) {
         refreshNetGameList();
     }
@@ -172,6 +172,10 @@ MainWindow::MainWindow(QWidget *parent)
 	m_ui->lineInsteadPath->setFocus();
 	QMessageBox::warning( this, tr( "INSTEAD was not found" ), tr( "Please input the proper INSTEAD path" ) + "." );
     }
+
+    AboutWidget *aboutWidget = new AboutWidget( this );
+    m_ui->tabWidget->addTab( aboutWidget, tr( "About" ) );
+    connect( aboutWidget, SIGNAL( checkUpdatesRequest() ), this, SLOT( checkUpdates() ) );
 
 /*
     if (m_ui->autoRefreshSwCheckBox->isChecked()) {
