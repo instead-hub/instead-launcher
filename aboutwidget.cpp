@@ -65,7 +65,9 @@ AboutWidget::AboutWidget( QWidget *parent )
     ghvlayout->addWidget( devs );
     connect( devs, SIGNAL( linkActivated( const QString & ) ), this, SLOT( linkActivated( const QString & ) ) );
 
-    QLabel *thanks = new QLabel( "<center><b>" + tr( "Special thanks to" ) + ":</b><br>Peter Kosyh for the smart advices and everybody who was involed in developmnt process! :)</center>", this );
+    QLabel *thanks = new QLabel( "<center><b>" + tr( "Special thanks to" ) + ":</b><br>" +
+    	tr("Peter Kosyh for the smart advices and everybody who was involed in developmnt process! :)") + "</center>", 
+    	this );
     thanks->setWordWrap( true );
     ghvlayout->addSpacing( 10 );
 //    ghlvlayout->addWidget( thanks );
