@@ -8,14 +8,13 @@ AboutWidget::AboutWidget( QWidget *parent )
     QHBoxLayout *hlayout = new QHBoxLayout();
 
     QWidget *gwidget = new QWidget( this );
-    gwidget->setMinimumWidth( 400 );
     QPalette pal = gwidget->palette();
     pal.setBrush( gwidget->backgroundRole(), QBrush( QColor( 255, 255, 255 ) ) );
     gwidget->setPalette( pal );
     gwidget->setAutoFillBackground( true );
 
     QVBoxLayout *glayout = new QVBoxLayout( gwidget );
-    glayout->setSizeConstraint( QLayout::SetFixedSize );
+//    glayout->setSizeConstraint( QLayout::SetFixedSize );
 
     QWidget *lwidget = new QWidget( this );
     pal = lwidget->palette();
@@ -23,29 +22,32 @@ AboutWidget::AboutWidget( QWidget *parent )
     lwidget->setPalette( pal );
     lwidget->setAutoFillBackground( true );
 
+    QWidget *iwidget = new QWidget( gwidget );
+    iwidget->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Preferred );
+
     QVBoxLayout *ghlvlayout = new QVBoxLayout( lwidget );
 
     QHBoxLayout *ghlayout = new QHBoxLayout();
-    QVBoxLayout *ghvlayout = new QVBoxLayout();
+    QVBoxLayout *ghvlayout = new QVBoxLayout( iwidget );
     QHBoxLayout *ghblayout = new QHBoxLayout();
     layout->addLayout( hlayout );
-    hlayout->addStretch();
+//    hlayout->addStretch();
     hlayout->addWidget( gwidget );
-    hlayout->addStretch();
+//    hlayout->addStretch();
     glayout->addLayout( ghlayout );
     m_logoLabel = new QLabel( this );
     ghlvlayout->addWidget( m_logoLabel );
 
     m_logoLabel->setPixmap( QPixmap( ":/resources/logo.png" ) );
     ghlayout->addWidget( lwidget );
-    ghlayout->addLayout( ghvlayout );
-    QFrame *frame = new QFrame( gwidget );
+    ghlayout->addWidget( iwidget );
+    QFrame *frame = new QFrame( iwidget );
     frame->setFrameShape( QFrame::HLine );
     ghvlayout->addWidget( frame );
     QLabel *title = new QLabel( "<b><h3>" + QString( "%1 %2" ).arg( tr( "INSTEAD launcher" ) ).arg( LAUNCHER_VERSION ) + "</h3></b>", this );
     title->setScaledContents( false );
     ghvlayout->addWidget( title );
-    frame = new QFrame( gwidget );
+    frame = new QFrame( iwidget );
     frame->setFrameShape( QFrame::HLine );
     ghvlayout->addWidget( frame );
     QLabel *desc = new QLabel( tr( "The program for loading and installing games from the official INSTEAD games repository. Also launcher allows you to be in course of all related software updates." ), this );
@@ -86,7 +88,7 @@ AboutWidget::AboutWidget( QWidget *parent )
 
     ghvlayout->addLayout( ghblayout );
     ghblayout->addStretch();
-    QPushButton *checkUpdatesButton = new QPushButton( tr( "Check software updates" ), gwidget );
+    QPushButton *checkUpdatesButton = new QPushButton( tr( "Check software updates" ), iwidget );
     ghblayout->addWidget( checkUpdatesButton );
     ghblayout->addStretch();
 
