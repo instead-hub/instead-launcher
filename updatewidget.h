@@ -41,7 +41,7 @@ private:
 
 private slots:
     void listServerDone( bool );
-
+    void anchorClickedSlot( const QUrl &link );
 };
 
 #endif // UPDATEWIDGET_H

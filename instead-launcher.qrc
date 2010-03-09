@@ -2,6 +2,7 @@
 <qresource>
 <file>resources/icon.png</file>
 <file>resources/logo.png</file>
+<file>resources/close.png</file>
 <file>instead-launcher_ru.qm</file>
 </qresource>
 </RCC>

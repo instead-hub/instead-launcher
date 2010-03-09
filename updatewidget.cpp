@@ -37,6 +37,7 @@ UpdateWidget::UpdateWidget( QWidget *parent ) :
     m_listLoadProgress->setLabelText( tr( "Update list downloading" ) + "..." );
     connect( m_listLoadProgress, SIGNAL(canceled()), m_listServer, SLOT(abort()));
     connect( m_listServer, SIGNAL( dataReadProgress( int, int ) ), m_listLoadProgress, SLOT( setValue( int ) ) );
+    connect( this, SIGNAL( anchorClicked( const QUrl & ) ), this, SLOT( anchorClickedSlot( const QUrl & ) ) );
 
     localInsteadVersion = "";
     localLauncherVersion = "";
@@ -160,15 +161,15 @@ void UpdateWidget::generateUpdateMessage() {
 
     if ( compareVersions( remoteInsteadVersion, localInsteadVersion) == 1 ) {
         if ( localInsteadVersion == "0" ) {
-            text += "<h3>" + tr("Instead update to ") + remoteInsteadVersion + "</h3>";
+            text += "<h3 style=\"margin-top: 0;\">" + tr("Instead update to ") + remoteInsteadVersion + "</h3>";
         } else {
-            text += "<h3>" + tr("Instead update from ") + localInsteadVersion + tr(" to ") + remoteInsteadVersion + "</h3>";
+            text += "<h3 style=\"margin-top: 0;\">" + tr("Instead update from ") + localInsteadVersion + tr(" to ") + remoteInsteadVersion + "</h3>";
         }
         text += "<a href=\"" + urlInstead + "\">" + urlInstead + "</a>";
         needUpdateInstead = true;
     }
     if ( compareVersions( remoteLauncherVersion, localLauncherVersion) == 1 ) {
-        text += "<h3>" + tr("Launcher update from ") + localLauncherVersion + tr(" to ") + remoteLauncherVersion + "</h3>";
+        text += "<h3 style=\"margin-top: 0;\">" + tr("Launcher update from ") + localLauncherVersion + tr(" to ") + remoteLauncherVersion + "</h3>";
         text += "<a href=\"" + urlLauncher + "\">" + urlLauncher + "</a>";
         needUpdateLauncher = true;
     }
@@ -179,8 +180,12 @@ void UpdateWidget::generateUpdateMessage() {
             hide();
             return;
         }
-        text += "<h3>"+tr("No updates available")+"</h3>";
+        text += "<h3 style=\"margin-top: 0;\">"+tr("No updates available")+"</h3>";
     }
+
+
+//    text = "<table border=\"1\" width=\"100%\"><tr><td width=\"100%\"></td><td align=\"right\"><a href=\"#close\">Close</a></td></tr></table>" + text;
+    text = "<div align=\"right\"><a href=\"#close\"><img src=\":/resources/close.png\" /></a></div>" + text;
 
     setHtml( text );
 
@@ -253,4 +258,10 @@ QString UpdateWidget::detectInsteadVersion( QString insteadBinary ) {
         qWarning() << "can't create temp directory";
     }
     return version;
+}
+
+void UpdateWidget::anchorClickedSlot( const QUrl &link ) {
+    if ( link.toString() == "#close" ) {
+	hide();
+    }
 }
