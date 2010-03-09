@@ -4,68 +4,68 @@
 <context>
     <name>AboutWidget</name>
     <message>
-        <location filename="aboutwidget.cpp" line="43"/>
+        <location filename="aboutwidget.cpp" line="47"/>
         <source>INSTEAD launcher</source>
         <translation>INSTEAD launcher</translation>
     </message>
     <message>
-        <location filename="aboutwidget.cpp" line="48"/>
+        <location filename="aboutwidget.cpp" line="53"/>
         <source>The program for loading and installing games from the official INSTEAD games repository. Also launcher allows you to be in course of all related software updates.</source>
         <translation>Программа для загрузки и установки игр из репозиториев INSTEAD. Также, launcher держит Вас в курсе обновлений программного обеспечения INSTEAD.</translation>
     </message>
     <message>
-        <location filename="aboutwidget.cpp" line="52"/>
+        <location filename="aboutwidget.cpp" line="58"/>
         <source>Developer&apos;s forum</source>
         <translation>Форум для разработчиков</translation>
     </message>
     <message>
-        <location filename="aboutwidget.cpp" line="52"/>
+        <location filename="aboutwidget.cpp" line="58"/>
         <source>Join us! Let&apos;s discuss, make suggestions and enjoy!</source>
         <translation>Присоединяйтесь к нам! Делитесь мнением, предлагайте и пробуйте!</translation>
     </message>
     <message>
-        <location filename="aboutwidget.cpp" line="55"/>
+        <location filename="aboutwidget.cpp" line="63"/>
         <source>INSTEAD launcher project page</source>
         <translation>Страница INSTEAD launcher</translation>
     </message>
     <message>
-        <location filename="aboutwidget.cpp" line="55"/>
+        <location filename="aboutwidget.cpp" line="63"/>
         <source>If you want to report about bug, you can do it here.</source>
         <translation>Если вы хотите прислать отчет об ошибке, вы можете сделать это здесь.</translation>
     </message>
     <message>
-        <location filename="aboutwidget.cpp" line="58"/>
+        <location filename="aboutwidget.cpp" line="67"/>
         <source>INSTEAD project page</source>
         <translation>Страница INSTEAD</translation>
     </message>
     <message>
-        <location filename="aboutwidget.cpp" line="58"/>
+        <location filename="aboutwidget.cpp" line="67"/>
         <source>Welcome to the INSTEAD project page!</source>
         <translation>Добро пожаловать на страницу INSTEAD!</translation>
     </message>
     <message>
-        <location filename="aboutwidget.cpp" line="61"/>
+        <location filename="aboutwidget.cpp" line="71"/>
         <source>Developers team</source>
         <translation>Команда разработчиков</translation>
     </message>
     <message>
-        <location filename="aboutwidget.cpp" line="61"/>
+        <location filename="aboutwidget.cpp" line="71"/>
         <source>Ilja Ryndin</source>
         <translation>Илья Рыдин</translation>
     </message>
     <message>
-        <location filename="aboutwidget.cpp" line="68"/>
+        <location filename="aboutwidget.cpp" line="79"/>
         <source>Special thanks to</source>
         <translation>Благодарности</translation>
     </message>
     <message>
-        <location filename="aboutwidget.cpp" line="69"/>
+        <location filename="aboutwidget.cpp" line="80"/>
         <source>Peter Kosyh for the smart advices and everybody who was involed in developmnt process! :)</source>
         <oldsource>:&lt;/b&gt;&lt;br&gt;Peter Kosyh for the smart advices and everybody who was involed in developmnt process! :)&lt;/center&gt;</oldsource>
         <translation>Петру Косых за мудрые советы и всем кто помогал! :)</translation>
     </message>
     <message>
-        <location filename="aboutwidget.cpp" line="80"/>
+        <location filename="aboutwidget.cpp" line="91"/>
         <source>Check software updates</source>
         <translation>Обновления</translation>
     </message>
@@ -73,17 +73,17 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="mainwindow.cpp" line="121"/>
+        <location filename="mainwindow.cpp" line="125"/>
         <source>Game list downloading</source>
         <translation>Загрузка списка игр</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="173"/>
+        <location filename="mainwindow.cpp" line="177"/>
         <source>INSTEAD was not found</source>
         <translation>INSTEAD не обнаружен</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="173"/>
+        <location filename="mainwindow.cpp" line="177"/>
         <source>Please input the proper INSTEAD path</source>
         <translation>Пожалуйста введите правильный путь к INSTEAD</translation>
     </message>
@@ -128,10 +128,10 @@
         <translation>Убедитесь, что интепретатор был установлен</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="121"/>
         <location filename="mainwindow.cpp" line="425"/>
         <location filename="mainwindow.cpp" line="658"/>
         <location filename="mainwindow.cpp" line="704"/>
+        <location filename="mainwindow.ui" line="121"/>
         <source>all</source>
         <translation>все</translation>
     </message>
@@ -262,14 +262,12 @@
         <translation>Дополнительные параметры INSTEAD:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="282"/>
         <source>Check game updates on start</source>
-        <translation>Проверять обновления игр при запуске</translation>
+        <translation type="obsolete">Проверять обновления игр при запуске</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="289"/>
         <source>Check program updates on start</source>
-        <translation>Проверять обновления программ при запуске</translation>
+        <translation type="obsolete">Проверять обновления программ при запуске</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="148"/>
@@ -304,67 +302,82 @@
         <translation>Обзор</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="298"/>
+        <location filename="mainwindow.ui" line="280"/>
+        <source>Autostart actions</source>
+        <translation>Действия при запуске</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="288"/>
+        <source>Check game updates</source>
+        <translation>Проверка обновлений игр</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="295"/>
+        <source>Check program updates</source>
+        <translation>Проверка обновлений программ</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="307"/>
         <source>Update sources</source>
         <translation>Источники обновления</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="322"/>
+        <location filename="mainwindow.ui" line="331"/>
         <source>Add</source>
         <translation>Добавить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="329"/>
+        <location filename="mainwindow.ui" line="338"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="341"/>
+        <location filename="mainwindow.ui" line="350"/>
         <source>Proxy</source>
         <translation>Прокси</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="355"/>
+        <location filename="mainwindow.ui" line="364"/>
         <source>Server:</source>
         <translation>Сервер:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="368"/>
+        <location filename="mainwindow.ui" line="377"/>
         <source>127.0.0.1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="391"/>
+        <location filename="mainwindow.ui" line="400"/>
         <source>Port:</source>
         <translation>Порт:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="404"/>
+        <location filename="mainwindow.ui" line="413"/>
         <source>3128</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="413"/>
+        <location filename="mainwindow.ui" line="422"/>
         <source>Authentication</source>
         <translation>Аутентификация</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="424"/>
+        <location filename="mainwindow.ui" line="433"/>
         <source>User:</source>
         <translation>Пользователь:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="454"/>
+        <location filename="mainwindow.ui" line="463"/>
         <source>Password:</source>
         <translation>Пароль:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="491"/>
+        <location filename="mainwindow.ui" line="500"/>
         <source>Reset</source>
         <translation>Сбросить</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="177"/>
+        <location filename="mainwindow.cpp" line="113"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>

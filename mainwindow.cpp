@@ -109,6 +109,10 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle( "INSTEAD launcher - "LAUNCHER_VERSION );
     setWindowIcon( QIcon( ":/resources/icon.png" ) );
 
+    AboutWidget *aboutWidget = new AboutWidget( this );
+    m_ui->tabWidget->addTab( aboutWidget, tr( "About" ) );
+    connect( aboutWidget, SIGNAL( checkUpdatesRequest() ), this, SLOT( checkUpdates() ) );
+
     resetConfig();
     loadConfig();
 
@@ -172,10 +176,6 @@ MainWindow::MainWindow(QWidget *parent)
 	m_ui->lineInsteadPath->setFocus();
 	QMessageBox::warning( this, tr( "INSTEAD was not found" ), tr( "Please input the proper INSTEAD path" ) + "." );
     }
-
-    AboutWidget *aboutWidget = new AboutWidget( this );
-    m_ui->tabWidget->addTab( aboutWidget, tr( "About" ) );
-    connect( aboutWidget, SIGNAL( checkUpdatesRequest() ), this, SLOT( checkUpdates() ) );
 
 /*
     if (m_ui->autoRefreshSwCheckBox->isChecked()) {

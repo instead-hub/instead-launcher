@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>562</width>
-    <height>542</height>
+    <height>561</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -211,8 +211,8 @@
        <attribute name="title">
         <string>Preferences</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
+       <layout class="QGridLayout" name="gridLayout_7">
+        <item row="0" column="0">
          <layout class="QGridLayout" name="gridLayout">
           <item row="0" column="0">
            <widget class="QLabel" name="label">
@@ -256,7 +256,7 @@
           </item>
          </layout>
         </item>
-        <item>
+        <item row="1" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
            <widget class="QLabel" name="insteadParametersLabel">
@@ -274,25 +274,34 @@
           </item>
          </layout>
         </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_7">
-          <item>
-           <widget class="QCheckBox" name="autoRefreshCheckBox">
-            <property name="text">
-             <string>Check game updates on start</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="autoRefreshSwCheckBox">
-            <property name="text">
-             <string>Check program updates on start</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+        <item row="2" column="0">
+         <widget class="QGroupBox" name="m_autostartGroupBox">
+          <property name="title">
+           <string>Autostart actions</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_6">
+           <item row="0" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <item>
+              <widget class="QCheckBox" name="autoRefreshCheckBox">
+               <property name="text">
+                <string>Check game updates</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="autoRefreshSwCheckBox">
+               <property name="text">
+                <string>Check program updates</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
         </item>
-        <item>
+        <item row="3" column="0">
          <widget class="QGroupBox" name="updateUrlBox">
           <property name="title">
            <string>Update sources</string>
@@ -335,7 +344,7 @@
           </layout>
          </widget>
         </item>
-        <item>
+        <item row="4" column="0">
          <widget class="QGroupBox" name="proxyGroupBox">
           <property name="title">
            <string>Proxy</string>
@@ -470,7 +479,7 @@
           </layout>
          </widget>
         </item>
-        <item>
+        <item row="5" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
            <spacer name="horizontalSpacer_3">
