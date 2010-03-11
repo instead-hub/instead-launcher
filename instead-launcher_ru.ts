@@ -62,7 +62,7 @@
         <location filename="aboutwidget.cpp" line="80"/>
         <source>Peter Kosyh for the smart advices and everybody who was involed in developmnt process! :)</source>
         <oldsource>:&lt;/b&gt;&lt;br&gt;Peter Kosyh for the smart advices and everybody who was involed in developmnt process! :)&lt;/center&gt;</oldsource>
-        <translation>Петру Косых за советы и всем кто помогал! :)</translation>
+        <translation>Петру Косых за советы и всем тем, кто помогал! :)</translation>
     </message>
     <message>
         <location filename="aboutwidget.cpp" line="91"/>
