@@ -3,6 +3,7 @@ VERSION="0.2"
 VERTITLE="instead-launcher-$VERSION"
 ARCHIVE="instead-launcher_$VERSION.tar.gz"
 qmake
+make -C unzip clean
 make clean
 svn st | grep "^?" | awk '{ print $$2 }' | while read l; do rm -rf $l; done
 ln -sf ./ "$VERTITLE"

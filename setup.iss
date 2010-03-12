@@ -15,6 +15,7 @@ Name: es; MessagesFile: compiler:Languages\Spanish.isl
 
 [Files]
 Source: "*.exe"; DestDir: "{app}"
+Source: "qt_ru.qm"; DestDir: "{app}"
 
 [CustomMessages]
 CreateDesktopIcon=Create a &desktop icon
@@ -41,6 +42,6 @@ Name: {group}\{cm:UninstallMsg}; Filename: {uninstallexe}
 [UninstallDelete]
 Name: {app}; Type: dirifempty
 Name: {pf}\Pinebrush games; Type: dirifempty
-
+Name: {localappdata}\instead\launcher.ini; Type: files
 
 
