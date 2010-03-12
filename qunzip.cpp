@@ -105,8 +105,6 @@ static int do_extract_currentfile( unzFile uf, const QString &targetDir )
 
 bool qUnzip( const QString &archPath, const QString &targetDir )
 {
-    qDebug( ":: %s", archPath.toLocal8Bit().data() );
-
     unzFile uf = unzOpen( archPath.toLocal8Bit().data() );
     if( uf == NULL ) {
         qCritical() << "can't open archive:" << archPath;
