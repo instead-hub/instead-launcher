@@ -1,11 +1,11 @@
 [Setup]
 AppName=INSTEAD Launcher
-AppVerName=INSTEAD Launcher 0.1
+AppVerName=INSTEAD Launcher 0.2
 DefaultDirName={pf}\Pinebrush games\INSTEAD-LAUNCHER
 DefaultGroupName=Pinebrush games
 UninstallDisplayIcon={app}\instead-launcher.exe
 OutputDir=.
-OutputBaseFilename=instead-launcher-0.1
+OutputBaseFilename=instead-launcher-0.2
 AllowNoIcons=true
 
 [Languages]
