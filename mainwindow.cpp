@@ -157,11 +157,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect( m_ui->gamesDir, SIGNAL(textChanged ( const QString &)), this, SLOT(gamesDirChanged()) );
     connect( m_ui->tabWidget, SIGNAL(currentChanged ( int )), this, SLOT(tabChanged(int)) );
 
+    updateProxy();
+
     if (m_ui->autoRefreshCheckBox->isChecked()) {
         refreshNetGameList();
     }
-
-    updateProxy();
 
     m_swUpdateWidget = new UpdateWidget( this );
     m_ui->swUpdateLayout->addWidget( m_swUpdateWidget );
