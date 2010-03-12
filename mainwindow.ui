@@ -560,7 +560,6 @@
   <tabstop>updateUrlList</tabstop>
   <tabstop>addSourcePushButton</tabstop>
   <tabstop>deleteSourcePushButton</tabstop>
-  <tabstop>resetPushButton</tabstop>
   <tabstop>langComboBox</tabstop>
   <tabstop>listNewGames</tabstop>
   <tabstop>refreshPushButton</tabstop>
@@ -574,6 +573,7 @@
   <tabstop>proxyAuthGroupBox</tabstop>
   <tabstop>proxyUserLineEdit</tabstop>
   <tabstop>proxyPasswordLineEdit</tabstop>
+  <tabstop>resetPushButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>
