@@ -30,6 +30,8 @@ int UpdateWidget::compareVersions( QString ver1, QString ver2 ) {
 UpdateWidget::UpdateWidget( QWidget *parent ) :
     QTextBrowser( parent )
 {
+    setOpenLinks( false );
+
     m_listServer = new QHttp(this);
     connect( m_listServer, SIGNAL( done( bool ) ), this, SLOT( listServerDone( bool ) ) );
 
@@ -47,7 +49,6 @@ UpdateWidget::UpdateWidget( QWidget *parent ) :
     urlLauncher = "";
 
     hide();
-
 }
 
 UpdateWidget::~UpdateWidget()
@@ -263,5 +264,7 @@ QString UpdateWidget::detectInsteadVersion( QString insteadBinary ) {
 void UpdateWidget::anchorClickedSlot( const QUrl &link ) {
     if ( link.toString() == "#close" ) {
 	hide();
+    } else {
+	QDesktopServices::openUrl( link );
     }
 }
