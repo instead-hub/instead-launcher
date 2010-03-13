@@ -105,9 +105,14 @@ static int do_extract_currentfile( unzFile uf, const QString &targetDir )
 
 bool qUnzip( const QString &archPath, const QString &targetDir )
 {
-    unzFile uf = unzOpen( archPath.toLocal8Bit().data() );
+    QString cwd = QDir::currentPath ();
+    if (!QDir::setCurrent(QFileInfo(archPath).dir().path())) {
+        qCritical() << "can't chdir:" << QFileInfo(archPath).dir().path();
+    }
+    unzFile uf = unzOpen( QFileInfo(archPath).fileName().toLocal8Bit().data() );
     if( uf == NULL ) {
-        qCritical() << "can't open archive:" << archPath;
+        qCritical() << "can't open archive:" << QFileInfo(archPath).fileName();
+        QDir::setCurrent(cwd);
 	return false;
     }
 
@@ -124,12 +129,13 @@ bool qUnzip( const QString &archPath, const QString &targetDir )
     while( err == UNZ_OK ) {
 	if ( do_extract_currentfile( uf, targetDir ) != UNZ_OK ) {
 	    unzClose( uf );
+            QDir::setCurrent(cwd);
 	    return false;
 	}
 	err = unzGoToNextFile( uf );
     }
 
     unzClose( uf );
-
+    QDir::setCurrent(cwd);
     return true;
 }
