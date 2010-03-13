@@ -106,10 +106,11 @@ static int do_extract_currentfile( unzFile uf, const QString &targetDir )
 bool qUnzip( const QString &archPath, const QString &targetDir )
 {
     QString cwd = QDir::currentPath ();
-    if (!QDir::setCurrent(QFileInfo(archPath).dir().path())) {
-        qCritical() << "can't chdir:" << QFileInfo(archPath).dir().path();
+    QFileInfo fi = QFileInfo(archPath);
+    if (!QDir::setCurrent(fi.dir().path())) {
+        qCritical() << "can't chdir:" << fi.dir().path();
     }
-    unzFile uf = unzOpen( QFileInfo(archPath).fileName().toLocal8Bit().data() );
+    unzFile uf = unzOpen( fi.fileName().toLocal8Bit().data() );
     if( uf == NULL ) {
         qCritical() << "can't open archive:" << QFileInfo(archPath).fileName();
         QDir::setCurrent(cwd);
