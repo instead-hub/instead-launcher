@@ -25,9 +25,11 @@ void logMessageOutput(QtMsgType type, const char *msg)
  }
 
 void showHelp() {
-    printf("instead-launcher [-log <logfile>] [-help]\n");
-    printf("  -help   show this help message\n");
-    printf("  -log    redirect debug messages to <logfile>\n\n");
+    printf("instead-launcher [-insteadpath <dir>] [-gamespath <dir>] [-log <logfile>] [-help]\n");
+    printf("  -insteadpath   set instead dir\n");
+    printf("  -gamespath     set games path dir\n");
+    printf("  -help          show this help message\n");
+    printf("  -log           redirect debug messages to <logfile>\n\n");
 }
 
 bool enableLog(char *fileName) {
@@ -41,17 +43,19 @@ bool enableLog(char *fileName) {
     return true;
 }
 
-int qtMain( int argc, char *argv[] ) {
+int qtMain( const ArgMap &argMap, int argc, char *argv[] ) {
     QApplication a(argc, argv);
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("utf-8"));
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("utf-8"));
-    MainWindow w;
+    MainWindow w( argMap );
     w.show();
     return a.exec();
 }
 
 int main( int argc, char *argv[] )
 {
+    ArgMap argMap;
+
     for (int i=1; i<argc; i++) {
         if ( !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help") ) {
             showHelp();
@@ -64,14 +68,40 @@ int main( int argc, char *argv[] )
                 showHelp();
                 return 1;
             }
+        } else if ( !strcmp(argv[i], "-gamespath") || !strcmp(argv[i], "--gamespath") ) {
+            i++;
+            if (i < argc) {
+        	if ( QFileInfo( QString::fromLocal8Bit( argv[i] ) ).exists() ) {
+        	    argMap["gamespath"]=QString::fromLocal8Bit( argv[i] );
+        	} else {
+        	    showHelp();
+        	    return 1;
+        	}
+            } else {
+                showHelp();
+                return 1;
+            }
+        } else if ( !strcmp(argv[i], "-insteadpath") || !strcmp(argv[i], "--insteadpath") ) {
+            i++;
+            if (i < argc) {
+        	if ( QFileInfo( QString::fromLocal8Bit( argv[i] ) ).exists() ) {
+        	    argMap["insteadpath"]=QString::fromLocal8Bit( argv[i] );
+        	} else {
+        	    showHelp();
+        	    return 1;
+        	}
+            } else {
+                showHelp();
+                return 1;
+            }
         } else {
-            printf("Unrecognized option: %s\n\n", argv[i]);
+            fprintf(stderr,"Unrecognized option: %s\n\n", argv[i]);
             showHelp();
             return 1;
         }
     }
 
-    int result = qtMain( argc, argv );
+    int result = qtMain( argMap, argc, argv );
 
     if ( logFile ) {
         fprintf( logFile, "Log finished\n\n");

@@ -64,7 +64,7 @@ class LocalGameItem: public QTreeWidgetItem {
 	GameInfo m_info;
 };
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(const ArgMap &argMap, QWidget *parent)
     : QMainWindow(parent), m_ui(new Ui::MainWindow)
 {
     listIsDirty = false;
@@ -115,6 +115,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     resetConfig();
     loadConfig();
+
+    if ( argMap.contains( "gamespath" ) ) {
+	m_ui->gamesDir->setText(argMap["gamespath"].toString());
+    }
+
+    if ( argMap.contains( "insteadpath" ) ) {
+	m_ui->lineInsteadPath->setText(argMap["insteadpath"].toString());
+
+    }
 
     refreshLocalGameList();
 

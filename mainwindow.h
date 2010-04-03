@@ -10,6 +10,8 @@ namespace Ui
     class MainWindow;
 }
 
+typedef QMap<QString,QVariant> ArgMap;
+
 class UpdateWidget;
 
 class GameInfo {
@@ -161,7 +163,7 @@ class MainWindow : public QMainWindow
 
 public:
 
-    MainWindow(QWidget *parent = 0);
+    MainWindow(const ArgMap &argMap, QWidget *parent = 0);
     ~MainWindow();
 
 private:
