@@ -8,7 +8,7 @@ bool checkOrCreateGameDir( QString gameDir ) {
 
     qWarning() << "mkpath " << gameDir;
 
-    return dir.mkpath( gameDir );
+    return dir.mkpath(".");
 }
 
 #ifdef Q_OS_UNIX
