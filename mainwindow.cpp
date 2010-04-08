@@ -67,6 +67,7 @@ class LocalGameItem: public QTreeWidgetItem {
 MainWindow::MainWindow(const ArgMap &argMap, QWidget *parent)
     : QMainWindow(parent), m_ui(new Ui::MainWindow)
 {
+    args = argMap;
     listIsDirty = false;
     QString langSuffix = QLocale().name().split( "_" ).first();
     QTranslator *translator = new QTranslator( this );
@@ -114,16 +115,8 @@ MainWindow::MainWindow(const ArgMap &argMap, QWidget *parent)
     connect( aboutWidget, SIGNAL( checkUpdatesRequest() ), this, SLOT( checkUpdates() ) );
 
     resetConfig();
+
     loadConfig();
-
-    if ( argMap.contains( "gamespath" ) ) {
-	m_ui->gamesDir->setText(argMap["gamespath"].toString());
-    }
-
-    if ( argMap.contains( "insteadpath" ) ) {
-	m_ui->lineInsteadPath->setText(argMap["insteadpath"].toString());
-
-    }
 
     refreshLocalGameList();
 
@@ -635,14 +628,22 @@ void MainWindow::refreshLocalGameList() {
 }
 
 void MainWindow::resetConfig() {
-    m_ui->lineInsteadPath->setText( getDefaultInterpreterPath() );
+    QString defInsteadPath = getDefaultInterpreterPath();
+    QString defGamesPath = getGameDirPath();
+
+    if ( args.contains( "default-insteadpath" ) )
+	defInsteadPath = args["default-insteadpath"].toString();
+    if ( args.contains( "default-gamespath" ) )
+	defGamesPath = args["default-gamespath"].toString();
+
+    m_ui->lineInsteadPath->setText( defInsteadPath );
     m_ui->autoRefreshCheckBox->setChecked(false);
     m_ui->autoRefreshSwCheckBox->setChecked(false);
     m_ui->updateUrlList->clear();
     m_ui->updateUrlList->addItem( GAMES_UPDATE_URL );
     QListWidgetItem *item = m_ui->updateUrlList->item(0);
     item->setFlags(item->flags() & ~ (Qt::ItemIsEnabled));
-    m_ui->gamesDir->setText( getGameDirPath() );
+    m_ui->gamesDir->setText( defGamesPath );
     m_ui->insteadParameters->setText("");
     m_ui->proxyServerLineEdit->setText( "127.0.0.1" );
     m_ui->proxyPortLineEdit->setText( "3128" );
@@ -654,11 +655,19 @@ void MainWindow::resetConfig() {
 
 void MainWindow::loadConfig() {
     QSettings conf(getConfigPath(), QSettings::IniFormat);
-    QString insteadPath = conf.value("InsteadPath", getDefaultInterpreterPath()).toString();
+    QString defInsteadPath = getDefaultInterpreterPath();
+    QString defGamesPath = getGameDirPath();
+
+    if ( args.contains( "default-insteadpath" ) )
+	defInsteadPath = args["default-insteadpath"].toString();
+    if ( args.contains( "default-gamespath" ) )
+	defGamesPath = args["default-gamespath"].toString();
+
+    QString insteadPath = conf.value("InsteadPath", defInsteadPath).toString();
     bool autoRefresh = conf.value("AutoRefresh", "false").toString() == "true";
     bool autoRefreshSW = conf.value("AutoRefreshSW", "false").toString() == "true";
     QString lang = conf.value( "Language", "*" ).toString();
-    QString gamesDir = conf.value("GamesPath", getGameDirPath()).toString();
+    QString gamesDir = conf.value("GamesPath", defGamesPath).toString();
     QString insteadParameters = conf.value("InsteadParameters", "").toString();
 
     m_ui->lineInsteadPath->setText(insteadPath);
@@ -701,6 +710,10 @@ void MainWindow::loadConfig() {
     m_ui->gamesDir->setText(gamesDir);
     m_ui->insteadParameters->setText(insteadParameters);
     conf.endArray();
+    if ( args.contains( "gamespath" ) )
+	m_ui->gamesDir->setText(args["gamespath"].toString());
+    if ( args.contains( "insteadpath" ) )
+	m_ui->lineInsteadPath->setText(args["insteadpath"].toString());
     qDebug() << "config has loaded";
 }
 

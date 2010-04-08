@@ -167,6 +167,7 @@ public:
     ~MainWindow();
 
 private:
+    ArgMap args;
 
     QList<QTreeWidgetItem *> findEssentialGames( QTreeWidgetItem * );
 

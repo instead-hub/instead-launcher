@@ -28,6 +28,8 @@ void showHelp() {
     printf("instead-launcher [-insteadpath <dir>] [-gamespath <dir>] [-log <logfile>] [-help]\n");
     printf("  -insteadpath   set instead dir\n");
     printf("  -gamespath     set games path dir\n");
+    printf("  -default-insteadpath   set default instead dir\n");
+    printf("  -default-gamespath     set default games path dir\n");
     printf("  -help          show this help message\n");
     printf("  -log           redirect debug messages to <logfile>\n\n");
 }
@@ -71,12 +73,7 @@ int main( int argc, char *argv[] )
         } else if ( !strcmp(argv[i], "-gamespath") || !strcmp(argv[i], "--gamespath") ) {
             i++;
             if (i < argc) {
-        	if ( QFileInfo( QString::fromLocal8Bit( argv[i] ) ).exists() ) {
-        	    argMap["gamespath"]=QString::fromLocal8Bit( argv[i] );
-        	} else {
-        	    showHelp();
-        	    return 1;
-        	}
+        	argMap["gamespath"]=QString::fromLocal8Bit( argv[i] );
             } else {
                 showHelp();
                 return 1;
@@ -86,6 +83,27 @@ int main( int argc, char *argv[] )
             if (i < argc) {
         	if ( QFileInfo( QString::fromLocal8Bit( argv[i] ) ).exists() ) {
         	    argMap["insteadpath"]=QString::fromLocal8Bit( argv[i] );
+        	} else {
+        	    showHelp();
+        	    return 1;
+        	}
+            } else {
+                showHelp();
+                return 1;
+            }
+        } else if ( !strcmp(argv[i], "-default-gamespath") || !strcmp(argv[i], "--default-gamespath") ) {
+            i++;
+            if (i < argc) {
+        	argMap["default-gamespath"]=QString::fromLocal8Bit( argv[i] );
+            } else {
+                showHelp();
+                return 1;
+            }
+        } else if ( !strcmp(argv[i], "-default-insteadpath") || !strcmp(argv[i], "--default-insteadpath") ) {
+            i++;
+            if (i < argc) {
+        	if ( QFileInfo( QString::fromLocal8Bit( argv[i] ) ).exists() ) {
+        	    argMap["default-insteadpath"]=QString::fromLocal8Bit( argv[i] );
         	} else {
         	    showHelp();
         	    return 1;
