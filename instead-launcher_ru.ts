@@ -143,7 +143,7 @@
     <message>
         <location filename="mainwindow.cpp" line="510"/>
         <source>Can&apos;t download the game. If you use proxy connection, check the proxy settings.</source>
-        <translation>Невозможно загрузить игр. Если вы используете соединение через прокси, проверьте настройки.</translation>
+        <translation>Невозможно загрузить игру. Если вы используете соединение через прокси, проверьте настройки.</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="733"/>
