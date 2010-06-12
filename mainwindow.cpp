@@ -550,20 +550,18 @@ bool MainWindow::getLocalGameInfo(const QDir gameDir, const QString gameID, Game
     }
     QTextStream in(&file);
 
-    QString namePrefix = "-- $Name:";
-    QString versionPrefix = "-- $Version:";
     QString name = gameID;
     QString version = "";
     bool hasVersion = false, hasName = false;
     while (!hasVersion || !hasName) {
         QString line = in.readLine().simplified();
         if ( line.isNull() || !line.startsWith("--") ) break;
-        if ( line.startsWith( namePrefix ) ) {
-            name = line.mid( namePrefix.length() ).trimmed();
+        if (QRegExp("--[\\s\\t]*\\$Name[\\s\\t]*:.*").exactMatch(line)) {
+            name = QString(line).remove(QRegExp("^--[\\s\\t]*\\$Name[\\s\\t]*:"));
             if ( name.endsWith('$') ) name = name.left( name.length() - 1 ).trimmed();
             hasName = true;
-        } else if ( line.startsWith( versionPrefix ) ) {
-            version = line.mid( versionPrefix.length() ).trimmed();
+        } else if (QRegExp("^--[\\s\\t]*\\$Version[\\s\\t]*:.*$").exactMatch(line)) {
+            version = QString(line).remove(QRegExp("^--[\\s\\t]*\\$Version[\\s\\t]*:"));
             if ( version.endsWith('$') ) version = version.left( version.length() - 1 ).trimmed();
             hasVersion = true;
         }
