@@ -34,7 +34,7 @@ QString getGameDirPath() {
 QString getConfigPath() {
     QString currentPath = QDir::currentPath()+"/appdata";
     if (QFileInfo(currentPath).exists()) {
-	return QDir::toNativeSeparators(currentPath + "/launcher.ini";
+	return QDir::toNativeSeparators(currentPath + "/launcher.ini");
     }
     return QDir::toNativeSeparators(QDir::home().absolutePath()) + "\\Local Settings\\Application Data\\instead\\launcher.ini";
 }
