@@ -28,15 +28,14 @@ QString getDefaultInterpreterPath() {
 #elif defined(Q_OS_WIN)
 
 QString getGameDirPath() {
-    QString path = QDir::toNativeSeparators(QDir::home().absolutePath()) + "\\Local Settings\\Application Data\\instead\\games\\";
-    QString currentPath = QDir::currentPath()+"\\appdata";
-    if (QFileInfo(currentPath).exists()) {
-	path=currentPath;
-    }
-    return path;
+    return QDir::toNativeSeparators(QDir::home().absolutePath()) + "\\Local Settings\\Application Data\\instead\\games\\";
 }
 
 QString getConfigPath() {
+    QString currentPath = QDir::currentPath()+"/appdata";
+    if (QFileInfo(currentPath).exists()) {
+	return QDir::toNativeSeparators(currentPath + "/launcher.ini";
+    }
     return QDir::toNativeSeparators(QDir::home().absolutePath()) + "\\Local Settings\\Application Data\\instead\\launcher.ini";
 }
 
