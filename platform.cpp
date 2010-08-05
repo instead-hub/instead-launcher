@@ -44,6 +44,10 @@ QString getConfigPath() {
 }
 
 QString getDefaultInterpreterPath() {
+    QString currentPath = QDir::currentPath()+"/sdl-instead.exe";
+    if (QFileInfo(currentPath).exists()) {
+        return QDir::toNativeSeparators(currentPath);
+    }
     return "c:\\Program Files\\Pinebrush games\\INSTEAD\\sdl-instead.exe";
 }
 
