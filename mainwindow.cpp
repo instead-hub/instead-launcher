@@ -13,11 +13,13 @@ class NetGameItem: public QTreeWidgetItem {
 	NetGameItem() {
 	    setTextAlignment( 1, Qt::AlignCenter );
             setTextAlignment( 2, Qt::AlignCenter );
+            setTextAlignment( 3, Qt::AlignCenter );
 	}
 	
 	NetGameItem( QTreeWidget *parent ) : QTreeWidgetItem( parent, QTreeWidgetItem::Type ) {
 	    setTextAlignment( 1, Qt::AlignCenter );
-	    setTextAlignment( 2, Qt::AlignCenter );
+            setTextAlignment( 2, Qt::AlignCenter );
+            setTextAlignment( 3, Qt::AlignCenter );
 	}
 	
 	~NetGameItem() {
@@ -27,6 +29,7 @@ class NetGameItem: public QTreeWidgetItem {
 	    m_info = info;
 	    setText( 0, info.title() );
 	    setText( 1, info.version() );
+            setText( 2, info.size() );
 	}
 
 	NetGameInfo info() {
@@ -95,9 +98,11 @@ MainWindow::MainWindow(const ArgMap &argMap, QWidget *parent)
     m_ui->listGames->header()->setDefaultAlignment( Qt::AlignHCenter );
     m_ui->listNewGames->header()->setResizeMode( 0, QHeaderView::Interactive );
     m_ui->listNewGames->header()->setResizeMode( 1, QHeaderView::Fixed );
-    m_ui->listNewGames->header()->setResizeMode( 2, QHeaderView::ResizeToContents );
+    m_ui->listNewGames->header()->setResizeMode( 2, QHeaderView::Fixed );
+    m_ui->listNewGames->header()->setResizeMode( 3, QHeaderView::ResizeToContents );
     m_ui->listNewGames->headerItem()->setTextAlignment( 1, Qt::AlignHCenter );
     m_ui->listNewGames->headerItem()->setTextAlignment( 2, Qt::AlignHCenter );
+    m_ui->listNewGames->headerItem()->setTextAlignment( 3, Qt::AlignHCenter );
     m_ui->proxyPasswordLineEdit->setEchoMode( QLineEdit::Password );
 
     m_ui->listGames->sortByColumn(0, Qt::AscendingOrder); /* added by Peter */
@@ -418,6 +423,8 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
         	info.setDescUrl( xml->readElementText() );
             else if( xml->name() == "depend" )
         	depends.append( xml->readElementText() );
+            else if(xml->name() == "size")
+                info.setSize( xml->readElementText() );
         }
         if( xml->isEndElement() && xml->name()=="game" )
             break;
@@ -432,7 +439,7 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
 	QLabel *detailsLinkLabel = new QLabel( "<a href=" + info.descUrl() + ">" + info.descUrl() + "</a>", this );
 	detailsLinkLabel->setAlignment( Qt::AlignLeft );
 	connect( detailsLinkLabel, SIGNAL( linkActivated( const QString & ) ), this, SLOT( detailsLinkClicked( const QString & ) ) );
-	m_ui->listNewGames->setItemWidget( game, 2, detailsLinkLabel );
+        m_ui->listNewGames->setItemWidget( game, 3, detailsLinkLabel );
     }
 }
 

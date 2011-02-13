@@ -108,7 +108,7 @@ void AboutWidget::linkActivated( const QString &link ) {
 }
 
 void AboutWidget::goToDevelopersForum() {
-    QDesktopServices::openUrl( QString( "http://instead.pinebrush.com/forum" ) );
+    QDesktopServices::openUrl( QString( "http://instead.syscall.ru/forum" ) );
 }
 
 void AboutWidget::goToINSTEADPage() {

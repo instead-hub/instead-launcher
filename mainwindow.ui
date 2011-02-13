@@ -42,9 +42,6 @@
           <attribute name="headerShowSortIndicator" stdset="0">
            <bool>true</bool>
           </attribute>
-          <attribute name="headerShowSortIndicator" stdset="0">
-           <bool>true</bool>
-          </attribute>
           <column>
            <property name="text">
             <string>Game</string>
@@ -191,15 +188,6 @@
           <attribute name="headerStretchLastSection">
            <bool>true</bool>
           </attribute>
-          <attribute name="headerCascadingSectionResizes">
-           <bool>true</bool>
-          </attribute>
-          <attribute name="headerMinimumSectionSize">
-           <number>22</number>
-          </attribute>
-          <attribute name="headerStretchLastSection">
-           <bool>true</bool>
-          </attribute>
           <column>
            <property name="text">
             <string>Game</string>
@@ -208,6 +196,11 @@
           <column>
            <property name="text">
             <string>Version</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Size</string>
            </property>
           </column>
           <column>

@@ -25,6 +25,7 @@ public:
 	m_title = info.m_title;
 	m_version = info.m_version;
 	m_lang = info.m_lang;
+        m_size = info.m_size;
     }
 
     virtual ~GameInfo() {
@@ -46,6 +47,10 @@ public:
 	m_lang = lang;
     }
 
+    void setSize( const QString &size ) {
+        m_size = size;
+    }
+
     QString name() const {
 	return m_name;
     }
@@ -62,11 +67,34 @@ public:
 	return m_lang;
     }
 
+    QString size() const {
+        QString size = QObject::tr( "unknown" ); //результат
+        bool convert_ok;
+        double res = m_size.toInt(&convert_ok) / 1024.0 / 1024.0; //размер в МБ
+        //Если размер задан
+        if(convert_ok) {
+            res = ceil(res*10)/10; //округление до десятых
+            QString unt = QObject::tr( "MB" ); //единица измерения
+
+            //Если значение получилось низким, то делаем в КБ
+            if(res < 0.2) {
+                res = m_size.toInt() / 1024.0;
+                res = ceil(res*10)/10;
+                unt = QObject::tr( "KB" );
+            }
+
+            size = QString::number(res) + unt; //преобразуем результат в строку
+        }
+
+        return size;
+    }
+
     virtual GameInfo operator=( const GameInfo &info ) {
 	m_name = info.m_name;
 	m_title = info.m_title;
 	m_version = info.m_version;
 	m_lang = info.m_lang;
+        m_size = info.m_size;
 
 	return *this;
     }
@@ -80,6 +108,7 @@ private:
     QString m_title;
     QString m_version;
     QString m_lang;
+    QString m_size;
 };
 
 class NetGameInfo : public GameInfo {
