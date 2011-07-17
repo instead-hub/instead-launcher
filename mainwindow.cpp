@@ -563,7 +563,7 @@ bool MainWindow::getLocalGameInfo(const QDir gameDir, const QString gameID, Game
     while (!hasVersion || !hasName) {
         QString line = in.readLine().simplified();
         if ( line.isNull() || !line.startsWith("--") ) break;
-        if (QRegExp("--[\\s\\t]*\\$Name[\\s\\t]*:.*").exactMatch(line)) {
+        if (QRegExp("^--[\\s\\t]*\\$Name[\\s\\t]*:.*").exactMatch(line)) {
             name = QString(line).remove(QRegExp("^--[\\s\\t]*\\$Name[\\s\\t]*:[\\s\\t]*"));
             if ( name.endsWith('$') ) name = name.left( name.length() - 1 ).trimmed();
             name = QString(name).remove(QRegExp("[\\s\\t]+$"));
