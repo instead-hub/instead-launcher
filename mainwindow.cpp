@@ -564,11 +564,11 @@ bool MainWindow::getLocalGameInfo(const QDir gameDir, const QString gameID, Game
         QString line = in.readLine().simplified();
         if ( line.isNull() || !line.startsWith("--") ) break;
         if (QRegExp("--[\\s\\t]*\\$Name[\\s\\t]*:.*").exactMatch(line)) {
-            name = QString(line).remove(QRegExp("^--[\\s\\t]*\\$Name[\\s\\t]*:"));
+            name = QString(line).remove(QRegExp("^--[\\s\\t]*\\$Name[\\s\\t]*:[\\s\\t]*"));
             if ( name.endsWith('$') ) name = name.left( name.length() - 1 ).trimmed();
             hasName = true;
         } else if (QRegExp("^--[\\s\\t]*\\$Version[\\s\\t]*:.*$").exactMatch(line)) {
-            version = QString(line).remove(QRegExp("^--[\\s\\t]*\\$Version[\\s\\t]*:"));
+            version = QString(line).remove(QRegExp("^--[\\s\\t]*\\$Version[\\s\\t]*:[\\s\\t]*"));
             if ( version.endsWith('$') ) version = version.left( version.length() - 1 ).trimmed();
             hasVersion = true;
         }
