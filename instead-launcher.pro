@@ -29,6 +29,7 @@ HEADERS += mainwindow.h \
 
 FORMS += mainwindow.ui
 #LIBS += -qt-zlib # use zlib embedded into qt
+LIBS += -lz
 DEFINES += NOUNCRIPT # need for unzip library build
 RESOURCES += instead-launcher.qrc
 TRANSLATIONS += instead-launcher_ru.ts
@@ -61,7 +62,7 @@ win32:system(for /r %B in (*.ts) do $$LRELEASE_EXECUTABLE %B)
 
 unix:DESTDIR = .
 
-unix:system(cat instead-launcher.desktop.in | sed -e "s\|@BIN\|$$[QT_INSTALL_BINS]\|g" > instead-launcher.desktop)
+unix:system(cat instead-launcher.desktop.in | sed -e "s\|@BIN\|$$PREFIX\/bin\|g" > instead-launcher.desktop)
 unix{
 isEmpty(PREFIX){
 	PREFIX=/usr/local
