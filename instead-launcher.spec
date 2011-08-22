@@ -1,6 +1,6 @@
 Summary:	Game update/launch program for INSTEAD
 Name:		instead-launcher
-Version:	0.6
+Version:	0.6.1
 Release:	1%{?dist}
 License:	GPLv2
 URL:		http://instead-launcher.googlecode.com

@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION="0.6"
+VERSION="0.6.1"
 VERTITLE="instead-launcher-$VERSION"
 ARCHIVE="instead-launcher_$VERSION.tar.gz"
 qmake
