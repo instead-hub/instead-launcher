@@ -436,7 +436,7 @@ void MainWindow::parseGameInfo( QXmlStreamReader *xml ) {
 	NetGameItem *game = new NetGameItem( m_ui->listNewGames );
 	game->setInfo( info );
 
-	QLabel *detailsLinkLabel = new QLabel( "<a href=" + info.descUrl() + ">" + info.descUrl() + "</a>", this );
+        QLabel *detailsLinkLabel = new QLabel( "<a href=\"" + info.descUrl() + "\">" + info.descUrl() + "</a>", this );
 	detailsLinkLabel->setAlignment( Qt::AlignLeft );
 	connect( detailsLinkLabel, SIGNAL( linkActivated( const QString & ) ), this, SLOT( detailsLinkClicked( const QString & ) ) );
         m_ui->listNewGames->setItemWidget( game, 3, detailsLinkLabel );
