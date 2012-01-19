@@ -9,6 +9,13 @@
 #ifndef _ZLIBIOAPI_H
 #define _ZLIBIOAPI_H
 
+#ifndef OF /* function prototypes */
+#  ifdef STDC
+#    define OF(args)  args
+#  else
+#    define OF(args)  ()
+#  endif
+#endif
 
 #define ZLIB_FILEFUNC_SEEK_CUR (1)
 #define ZLIB_FILEFUNC_SEEK_END (2)
