@@ -6,6 +6,7 @@
 #include <QSettings>
 #include "config.h"
 #include "global.h"
+#include "urlresolver.h"
 #include "aboutwidget.h"
 
 class NetGameItem: public QTreeWidgetItem {
@@ -339,7 +340,7 @@ void MainWindow::refreshNetGameList(bool next) {
         const QString currentUrl = currentItem->text();
         currentIdx++;
         qDebug() << "updating list from " << currentUrl;
-        QUrl url(currentUrl);
+        QUrl url = UrlResolver::resolve(QUrl(currentUrl));
 	m_listServer->setProxy( *Global::ptr()->networkProxy() );
         m_listServer->setHost(url.host());
         setEnabled( false );
@@ -458,7 +459,7 @@ bool MainWindow::downloadGame( QTreeWidgetItem *game ) {
 	return false;
     }
     m_gameFile = new QTemporaryFile();
-    QUrl url( ( ( NetGameItem * )game )->info().url() );
+    QUrl url( UrlResolver::resolve( ( ( NetGameItem * )game )->info().url() ) );
     m_gameServer->setHost( url.host() );
     m_gameServer->setProxy( *Global::ptr()->networkProxy() );
     setEnabled( false );

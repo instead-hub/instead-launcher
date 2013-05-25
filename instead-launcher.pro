@@ -15,7 +15,8 @@ SOURCES += main.cpp \
     platform.cpp \
     updatewidget.cpp \
     global.cpp \
-    aboutwidget.cpp
+    aboutwidget.cpp \
+    urlresolver.cpp
 
 HEADERS += mainwindow.h \
     unzip/unzip.h \
@@ -25,7 +26,8 @@ HEADERS += mainwindow.h \
     updatewidget.h \
     config.h \
     global.h \
-    aboutwidget.h
+    aboutwidget.h \
+    urlresolver.h
 
 FORMS += mainwindow.ui
 #LIBS += -qt-zlib # use zlib embedded into qt
