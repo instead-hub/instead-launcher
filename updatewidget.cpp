@@ -1,4 +1,5 @@
 #include "updatewidget.h"
+#include "urlresolver.h"
 #include "config.h"
 #include "global.h"
 
@@ -77,7 +78,7 @@ void UpdateWidget::refreshUpdateList( QString insteadBinary, bool automatically 
     // retrieve remote versions
     m_automatically = automatically;
     setHtml( "<h3>" + tr("Loading updates ... please wait") + "</h3>" );
-    QUrl url(SW_UPDATE_URL);
+    QUrl url=UrlResolver::resolve(QUrl(SW_UPDATE_URL));
     qDebug() << "downloading update list from " << url.toString();
     m_listServer->setHost(url.host());
     m_listServer->setProxy( *Global::ptr()->networkProxy() );
