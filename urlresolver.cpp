@@ -1,5 +1,12 @@
 #include "urlresolver.h"
 
+class Sleeper : public QThread {
+public:
+    static void usleep(unsigned long usecs){QThread::usleep(usecs);}
+    static void msleep(unsigned long msecs){QThread::msleep(msecs);}
+    static void sleep(unsigned long secs){QThread::sleep(secs);}
+};
+
 QUrl UrlResolver::resolve(const QUrl &origUrl) {
     bool done=false;
     QNetworkAccessManager nam;
@@ -9,6 +16,8 @@ QUrl UrlResolver::resolve(const QUrl &origUrl) {
     while(!done) {
 	while(!rep->isFinished()) {
 	    qApp->processEvents();
+	    Sleeper::msleep(500);
+	    printf("wait for reply to continue address resolving...\n");
 	}
 	QUrl possibleRedirectUrl = rep->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl();
 	if(!possibleRedirectUrl.isEmpty() &&
@@ -29,5 +38,6 @@ QUrl UrlResolver::resolve(const QUrl &origUrl) {
 QNetworkRequest UrlResolver::request(const QUrl &url) {
     QNetworkRequest req(url);
     req.setRawHeader("User-Agent", "Wget/1.14 (linux-gnu)");
+    req.setRawHeader("Method", "HEAD");
     return req;
 }
