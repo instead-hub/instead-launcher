@@ -351,11 +351,13 @@ void MainWindow::refreshNetGameList(bool next) {
 }
 
 void MainWindow::installSelectedGame() {
-    m_ui->installPushButton->setDisabled(true);
-    m_ui->refreshPushButton->setDisabled(true);
+    setEnabled( false );
+//    m_ui->installPushButton->setDisabled(true);
+//    m_ui->refreshPushButton->setDisabled(true);
     if ( !downloadGame(m_ui->listNewGames->currentItem()) ) {
-        m_ui->installPushButton->setDisabled( false );
-        m_ui->refreshPushButton->setDisabled( false );
+	setEnabled( true );
+//        m_ui->installPushButton->setDisabled( false );
+//        m_ui->refreshPushButton->setDisabled( false );
     }
 }
 
@@ -480,8 +482,9 @@ void MainWindow::gameServerResponseHeaderReceived ( const QHttpResponseHeader & 
 void MainWindow::gameServerDone( bool error ) {
     setEnabled( true );
     m_gameLoadProgress->reset();
-    m_ui->installPushButton->setEnabled(true);
-    m_ui->refreshPushButton->setEnabled(true);
+    setEnabled(true);
+//    m_ui->installPushButton->setEnabled(true);
+//    m_ui->refreshPushButton->setEnabled(true);
     if(!error){
         QString games_dir = m_ui->gamesDir->text();
         if (games_dir.right(1) != QDir::separator()) games_dir += QDir::separator();
