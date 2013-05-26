@@ -230,10 +230,14 @@ void MainWindow::removeSelectedGame()
 	m_pathStack.push( path );
 
 	while( m_pathStack.count() ) {
+//	    printf("2: %d\n", m_pathStack.count());
+
 	    QDir dir( m_pathStack.pop() );
+//	    printf("%s\n", dir.absolutePath().toLocal8Bit().data());
 	    if ( !dir.exists() ) {
 		continue;
 	    }
+
 	    if ( QDir().rmpath( dir.absolutePath() ) ) {
 		qWarning() << "removed: " << dir.absolutePath();
 		continue;
@@ -253,12 +257,18 @@ void MainWindow::removeSelectedGame()
 		    qWarning() << "removed: " << filePath;
 		}
 		infoIt++;
+
+//	    printf("3\n");
 	    }
 	}
     }
 
+    printf("1\n");
+
     refreshLocalGameList();
     refreshNetGameList();
+
+    printf("2\n");
 
     QMessageBox::information( this, tr( "Success" ), tr( "The game has successfully removed" ) );
 }
