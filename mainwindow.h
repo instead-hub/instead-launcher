@@ -239,6 +239,8 @@ private slots:
     void browseInsteadPath();
     void browseGamesPath();
     void removeSelectedGame();
+    void abortGameDownloading();
+    void abortGameListDownloading();
 
     void listServerDone( bool );
     void gameServerResponseHeaderReceived( const QHttpResponseHeader & );

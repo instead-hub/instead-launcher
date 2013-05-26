@@ -16,7 +16,7 @@ QUrl UrlResolver::resolve(const QUrl &origUrl) {
     while(!done) {
 	while(!rep->isFinished()) {
 	    qApp->processEvents();
-	    Sleeper::msleep(500);
+	    Sleeper::msleep(200);
 	    printf("wait for reply to continue address resolving...\n");
 	}
 	QUrl possibleRedirectUrl = rep->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl();

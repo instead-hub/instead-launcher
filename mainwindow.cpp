@@ -132,7 +132,7 @@ MainWindow::MainWindow(const ArgMap &argMap, QWidget *parent)
     m_listLoadProgress = new QProgressDialog(parent);
     m_listLoadProgress->setLabelText( tr( "Game list downloading" ) + "..." );
     m_listLoadProgress->setWindowIcon( QIcon( ":/resources/icon.png" ) );
-    connect( m_listLoadProgress, SIGNAL(canceled()), m_listServer, SLOT(abort()));
+    connect( m_listLoadProgress, SIGNAL(canceled()), this, SLOT(abortGameListDownloading()));
     connect( m_listServer, SIGNAL( dataReadProgress( int, int ) ), m_listLoadProgress, SLOT( setValue( int ) ) );
 
     m_gameServer = new QHttp( this );
@@ -141,7 +141,7 @@ MainWindow::MainWindow(const ArgMap &argMap, QWidget *parent)
     m_gameLoadProgress = new QProgressDialog(parent);
     m_gameLoadProgress->setWindowIcon( QIcon( ":/resources/icon.png" ) );
     connect( m_gameServer, SIGNAL( dataReadProgress( int, int ) ), m_gameLoadProgress, SLOT( setValue( int ) ) );
-    connect( m_gameLoadProgress, SIGNAL(canceled()), m_gameServer, SLOT(abort()));
+    connect( m_gameLoadProgress, SIGNAL(canceled()), this, SLOT(abortGameDownloading()));
 
     connect( m_ui->installPushButton, SIGNAL( clicked() ), this, SLOT( installSelectedGame() ) );
     connect( m_ui->refreshPushButton, SIGNAL( clicked() ), this, SLOT( refreshNetGameList() ) );
@@ -816,4 +816,24 @@ void MainWindow::updateProxy()
 
 void MainWindow::checkUpdates() {
     m_swUpdateWidget->checkUpdates( this, m_ui->lineInsteadPath->text(), false );
+}
+
+void MainWindow::abortGameDownloading() {
+    if (!m_gameServer) {
+	return;
+    }
+    m_gameServer->blockSignals(true);
+    m_gameServer->abort();
+    m_gameServer->blockSignals(false);
+    setEnabled(true);
+}
+
+void MainWindow::abortGameListDownloading() {
+    if (!m_listServer) {
+	return;
+    }
+    m_listServer->blockSignals(true);
+    m_listServer->abort();
+    m_listServer->blockSignals(false);
+    setEnabled(true);
 }
