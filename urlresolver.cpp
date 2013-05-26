@@ -12,7 +12,7 @@ QUrl UrlResolver::resolve(const QUrl &origUrl) {
     QNetworkAccessManager nam;
     QUrl lastRedirectUrl=origUrl;
     QNetworkRequest req=request(origUrl);
-    QNetworkReply *rep=nam.get(req);
+    QNetworkReply *rep=nam.head(req);
     while(!done) {
 	while(!rep->isFinished()) {
 	    qApp->processEvents();
@@ -25,7 +25,7 @@ QUrl UrlResolver::resolve(const QUrl &origUrl) {
 	    lastRedirectUrl=possibleRedirectUrl;
 	    rep->deleteLater();
 	    req=request(possibleRedirectUrl);
-	    rep=nam.get(req);
+	    rep=nam.head(req);
 	} else {
 	    lastRedirectUrl=rep->url();
 	    rep->deleteLater();
@@ -38,6 +38,5 @@ QUrl UrlResolver::resolve(const QUrl &origUrl) {
 QNetworkRequest UrlResolver::request(const QUrl &url) {
     QNetworkRequest req(url);
     req.setRawHeader("User-Agent", "Wget/1.14 (linux-gnu)");
-    req.setRawHeader("Method", "HEAD");
     return req;
 }

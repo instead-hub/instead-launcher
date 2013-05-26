@@ -463,7 +463,6 @@ bool MainWindow::downloadGame( QTreeWidgetItem *game ) {
 	return false;
     }
     m_gameFile = new QTemporaryFile();
-    printf("test\n");
     QUrl url( UrlResolver::resolve( ( ( NetGameItem * )game )->info().url() ) );
     m_gameServer->setHost( url.host() );
     m_gameServer->setProxy( *Global::ptr()->networkProxy() );
