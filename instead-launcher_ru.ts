@@ -51,7 +51,7 @@
     <message>
         <location filename="aboutwidget.cpp" line="71"/>
         <source>Ilja Ryndin</source>
-        <translation>Илья Рыдин</translation>
+        <translation type="unfinished">Илья Рындин</translation>
     </message>
     <message>
         <location filename="aboutwidget.cpp" line="79"/>
