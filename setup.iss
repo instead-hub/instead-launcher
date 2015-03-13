@@ -1,8 +1,8 @@
 [Setup]
 AppName=INSTEAD Launcher
 AppVerName=INSTEAD Launcher 0.6.1
-DefaultDirName={pf}\Pinebrush games\INSTEAD-LAUNCHER
-DefaultGroupName=Pinebrush games
+DefaultDirName={pf}\Games\INSTEAD-LAUNCHER
+DefaultGroupName=Games
 UninstallDisplayIcon={app}\instead-launcher.exe
 OutputDir=.
 OutputBaseFilename=instead-launcher-0.6.1
@@ -41,7 +41,7 @@ Name: {group}\{cm:UninstallMsg}; Filename: {uninstallexe}
 
 [UninstallDelete]
 Name: {app}; Type: dirifempty
-Name: {pf}\Pinebrush games; Type: dirifempty
+Name: {pf}\Games; Type: dirifempty
 Name: {localappdata}\instead\launcher.ini; Type: files
 
 
