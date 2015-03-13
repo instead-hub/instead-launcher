@@ -7,7 +7,7 @@ else
 	prefix="$ans"
 fi
 
-echo -n "Enter qmake [qmake]: "
+echo -n "Enter qmake [qmake-qt4]: "
 read qans
 if [ "x$qans" = "x" ]; then
 	qmake="qmake-qt4"
