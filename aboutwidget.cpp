@@ -108,13 +108,13 @@ void AboutWidget::linkActivated( const QString &link ) {
 }
 
 void AboutWidget::goToDevelopersForum() {
-    QDesktopServices::openUrl( QString( "http://instead.syscall.ru/forum" ) );
+    QDesktopServices::openUrl( QString( "http://instead.syscall.ru/talk" ) );
 }
 
 void AboutWidget::goToINSTEADPage() {
-    QDesktopServices::openUrl( QString( "http://instead.googlecode.com" ) );
+    QDesktopServices::openUrl( QString( "http://instead.sourceforge.net" ) );
 }
 
 void AboutWidget::goToINSTEADLauncherPage() {
-    QDesktopServices::openUrl( QString( "http://instead-launcher.googlecode.com" ) );
+    QDesktopServices::openUrl( QString( "https://github.com/instead-hub/instead-launcher" ) );
 }

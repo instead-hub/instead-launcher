@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 echo -n "Enter prefix path [/usr/local]: "
 read ans
 if [ "x$ans" = "x" ]; then

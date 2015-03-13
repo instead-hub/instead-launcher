@@ -3,7 +3,7 @@ Name:		instead-launcher
 Version:	0.6.1
 Release:	1%{?dist}
 License:	GPLv2
-URL:		http://instead-launcher.googlecode.com
+URL:		https://github.com/instead-hub/instead-launcher
 Source0:    %{name}_%{version}.tar.gz
 Group:		Amusements/Games
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 

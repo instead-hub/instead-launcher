@@ -353,6 +353,7 @@ void MainWindow::refreshNetGameList(bool next) {
         QUrl url = UrlResolver::resolve(QUrl(currentUrl));
 	m_listServer->setProxy( *Global::ptr()->networkProxy() );
         m_listServer->setHost(url.host());
+        
         setEnabled( false );
         m_listServer->get(url.path());
 //        m_listLoadProgress->setMinimumDuration(2000);
@@ -666,7 +667,7 @@ void MainWindow::resetConfig() {
     m_ui->updateUrlList->clear();
     m_ui->updateUrlList->addItem( GAMES_UPDATE_URL );
     QListWidgetItem *item = m_ui->updateUrlList->item(0);
-    item->setFlags(item->flags() & ~ (Qt::ItemIsEnabled));
+//    item->setFlags(item->flags() & ~ (Qt::ItemIsEnabled));
     m_ui->gamesDir->setText( defGamesPath );
     m_ui->insteadParameters->setText("");
     m_ui->proxyServerLineEdit->setText( "127.0.0.1" );
@@ -725,10 +726,10 @@ void MainWindow::loadConfig() {
 	for (int i=0;i<count;i++) {
     	    conf.setArrayIndex(i);
     	    m_ui->updateUrlList->addItem(conf.value("URL", "").toString());
-    	    if (i==0) {
+/*    	    if (i==0) {
         	QListWidgetItem *item = m_ui->updateUrlList->item(i);
         	item->setFlags(item->flags() & ~ (Qt::ItemIsEnabled));
-    	    }
+    	    }*/
 	}
     }
     m_ui->gamesDir->setText(gamesDir);
