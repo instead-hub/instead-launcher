@@ -1,11 +1,11 @@
 [Setup]
 AppName=INSTEAD Launcher
-AppVerName=INSTEAD Launcher 0.6.1
+AppVerName=INSTEAD Launcher 0.6.3
 DefaultDirName={pf}\Games\INSTEAD-LAUNCHER
 DefaultGroupName=Games
 UninstallDisplayIcon={app}\instead-launcher.exe
 OutputDir=.
-OutputBaseFilename=instead-launcher-0.6.1
+OutputBaseFilename=instead-launcher-0.6.3
 AllowNoIcons=true
 
 [Languages]
