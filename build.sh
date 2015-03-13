@@ -10,7 +10,7 @@ fi
 echo -n "Enter qmake [qmake]: "
 read qans
 if [ "x$qans" = "x" ]; then
-	qmake="qmake"
+	qmake="qmake-qt4"
 else
 	qmake="$qans"
 fi
