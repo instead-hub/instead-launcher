@@ -7,9 +7,9 @@
 		<source>http://downloads.sourceforge.net/project/instead/instead/2.2.2/instead_2.2.2.tar.gz</source>
 	</instead>
 	<launcher>
-		<version>0.6.1</version>
-		<url>http://code.google.com/p/instead-launcher/downloads/list</url>
-		<wininst>http://instead-launcher.googlecode.com/files/instead-launcher-0.6.1.exe</wininst>
-		<source>http://instead-launcher.googlecode.com/files/instead-launcher_0.6.1.tar.gz</source>
+		<version>0.6.3</version>
+		<url>https://sourceforge.net/projects/instead/files/instead-launcher</url>
+		<wininst>http://downloads.sourceforge.net/project/instead/instead-launcher/instead-launcher-0.6.3.exe</wininst>
+		<source>http://downloads.sourceforge.net/project/instead/instead-launcher/instead-launcher_0.6.3.tar.gz</source>
 	</launcher>
 </updates>

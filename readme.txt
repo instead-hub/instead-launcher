@@ -1,4 +1,4 @@
-INSTEAD LAUNCHER 0.6.1
+INSTEAD LAUNCHER 0.6.3
 ======================
 
 WARNING! For successfull building you must install qt4.
