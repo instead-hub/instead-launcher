@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <updates>
 	<instead>
-		<version>2.2.3</version>
-		<url>http://sourceforge.net/projects/instead/files/instead/2.2.3/</url>
-		<wininst>http://downloads.sourceforge.net/project/instead/instead/2.2.3/instead-2.2.3.exe</wininst>
-		<source>http://downloads.sourceforge.net/project/instead/instead/2.2.3/instead_2.2.3.tar.gz</source>
+		<version>2.2.4</version>
+		<url>http://sourceforge.net/projects/instead/files/instead/2.2.4/</url>
+		<wininst>http://downloads.sourceforge.net/project/instead/instead/2.2.4/instead-2.2.4.exe</wininst>
+		<source>http://downloads.sourceforge.net/project/instead/instead/2.2.4/instead_2.2.4.tar.gz</source>
 	</instead>
 	<launcher>
 		<version>0.6.3</version>
