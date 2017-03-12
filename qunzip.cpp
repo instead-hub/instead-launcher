@@ -3,7 +3,7 @@
 // but on windows we haven't this :)
 // ok, we'll think about it later, but for linux it's a good way :)
 #include <QtCore>
-#if !defined(Q_OS_WIN) && !defined(Q_OS_FREEBSD)
+#if defined(Q_OS_LINUX)
 #include <linux/limits.h>
 #endif
 

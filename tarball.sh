@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-VERSION="0.6.3"
+VERSION="0.7.0"
 VERTITLE="instead-launcher-$VERSION"
 ARCHIVE="instead-launcher_$VERSION.tar.gz"
 qmake-qt4

@@ -562,13 +562,18 @@ bool MainWindow::getLocalGameInfo(const QDir gameDir, const QString gameID, Game
     qDebug() << "exploring subdir: " << gameID;
 
     // проверяем наличие файлика main.lua
-    if (!gameDir.exists(gameID + "/main.lua")) {
-        qWarning() << "main.lua not found - not a game";
+    if (!gameDir.exists(gameID + "/main.lua") &&
+        !gameDir.exists(gameID + "/main3.lua")) {
+        qWarning() << "main?.lua not found - not a game";
         return false;
     }
 
-    // читаем main.lua
-    QFile file(gameDir.absolutePath() + "/" + gameID + "/main.lua");
+    // читаем main?.lua
+    QFile file(gameDir.absolutePath() + "/" + gameID + "/main3.lua");
+
+    if (!file.exists())
+        file.setFileName(gameDir.absolutePath() + "/" + gameID + "/main.lua");
+
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qWarning() << "can't open " << file.fileName();
         return false;
