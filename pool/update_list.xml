@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <updates>
 	<instead>
-		<version>2.4.0</version>
-		<url>http://sourceforge.net/projects/instead/files/instead/2.4.0/</url>
-		<wininst>http://downloads.sourceforge.net/project/instead/instead/2.4.0/instead-2.4.0.exe</wininst>
-		<source>http://downloads.sourceforge.net/project/instead/instead/2.4.0/instead_2.4.0.tar.gz</source>
+		<version>3.0.0</version>
+		<url>http://sourceforge.net/projects/instead/files/instead/3.0.0/</url>
+		<wininst>http://downloads.sourceforge.net/project/instead/instead/3.0.0/instead-3.0.0.exe</wininst>
+		<source>http://downloads.sourceforge.net/project/instead/instead/3.0.0/instead_3.0.0.tar.gz</source>
 	</instead>
 	<launcher>
-		<version>0.6.3</version>
+		<version>0.7.0</version>
 		<url>https://sourceforge.net/projects/instead/files/instead-launcher</url>
-		<wininst>http://downloads.sourceforge.net/project/instead/instead-launcher/instead-launcher-0.6.3.exe</wininst>
-		<source>http://downloads.sourceforge.net/project/instead/instead-launcher/instead-launcher_0.6.3.tar.gz</source>
+		<wininst>http://downloads.sourceforge.net/project/instead/instead-launcher/instead-launcher-0.7.0.exe</wininst>
+		<source>http://downloads.sourceforge.net/project/instead/instead-launcher/instead-launcher_0.7.0.tar.gz</source>
 	</launcher>
 </updates>
