@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <updates>
 	<instead>
-		<version>3.1.0</version>
-		<url>http://sourceforge.net/projects/instead/files/instead/3.1.0/</url>
-		<wininst>http://downloads.sourceforge.net/project/instead/instead/3.1.0/instead-3.1.0.exe</wininst>
-		<source>http://downloads.sourceforge.net/project/instead/instead/3.1.0/instead_3.1.0.tar.gz</source>
+		<version>3.1.1</version>
+		<url>http://sourceforge.net/projects/instead/files/instead/3.1.1/</url>
+		<wininst>http://downloads.sourceforge.net/project/instead/instead/3.1.0/instead-3.1.1.exe</wininst>
+		<source>http://downloads.sourceforge.net/project/instead/instead/3.1.0/instead_3.1.1.tar.gz</source>
 	</instead>
 	<launcher>
 		<version>0.7.0</version>
