@@ -1,6 +1,6 @@
 local http = require("socket.http")
 local ltn12 = require("ltn12")
-local xmltags = { 'name', 'title', 'version', 'url', 'size', 'lang', 'descurl' }
+local xmltags = { 'name', 'title', 'version', 'url', 'size', 'lang', 'descurl', 'description' }
 
 --[[
 Copyright (c) 2013 Gavin Kistner
