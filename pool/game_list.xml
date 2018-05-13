@@ -47,9 +47,15 @@
 		<name>quarantine</name>
 		<descurl>http://instead-games.ru/game.php?ID=124</descurl>
 	</game>
+
 	<game>
 		<name>provodnik</name>
 		<descurl>http://instead-games.ru/game.php?ID=247</descurl>
+	</game>
+
+	<game>
+		<name>watch</name>
+		<descurl>http://instead-games.ru/game.php?ID=292</descurl>
 	</game>
 
 	<game>
